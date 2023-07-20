@@ -1,0 +1,60 @@
+{{- $gallery := where (sort .Site.RegularPages "Date" "desc") "Type" "artwork" -}}
+{{- $Title := .Title -}}
+{{- $Kind := .Page.Kind -}}
+{{- $Type := .Page.Type -}}
+{{- $Layout := .Page.Layout -}}
+
+
+[
+  {{- range $index, $artwork := $gallery -}}
+  {{- if $index -}},{{- end -}}  
+  {{- partial "scratching/images.html" -}}
+  {{- $colors := $.Scratch.Get "colors" -}}
+  {
+    
+    {{- if .Site.IsServer -}}
+    "gallery.json": [{
+      "Title": "{{ $Title }}",
+      "kind": "{{ $Kind }}",
+      "type": "{{ $Type }}",
+      "Layout": "{{ $Layout }}"
+    }],
+    {{- end -}}
+    "title": "{{ .Title | title }}",
+    
+    "thumb_XL" : "{{ .Scratch.Get "_thumb_XL" }}",
+    "thumb_XL_w" : "{{ .Scratch.Get "_thumb_XL_w" }}",
+    "thumb_XL_h" : "{{ .Scratch.Get "_thumb_XL_h" }}",
+    "thumb_L" : "{{ .Scratch.Get "_thumb_L" }}",
+    "thumb_L_w" : "{{ .Scratch.Get "_thumb_L_w" }}",
+    "thumb_L_h" : "{{ .Scratch.Get "_thumb_L_h" }}",
+    "thumb_M" : "{{ .Scratch.Get "_thumb_M" }}",
+    "thumb_M_w" : "{{ .Scratch.Get "_thumb_M_w" }}",
+    "thumb_M_h" : "{{ .Scratch.Get "_thumb_M_h" }}",
+
+    "ratio": {{ .Scratch.Get "ratio" }},
+    "listed": false,
+    "archive": "{{ .Params.archive }}",
+    "year": {{ .Date.Format "2006" }},
+    "shortId": "{{ replace (.Date.Format "2006-01-02")  "-" "" }}",
+    "id": "{{ .File.UniqueID }}",
+    "url": "{{ .Permalink }}",
+    "kind": "{{ .Kind | title }}",
+    "type": "{{ .Type | title }}",
+    "date": "{{ .Date.Format "2006-01-02" }}",
+    "colors": "{{ $colors }}",
+    "alt": "{{ .Title | title }} - {{ $.Site.Params.artwork }} ",
+    "shape": "{{ .Params.shapes | title }}",
+    "size": "{{ .Params.size | title }}",
+    "weight": {{ .Params.weight }},
+    "theme": "{{ .Params.themes | title }}",
+    "w": "{{ .Params.dimensions.width }}",
+    "h": "{{ .Params.dimensions.height }}",
+    "reproduction": {{ .Params.reproduction }},
+    "custom_order": "{{ .Params.custom_order | default false }}",
+    "archive": {{ printf "%t" .Params.archive }},
+    "price": {{ .Params.store_info.price }},
+    "stock": {{ if .Params.instock }}"In stock"{{ else }}"Out of stock"{{ end }}
+  }  
+  {{- end -}}
+]

@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    
-
     {{- partial "meta.html" . -}}
-    
-    {{/* styles */}}
-    {{ $options := dict "inlineImports" true }} {{ $styles := resources.Get "css/styles.css" }}
-    {{ $styles = $styles | resources.PostCSS $options }} {{ if hugo.IsProduction
-    }} {{ $styles = $styles | minify | fingerprint | resources.PostProcess }} {{
-    end }}
-    <link href="{{ $styles.RelPermalink }}" rel="stylesheet" />
+    {{- partial "site-style.html" . -}}
+    {{- partial "site-scripts.html" . -}}
   </head>
   <body>
-
-    {{ block "header" . }}{{ partial "site-header.html" .}}{{ end }}
+    {{ block "header" . }}{{ partial "site-header.html" . }}{{ end }}
     <main class="pb7" role="main">
       {{ block "main" . }}{{ end }}
+      <ol class="list-decimal pl-10">
+        {{ range .Site.Pages }}
+          <li>
+            <a href="{{ .Permalink }}">
+              {{ if .Title }}
+                {{ .Title }}
+              {{ else }}
+                no tile
+              {{ end }}
+            </a>
+          </li>
+        {{ end }}
+      </ol>
     </main>
     {{ block "footer" . }}{{ partialCached "site-footer.html" . }}{{ end }}
   </body>
