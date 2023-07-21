@@ -33,6 +33,7 @@ post = "icons/envelope-heart.svg"
 [params]
 favicon = ""
 site_logo = ""
+theme = "xtheme-pink"
 # [outputs]
 # #gallery = ["html", "json"]
 # page = ["html", "json"]

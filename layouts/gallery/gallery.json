@@ -3,16 +3,25 @@
 {{- $Kind := .Page.Kind -}}
 {{- $Type := .Page.Type -}}
 {{- $Layout := .Page.Layout -}}
-
+{{- $dev  := 0 -}}
 
 [
   {{- range $index, $artwork := $gallery -}}
   {{- if $index -}},{{- end -}}  
-  {{- partial "scratching/images.html" -}}
-  {{- $colors := $.Scratch.Get "colors" -}}
+  {{- partial "scratching/images.html" . -}}
+  {{- $color := $.Scratch.Get "color" -}}
+  {{ .Scratch.Set "orientation" "" }}
+  
+  {{ if gt (.Scratch.Get "ratio") 1 }}
+  {{- .Scratch.Set "orientation"  "vertical" -}}
+  {{ else if lt (.Scratch.Get "ratio") 1 }}
+  {{- .Scratch.Set "orientation"   "horisontal" -}}
+  {{ else }}
+  {{- .Scratch.Set "orientation" "square" -}}
+  {{ end }}
+
   {
-    
-    {{- if .Site.IsServer -}}
+    {{- if and $dev .Site.IsServer -}}
     "gallery.json": [{
       "Title": "{{ $Title }}",
       "kind": "{{ $Kind }}",
@@ -21,7 +30,9 @@
     }],
     {{- end -}}
     "title": "{{ .Title | title }}",
-    
+    "kind": "{{ .Kind | title }}",
+    "type": "{{ .Type | title }}",
+    "shortId": {{ replace (.Date.Format "2006-01-02")  "-" "" }},
     "thumb_XL" : "{{ .Scratch.Get "_thumb_XL" }}",
     "thumb_XL_w" : "{{ .Scratch.Get "_thumb_XL_w" }}",
     "thumb_XL_h" : "{{ .Scratch.Get "_thumb_XL_h" }}",
@@ -31,30 +42,17 @@
     "thumb_M" : "{{ .Scratch.Get "_thumb_M" }}",
     "thumb_M_w" : "{{ .Scratch.Get "_thumb_M_w" }}",
     "thumb_M_h" : "{{ .Scratch.Get "_thumb_M_h" }}",
-
     "ratio": {{ .Scratch.Get "ratio" }},
-    "listed": false,
-    "archive": "{{ .Params.archive }}",
     "year": {{ .Date.Format "2006" }},
-    "shortId": "{{ replace (.Date.Format "2006-01-02")  "-" "" }}",
     "id": "{{ .File.UniqueID }}",
     "url": "{{ .Permalink }}",
-    "kind": "{{ .Kind | title }}",
-    "type": "{{ .Type | title }}",
-    "date": "{{ .Date.Format "2006-01-02" }}",
-    "colors": "{{ $colors }}",
-    "alt": "{{ .Title | title }} - {{ $.Site.Params.artwork }} ",
-    "shape": "{{ .Params.shapes | title }}",
+    "color": {{ .Scratch.Get "color" | jsonify }},
+    "orientation": "{{ (.Scratch.Get "orientation") | title }}",
     "size": "{{ .Params.size | title }}",
     "weight": {{ .Params.weight }},
     "theme": "{{ .Params.themes | title }}",
-    "w": "{{ .Params.dimensions.width }}",
-    "h": "{{ .Params.dimensions.height }}",
-    "reproduction": {{ .Params.reproduction }},
-    "custom_order": "{{ .Params.custom_order | default false }}",
-    "archive": {{ printf "%t" .Params.archive }},
-    "price": {{ .Params.store_info.price }},
-    "stock": {{ if .Params.instock }}"In stock"{{ else }}"Out of stock"{{ end }}
+    "w": {{ .Params.dimensions.width }},
+    "h": {{ .Params.dimensions.height }}
   }  
   {{- end -}}
 ]

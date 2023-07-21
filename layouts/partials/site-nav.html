@@ -7,7 +7,7 @@
 		'relative': !sticky
 	}"
   x-init="scrollToReveal"
-  class="z-40 flex flex-wrap items-center justify-between w-full mb-2 transition-all duration-700 ease-in-out shadow-lg md:mb-3 navbar-expand-lg children ">
+  class="z-40 flex flex-wrap dark:text-skin-dark-grey11 text-skin-light-grey11 bg-skin-light-grey1 dark:bg-skin-dark-grey1 items-center justify-between w-full mb-2 transition-all duration-700 ease-in-out shadow-lg md:mb-3 navbar-expand-lg children ">
   <div class="flex items-center justify-start pl-3">
     {{ if .IsHome }}
       <span class="block">
@@ -35,7 +35,7 @@
             <a
               href="/admin/"
               class=" flex items-center md:gap-4
-					md:py-5 py-4 text-brand-9 dark:text-brand-d-11
+					md:py-5 py-4 text-skin-light-brand5
 					border-y-4 px-[.7rem] h-full md:px-6 font-bold text-[1.02rem]
 					border-t-transparent
 					dark:border-t-transparent
@@ -67,11 +67,11 @@
           <a
             href="{{ .URL }}"
             class=" flex items-center md:gap-1
-					md:py-5 py-4 text-brand-10 dark:text-brand-d-11
+					md:py-5 py-4 text-skin-light-brand11 dark:text-skin-dark-brand12
 					border-y-4 px-[.7rem] h-full md:px-6 text-[.9rem]
 					{{ if eq $url $currentPage }}
               border-t-transparent dark:border-t-transparent
-              dark:border-b-brand-d-7 border-b-brand-10
+              dark:border-b-skin-dark-brand5 border-b-skin-light-brand6
             {{ else }}
               border-t-transparent dark:border-t-transparent
               border-b-transparent dark:border-b-transparent
