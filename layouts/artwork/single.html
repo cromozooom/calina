@@ -1,21 +1,19 @@
 {{ define "main" }}
-  {{/*  {{ range .Params.images }}
-    {{ .type }}
-    {{ .asset }}
-  {{ end }}  */}}
+  <ul>
 
-  {{- partial "scratching/images.html" . -}}
-  {{- $color := $.Scratch.Get "color" -}}
-  {{- $ratio := $.Scratch.Get "ratio" -}}
+    {{ range .Params.images }}
+      <li>
+        {{ .type }}
+        {{ .asset }}
+      </li>
+    {{ end }}
+  </ul>
+
+  {{ $localScratch := 1 }}
+
+  {{ if $localScratch }}
   <hr />
-  color:
-  {{ $color }}
-  <hr />
-  <hr />
-  ratio:
-  {{ $ratio }}
-  <hr />
-  {{/* {{ $images := $.Scratch }}
+  {{ $images := $.Scratch }}
 
   {{- $images.Set "slider" slice -}}
   {{- $images.Set "thumb" slice -}}
@@ -47,9 +45,9 @@
         {{ with .Resources.Match $sourceItem }}
           {{ range . }}
             {{ if eq $type "full" }}
-              <hr />
+              <hr /> - 
               {{ $images.Set "color" (.Fill "1x1 q100 picture webp").Colors }}
-
+              
               {{ $thumb_XL := .Resize "500x center q100 picture webp" }}
               {{ $thumb_L := .Resize "400x center q100 picture webp" }}
               {{ $thumb_M := .Resize "300x center q100 picture webp" }}
@@ -87,14 +85,34 @@
     {{ end }}
   {{ end }}
 
-  {{- $colors := .Scratch.Get "colors" -}}
+  {{- $_color := .Scratch.Get "color" -}}
+  {{- $_thumb_XL :=  $images.Get "_thumb_XL" -}}
 
 
   <ul class="list-disc">
     <li>
-      colors:
-      {{ $images.Get "color" }}
+      local color:
+      {{ $_color }}
+    </li>
+    <li>
+      local thumb_XL:
+      {{ $_thumb_XL }}
     </li>
   </ul>
-  */}}
+
+  {{ else }}
+
+  {{- partial "scratching/images.html" . -}}
+  {{- $color := $.Scratch.Get "color" -}}
+  {{- $ratio := $.Scratch.Get "ratio" -}}
+
+  <hr />
+  not local color:
+  {{ $color }}
+  <hr />
+  <hr />
+  not local ratio:
+  {{ $ratio }}
+  {{ end }}
+
 {{ end }}

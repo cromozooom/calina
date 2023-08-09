@@ -28,8 +28,10 @@
     {{ range $.Site.Pages }}
       {{ with .Resources.Match $sourceItem }}
         {{ range . }}
-          {{ $color := (.Fill "1x1 q100 picture webp").Colors }}
-          {{ $images.Set "color" $color }}
+          {{ if eq $type "full" }}
+            {{ $color := (.Fill "1x1 q100 picture webp").Colors }}
+            {{ $images.Set "color" $color }}
+          {{ end }}
         {{ end }}
       {{ end }}
     {{ end }}

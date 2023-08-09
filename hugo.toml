@@ -2,6 +2,7 @@ baseURL = "$HUGO_BASEURL"
 title = "Art website"
 # disableKinds = ["page", "section", "taxonomy", "term"]
 timeout = 60000
+paginate = 2
 
 # MENU --------------------------------
 # -------------------------------------
@@ -33,7 +34,7 @@ post = "icons/envelope-heart.svg"
 [params]
 favicon = ""
 site_logo = ""
-theme = "xtheme-pink"
+theme = "theme-pink"
 # [outputs]
 # #gallery = ["html", "json"]
 # page = ["html", "json"]
