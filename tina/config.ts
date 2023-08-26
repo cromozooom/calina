@@ -1,7 +1,21 @@
 import { defineConfig } from 'tinacms';
+import { customBranch } from './branch';
+import {
+	artworksGalleries,
+	artworkTheme,
+	artworkYear,
+	body,
+	dimensions,
+	draft,
+	images,
+	pageTitle,
+	seo,
+	technique,
+	layout,
+} from './fields/_fields';
 
 // Your hosting provider likely exposes this as an environment variable
-const branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || 'master';
+const branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || customBranch;
 
 export default defineConfig({
 	clientId: process.env.TINA_CLIENT_ID!,
@@ -35,20 +49,7 @@ export default defineConfig({
 					include: '**/**/_index',
 				},
 				format: 'md',
-				fields: [
-					{
-						label: 'Draft',
-						name: 'draft',
-						type: 'boolean',
-					},
-					{
-						label: 'Title',
-						name: 'title',
-						type: 'string',
-						isTitle: true,
-						required: true,
-					},
-				],
+				fields: [draft, pageTitle, body, seo],
 			},
 			{
 				name: 'artwork',
@@ -84,30 +85,8 @@ export default defineConfig({
 				// 	},
 				// },
 				fields: [
-					{
-						label: 'Draft',
-						name: 'draft',
-						type: 'boolean',
-					},
-					{
-						label: 'Title',
-						name: 'title',
-						type: 'string',
-						isTitle: true,
-						required: true,
-						description: 'Keep it Brief - this will become link (~60 characters)',
-						ui: {
-							validate: (value) => {
-								if (value === 'small caps please') {
-									return 'Change with a meaningful name small caps';
-								} else {
-									if (value?.length > 65) {
-										return 'file name cannot be more than 65 characters long as it becomes link to the page';
-									}
-								}
-							},
-						},
-					},
+					draft,
+					pageTitle,
 					{
 						label: 'Date',
 						name: 'date',
@@ -117,228 +96,15 @@ export default defineConfig({
 							component: 'hidden',
 						},
 					},
-					{
-						label: 'Year',
-						name: 'years',
-						type: 'string',
-						description: 'Creation year',
-						ui: {
-							component: 'date',
-							dateFormat: 'YYYY',
-							parse: (value) => value && value.format('YYYY'),
-						},
-					},
+					artworkYear,
+					artworkTheme,
+					artworksGalleries,
+					technique,
+					dimensions,
+					body,
+					images,
+					seo,
 
-					{
-						label: 'Theme',
-						name: 'themes',
-						type: 'string',
-						description: 'Artwork subject',
-						list: true,
-						options: [
-							{
-								value: 'abstract',
-								label: 'abstract',
-							},
-							{
-								value: 'figurtative',
-								label: 'figurtative',
-							},
-							{
-								value: 'others',
-								label: 'others',
-							},
-						],
-					},
-					{
-						label: 'Artworks',
-						name: 'artworks',
-						type: 'string',
-						description: 'Galeries for artworks',
-						list: true,
-						options: [
-							{
-								value: 'gallery',
-								label: 'gallery',
-							},
-							{
-								value: 'archive',
-								label: 'archive',
-							},
-							{
-								value: 'home',
-								label: 'home (only for 👑)',
-							},
-						],
-					},
-					{
-						label: 'Technique used',
-						name: 'techniqueUsed',
-						type: 'string',
-						ui: {
-							validate: (value) => {
-								if (value?.length > 120) {
-									return 'Title cannot be more than 120 characters long';
-								}
-							},
-						},
-					},
-
-					{
-						label: 'Dimensions',
-						name: 'dimensions',
-						type: 'object',
-						description: 'in centimeters',
-						fields: [
-							{
-								label: 'Height',
-								name: 'height',
-								type: 'number',
-								description: 'in cm',
-								required: true,
-								// ui: {
-								// 	validate: (value) => {
-								// 		if (typeof value !== 'number') {
-								// 			return 'This should be a number';
-								// 		}
-								// 	},
-								// },
-							},
-							{
-								label: 'Width',
-								name: 'width',
-								type: 'number',
-								description: 'in cm',
-								required: true,
-							},
-							{
-								label: 'Thickness',
-								name: 'thickness',
-								description: 'in cm',
-								type: 'number',
-							},
-							{
-								label: 'Description',
-								name: 'dimensionDescription',
-								description: 'a brief descripn woud be "single pannel" or "multipannel artwork", ~60 characters',
-								type: 'string',
-								ui: {
-									validate: (value) => {
-										if (value?.length > 65) {
-											return 'Title cannot be more than 40 characters long';
-										}
-									},
-								},
-							},
-						],
-					},
-					{
-						label: 'Body',
-						name: 'body',
-						type: 'rich-text',
-						isBody: true,
-					},
-					{
-						type: 'object',
-						label: 'Images',
-						name: 'images',
-						list: true,
-						ui: {
-							itemProps: (item) => {
-								// Field values are accessed by item?.<Field name>
-								return { label: item?.title };
-							},
-						},
-						fields: [
-							{
-								type: 'string',
-								name: 'title',
-								label: 'Title',
-							},
-							{
-								type: 'image',
-								name: 'asset',
-								label: 'Asset',
-								required: true,
-							},
-							{
-								label: '👑 Type',
-								name: 'type',
-								type: 'string',
-								description: 'Premium Member Only',
-								// ui: {
-								// 	// component: 'textarea',
-								// 	validate: (value) => {
-								// 		if (value !== 'basic') {
-								// 			return 'This field si only for Premium Member, set to basic';
-								// 		}
-								// 	},
-								// },
-
-								options: [
-									{
-										value: 'basic',
-										label: 'basic',
-									},
-									{
-										value: 'details',
-										label: 'details',
-									},
-									{
-										value: 'sym',
-										label: 'sym',
-									},
-									{
-										value: 'full',
-										label: 'full',
-									},
-								],
-							},
-						],
-					},
-
-					{
-						label: 'Seo',
-						name: 'seo',
-						type: 'object',
-						fields: [
-							{
-								label: 'Title',
-								name: 'seo_title',
-								type: 'string',
-								description:
-									'Title cannot be ~60 characters long as it becomes title of the page - (https://www.semrush.com/blog/title-tag/)',
-								ui: {
-									validate: (value) => {
-										if (value?.length > 65) {
-											return '';
-										}
-									},
-								},
-							},
-							{
-								label: 'Short name',
-								name: 'short_name',
-								type: 'string',
-								description: 'used in breadkrumbs -it will be deprecated',
-							},
-							{
-								label: '👑 Description (for snippets)',
-								name: 'meta_description',
-								type: 'string',
-								description:
-									'Premium Member Only - https://developers.google.com/search/docs/appearance/snippet#meta-descriptions',
-								ui: {
-									component: 'textarea',
-									validate: (value) => {
-										if (value?.length > 0) {
-											return 'This field si only for Premium Member';
-										}
-									},
-								},
-							},
-						],
-					},
 					{
 						label: '👑 When was created',
 						name: 'creationDate',
@@ -363,7 +129,6 @@ export default defineConfig({
 							},
 						},
 					},
-
 					{
 						label: '💰 Stock',
 						name: 'stock',
@@ -390,7 +155,6 @@ export default defineConfig({
 							},
 						},
 					},
-
 					{
 						label: '💰 Weight',
 						name: 'weight',
@@ -417,15 +181,7 @@ export default defineConfig({
 							},
 						},
 					},
-					{
-						label: 'Layout',
-						description: '⚠️ should be artwork',
-						name: 'layout',
-						type: 'string',
-						ui: {
-							component: 'hidden',
-						},
-					},
+					layout,
 				],
 			},
 			{
@@ -447,30 +203,8 @@ export default defineConfig({
 					};
 				},
 				fields: [
-					{
-						label: 'Draft',
-						name: 'draft',
-						type: 'boolean',
-					},
-					{
-						label: 'Title',
-						name: 'title',
-						type: 'string',
-						isTitle: true,
-						required: true,
-						description: 'Keep it Brief - this will become link (~60 characters)',
-						ui: {
-							validate: (value) => {
-								if (value === 'small caps please') {
-									return 'Change with a meaningful name small caps';
-								} else {
-									if (value?.length > 65) {
-										return 'file name cannot be more than 65 characters long as it becomes link to the page';
-									}
-								}
-							},
-						},
-					},
+					draft,
+					pageTitle,
 					{
 						label: 'Subtitle',
 						name: 'sub_title',
@@ -493,7 +227,6 @@ export default defineConfig({
 						type: 'datetime',
 						description: 'when event starts',
 					},
-
 					{
 						label: 'Link to refferrence',
 						name: 'link',
@@ -504,7 +237,6 @@ export default defineConfig({
 						name: 'place',
 						type: 'string',
 					},
-
 					{
 						label: 'event',
 						name: 'events',
@@ -530,127 +262,8 @@ export default defineConfig({
 							},
 						],
 					},
-					{
-						type: 'rich-text',
-						name: 'body',
-						label: 'Body',
-						isBody: true,
-						templates: [
-							{
-								name: 'hero',
-								label: 'hero',
-								match: {
-									start: '{{%',
-									end: '%}}',
-								},
-								fields: [
-									{
-										label: 'Title',
-										name: 'title',
-										type: 'string',
-									},
-									{
-										label: 'Side',
-										name: 'side',
-										type: 'string',
-										options: [
-											{
-												value: 'left',
-												label: 'left',
-											},
-											{
-												value: 'right',
-												label: 'right',
-											},
-											{
-												value: 'center',
-												label: 'center',
-											},
-										],
-									},
-									{
-										name: 'children',
-										type: 'rich-text',
-									},
-									{
-										type: 'image',
-										name: 'asset',
-										label: 'Asset',
-										required: true,
-									},
-								],
-							},
-							{
-								name: 'map',
-								label: 'map',
-								match: {
-									start: '{{%',
-									end: '%}}',
-								},
-								fields: [
-									{
-										label: 'Title',
-										name: 'title',
-										type: 'string',
-										required: true,
-									},
-									{
-										name: 'children',
-										type: 'rich-text',
-									},
-									{
-										name: 'map',
-										label: 'map',
-										type: 'string',
-										required: true,
-										description: 'take only the src tag from iframe',
-									},
-								],
-							},
-						],
-					},
-					{
-						label: 'Seo',
-						name: 'seo',
-						type: 'object',
-						fields: [
-							{
-								label: 'Title',
-								name: 'seo_title',
-								type: 'string',
-								description:
-									'Title cannot be ~60 characters long as it becomes title of the page - (https://www.semrush.com/blog/title-tag/)',
-								ui: {
-									validate: (value) => {
-										if (value?.length > 65) {
-											return '';
-										}
-									},
-								},
-							},
-							{
-								label: 'Short name',
-								name: 'short_name',
-								type: 'string',
-								description: 'used in breadkrumbs -it will be deprecated',
-							},
-							{
-								label: '👑 Description (for snippets)',
-								name: 'meta_description',
-								type: 'string',
-								description:
-									'Premium Member Only - https://developers.google.com/search/docs/appearance/snippet#meta-descriptions',
-								ui: {
-									component: 'textarea',
-									validate: (value) => {
-										if (value?.length > 0) {
-											return 'This field si only for Premium Member';
-										}
-									},
-								},
-							},
-						],
-					},
+					body,
+					seo,
 					{
 						label: '👑 Organised by',
 						name: 'org',
@@ -814,114 +427,14 @@ export default defineConfig({
 						// 	component: 'hidden',
 						// },
 					},
-					{
-						label: 'Layout',
-						// description: 'only available for Premium Member',
-						name: 'layout',
-						type: 'string',
-						// ui: {
-						// 	validate: (value) => {
-						// 		if (value !== 'exhibition') {
-						// 			return '⚠️ Changing this is only for Premium Member (change back to exhibition)';
-						// 		}
-						// 	},
-						// },
-						options: [
-							{
-								value: 'exhibition',
-								label: 'exhibition',
-							},
-							{
-								value: 'event',
-								label: 'event',
-							},
-							{
-								value: 'market',
-								label: 'market',
-							},
-						],
-						// ui: {
-						// 	component: 'hidden',
-						// },
-					},
+					layout,
 				],
 			},
 			{
 				name: 'post',
 				label: 'Posts',
 				path: 'content/posts',
-				fields: [
-					{
-						type: 'string',
-						name: 'title',
-						label: 'Title',
-						isTitle: true,
-						required: true,
-					},
-					{
-						type: 'object',
-						label: 'Images for gallery',
-						name: 'images',
-						list: true,
-						ui: {
-							itemProps: (item) => {
-								// Field values are accessed by item?.<Field name>
-								return { label: item?.title + ' - ' + item?.type };
-							},
-						},
-						fields: [
-							{
-								type: 'string',
-								name: 'title',
-								label: 'Title',
-								isTitle: true,
-								required: true,
-							},
-							{
-								type: 'string',
-								name: 'description',
-								label: 'Description',
-								// isTitle: true,
-								required: true,
-								ui: {
-									component: 'textarea',
-								},
-							},
-							{
-								type: 'image',
-								name: 'asset',
-								label: 'Asset',
-								required: true,
-							},
-							{
-								label: 'Type',
-								name: 'type',
-								type: 'string',
-								required: true,
-								options: [
-									{
-										value: 'main',
-										label: 'main',
-									},
-									{
-										value: 'sim',
-										label: 'sim',
-									},
-									{
-										value: 'details',
-										label: 'details',
-									},
-								],
-							},
-						],
-					},
-					{
-						type: 'rich-text',
-						name: 'body',
-						label: 'Body',
-						isBody: true,
-					},
-				],
+				fields: [draft, pageTitle, body],
 			},
 			{
 				name: 'pages',
