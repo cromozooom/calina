@@ -26,4 +26,33 @@ const blueDark = {
 	11: '#dbb594',
 	12: '#f2e1ca',
 };
-export { blue, blueDark };
+
+const red = {
+	red1: '#fffcfc',
+	red2: '#fff7f7',
+	red3: '#ffefef',
+	red4: '#ffe5e5',
+	red5: '#fdd8d8',
+	red6: '#f9c6c6',
+	red7: '#f3aeaf',
+	red8: '#eb9091',
+	red9: '#e5484d',
+	red10: '#d93d42',
+	red11: '#c62a2f',
+	red12: '#641723',
+  }
+  const redDark = {
+	red1: '#1f1315',
+	red2: '#291618',
+	red3: '#3b191d',
+	red4: '#481a20',
+	red5: '#551c22',
+	red6: '#691d25',
+	red7: '#8c1d28',
+	red8: '#d21e24',
+	red9: '#e5484d',
+	red10: '#f26669',
+	red11: '#ff8589',
+	red12: '#ffd1d9',
+  }
+export { blue, blueDark, red, redDark };
