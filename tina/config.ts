@@ -4,14 +4,31 @@ import {
 	artworksGalleries,
 	artworkTheme,
 	artworkYear,
+	creationDate,
 	body,
+	date,
 	dimensions,
 	draft,
 	images,
+	materials,
 	pageTitle,
+	price,
 	seo,
+	subTitle,
 	technique,
 	layout,
+	startDate,
+	stock,
+	sitemap,
+	weight,
+	link,
+	placeDescription,
+	events,
+	org,
+	solo,
+	location,
+	endDate,
+	inHome,
 } from './fields/_fields';
 
 // Your hosting provider likely exposes this as an environment variable
@@ -87,15 +104,7 @@ export default defineConfig({
 				fields: [
 					draft,
 					pageTitle,
-					{
-						label: 'Date',
-						name: 'date',
-						type: 'datetime',
-						description: 'this should be today',
-						ui: {
-							component: 'hidden',
-						},
-					},
+					date,
 					artworkYear,
 					artworkTheme,
 					artworksGalleries,
@@ -104,83 +113,12 @@ export default defineConfig({
 					body,
 					images,
 					seo,
-
-					{
-						label: '👑 When was created',
-						name: 'creationDate',
-						type: 'string',
-						ui: {
-							validate: (value) => {
-								if (value !== 'May 23, 1976') {
-									return '⚠️ Changing this date is only for Premium (May 23, 1976)';
-								}
-							},
-						},
-					},
-					{
-						label: '👑 Materials',
-						name: 'materials',
-						type: 'string',
-						ui: {
-							validate: (value) => {
-								if (value?.length > 0) {
-									return 'Only for Premium Member';
-								}
-							},
-						},
-					},
-					{
-						label: '💰 Stock',
-						name: 'stock',
-						type: 'number',
-						description: 'Is this in stock',
-						ui: {
-							validate: (value) => {
-								if (value > 0) {
-									return 'only for store owners / please set back to "0"';
-								}
-							},
-						},
-					},
-					{
-						label: '💰 Price',
-						name: 'price',
-						type: 'number',
-						description: 'is used only for store',
-						ui: {
-							validate: (value) => {
-								if (value > 0) {
-									return 'only for store owners / please set back to "0"';
-								}
-							},
-						},
-					},
-					{
-						label: '💰 Weight',
-						name: 'weight',
-						type: 'number',
-						description: 'is used only for store',
-						ui: {
-							validate: (value) => {
-								if (value > 0) {
-									return 'only for store owners / please set back to "0"';
-								}
-							},
-						},
-					},
-					{
-						label: '👑 Sitemap',
-						description: 'remove this page from siteamp',
-						name: 'siteMap',
-						type: 'boolean',
-						ui: {
-							validate: (value) => {
-								if (value === false) {
-									return '⚠️ Turning this of is only for Premium';
-								}
-							},
-						},
-					},
+					creationDate,
+					materials,
+					stock,
+					price,
+					weight,
+					sitemap,
 					layout,
 				],
 			},
@@ -205,218 +143,19 @@ export default defineConfig({
 				fields: [
 					draft,
 					pageTitle,
-					{
-						label: 'Subtitle',
-						name: 'sub_title',
-						type: 'string',
-						required: true,
-						description: 'this will emphatised',
-					},
-					{
-						label: 'Date',
-						name: 'date',
-						type: 'datetime',
-						description: 'this should be today',
-						ui: {
-							component: 'hidden',
-						},
-					},
-					{
-						label: 'Start date',
-						name: 'startDate',
-						type: 'datetime',
-						description: 'when event starts',
-					},
-					{
-						label: 'Link to refferrence',
-						name: 'link',
-						type: 'string',
-					},
-					{
-						label: 'Place',
-						name: 'place',
-						type: 'string',
-					},
-					{
-						label: 'event',
-						name: 'events',
-						type: 'string',
-						description: 'event type',
-						// list: true,
-						options: [
-							{
-								value: 'event',
-								label: 'event',
-							},
-							{
-								value: 'exhibition',
-								label: 'exhibition',
-							},
-							{
-								value: 'solo',
-								label: 'solo',
-							},
-							{
-								value: 'other',
-								label: 'other',
-							},
-						],
-					},
+					subTitle,
+					date,
+					startDate,
+					link,
+					placeDescription,
+					events,
 					body,
 					seo,
-					{
-						label: '👑 Organised by',
-						name: 'org',
-						type: 'string',
-						required: true,
-						description: 'could be even you. (only for Premium)',
-						ui: {
-							validate: (value) => {
-								if (value !== 'only for premium member') {
-									return '⚠️ only for Premium';
-								}
-							},
-						},
-					},
-					{
-						label: '👑 Solo',
-						name: 'solo',
-						description: 'Is this a solo event? - available only for Premium',
-						type: 'boolean',
-						// ui: {
-						// 	component: 'hidden',
-						// },
-						ui: {
-							validate: (value) => {
-								if (value !== true) {
-									return '⚠️ Turning this on is only for Premium';
-								}
-							},
-						},
-					},
-					{
-						label: '👑 In Home Page',
-						description: 'Add this item to home page',
-						name: 'inHome',
-						type: 'boolean',
-						ui: {
-							validate: (value) => {
-								if (value === true) {
-									return '⚠️ Turning this on is only for Premium';
-								}
-							},
-						},
-					},
-					{
-						label: '👑 Location',
-						name: 'location',
-						type: 'object',
-						fields: [
-							{
-								label: '👑 Line 1',
-								name: 'line1',
-								type: 'string',
-								ui: {
-									validate: (value) => {
-										if (value?.length > 0) {
-											return 'This field si only for Premium Member';
-										}
-									},
-								},
-							},
-							{
-								label: '👑 Line 2',
-								name: 'line2',
-								type: 'string',
-								ui: {
-									validate: (value) => {
-										if (value?.length > 0) {
-											return 'This field si only for Premium Member';
-										}
-									},
-								},
-							},
-							{
-								label: '👑 Post code',
-								name: 'postCode',
-								type: 'string',
-								ui: {
-									validate: (value) => {
-										if (value?.length > 0) {
-											return 'This field si only for Premium Member';
-										}
-									},
-								},
-							},
-							{
-								label: '👑 City',
-								name: 'city',
-								type: 'string',
-								ui: {
-									validate: (value) => {
-										if (value?.length > 0) {
-											return 'This field si only for Premium Member';
-										}
-									},
-								},
-							},
-
-							{
-								label: '👑 Link Direction',
-								name: 'linkDirection',
-								type: 'string',
-								ui: {
-									validate: (value) => {
-										if (value?.length > 0) {
-											return 'This field si only for Premium Member';
-										}
-									},
-								},
-							},
-							{
-								label: '👑 Map',
-								name: 'map',
-								type: 'string',
-								ui: {
-									validate: (value) => {
-										if (value?.length > 0) {
-											return 'This field si only for Premium Member';
-										}
-									},
-								},
-							},
-						],
-					},
-
-					{
-						label: '👑 End date',
-						name: 'endDate',
-						type: 'string',
-						description: 'when event ends',
-						ui: {
-							validate: (value) => {
-								if (value !== 'May 23, 1976') {
-									return '⚠️ Changing this date is only for Premium (May 23, 1976)';
-								}
-							},
-						},
-						// ui: {
-						// 	component: 'hidden',
-						// },
-					},
-					{
-						label: '👑 Hour format hh:mm',
-						name: 'hour',
-						type: 'string',
-						description: 'don`t use AM/PM use 16.00 or 10.30',
-						ui: {
-							validate: (value) => {
-								if (value !== 'only for premium member') {
-									return '⚠️ Changing this hour is only for Premium (only for premium member)';
-								}
-							},
-						},
-					},
+					org,
+					solo,
+					inHome,
+					location,
+					endDate,
 
 					{
 						label: '👑 Event Category',
@@ -434,7 +173,7 @@ export default defineConfig({
 				name: 'post',
 				label: 'Posts',
 				path: 'content/posts',
-				fields: [draft, pageTitle, body],
+				fields: [draft, pageTitle, subTitle, date, seo, body, sitemap],
 			},
 			{
 				name: 'pages',
@@ -443,99 +182,7 @@ export default defineConfig({
 				match: {
 					include: '**/**/index',
 				},
-				fields: [
-					{
-						label: 'Draft',
-						name: 'draft',
-						type: 'boolean',
-					},
-					{
-						label: 'Title',
-						name: 'title',
-						type: 'string',
-						isTitle: true,
-						required: true,
-					},
-					{
-						type: 'rich-text',
-						name: 'body',
-						label: 'Body',
-						isBody: true,
-						templates: [
-							{
-								name: 'hero',
-								label: 'hero',
-								match: {
-									start: '{{%',
-									end: '%}}',
-								},
-								fields: [
-									{
-										label: 'Title',
-										name: 'title',
-										type: 'string',
-									},
-									{
-										label: 'Side',
-										name: 'side',
-										type: 'string',
-										options: [
-											{
-												value: 'left',
-												label: 'left',
-											},
-											{
-												value: 'right',
-												label: 'right',
-											},
-											{
-												value: 'center',
-												label: 'center',
-											},
-										],
-									},
-									{
-										name: 'children',
-										type: 'rich-text',
-									},
-									{
-										type: 'image',
-										name: 'asset',
-										label: 'Asset',
-										required: true,
-									},
-								],
-							},
-							{
-								name: 'map',
-								label: 'map',
-								match: {
-									start: '{{%',
-									end: '%}}',
-								},
-								fields: [
-									{
-										label: 'Title',
-										name: 'title',
-										type: 'string',
-										required: true,
-									},
-									{
-										name: 'children',
-										type: 'rich-text',
-									},
-									{
-										name: 'map',
-										label: 'map',
-										type: 'string',
-										required: true,
-										description: 'take only the src tag from iframe',
-									},
-								],
-							},
-						],
-					},
-				],
+				fields: [draft, pageTitle, subTitle, date, seo, body, sitemap],
 			},
 		],
 	},
