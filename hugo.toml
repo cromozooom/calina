@@ -108,6 +108,12 @@ link = "https://calinalefter.tumblr.com/"
 extended = false
 min = "0.112.0"
 [[module.mounts]]
+source = "static"
+target = "static"
+[[module.mounts]]
+source = "layouts"
+target = "layouts"
+[[module.mounts]]
 source = "assets"
 target = "assets"
 [[module.mounts]]
