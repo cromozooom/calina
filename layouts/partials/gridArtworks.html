@@ -1,0 +1,74 @@
+{{ $artworks := .Site.Taxonomies.artworks.home.Pages }}
+
+
+<section
+  class="w-full"
+  x-data="{
+  setRatio: function (element) {
+      function updateRatio() {
+          var mainImg = element.querySelector('img');
+          var imgratio = mainImg.naturalWidth / mainImg.naturalHeight;
+          var maxWidth = mainImg.offsetHeight * imgratio + (mainImg.offsetHeight * imgratio) / 2;
+
+          var naturalWidth = mainImg.naturalWidth;
+          var naturalHeight = mainImg.naturalHeight;
+
+
+          function myFunction(x) {
+              if (x.matches) {
+                  element.style.flexGrow = imgratio;
+                  element.style.flexShrink = imgratio;
+              } else {
+                  element.style.flexGrow = imgratio;
+                  element.style.flexShrink = imgratio;
+                  element.style.maxWidth = maxWidth + 'px';
+              }
+          }
+
+          var x = window.matchMedia('(max-width: 550px)');
+          myFunction(x);
+          x.addListener(myFunction);
+      }
+
+      // Call the function initially
+      updateRatio();
+
+      // Listen for window resize events
+      window.addEventListener('resize', updateRatio);
+  }
+}">
+  {{ $artworks := .Site.Taxonomies.artworks.home.Pages }}
+  <div class="flex justify-center flex-wrap p-3 gap-3 md:p-6 md:gap-6 mx-auto">
+    {{ range $i, $artwork  := $artworks }}
+      {{ partial "scratching/images.html" $artwork }}
+
+      {{ $sourceM := $artwork.Scratch.Get "_thumb_M" }}
+      {{ $sourceL := $artwork.Scratch.Get "_thumb_L" }}
+      {{ $sourceXL := $artwork.Scratch.Get "_thumb_XL" }}
+
+      {{ $sourceMWidth := $artwork.Scratch.Get "_thumb_M_w" }}
+      {{ $sourceMHeight := $artwork.Scratch.Get "_thumb_M_h" }}
+      {{ $sourceRatio := $artwork.Scratch.Get "_ratio" }}
+
+
+      <div
+        class="img xm-[2%] h-auto sm:h-[250px] md:h-[350px] lg:h-[350px] xl:h-[350px] 2xl:h-[350px] overflow-hidden relative"
+        x-init="setRatio($el)">
+        <img
+          draggable="false"
+          class="h-auto sm:h-[250px] md:h-[350px] lg:h-[350px] xl:h-[350px] 2xl:h-[350px] w-full object-cover object-center"
+          src="{{ $sourceM }}"
+          srcset="
+            {{ $sourceM }} 303w,
+            {{ $sourceL }} 429w,
+            {{ $sourceXL }} 605w
+          "
+          sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
+          loading="lazy"
+          width="{{ $sourceMWidth }}"
+          height="{{ $sourceMHeight }}"
+          fetchpriority="high" />
+      </div>
+    {{ end }}
+  </div>
+</section>

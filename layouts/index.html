@@ -1,16 +1,20 @@
 {{ define "main" }}
-  <section class="max-w-[80rem] mx-auto py-4 {{ .Site.Params.Prose }}">
+  {{/*  <section
+    class="max-w-[80rem] mx-auto py-4 {{ .Site.Params.Prose }} text-center">
     {{ .Content }}
-  </section>
+  </section>  */}}
+
+  {{ partial "image-slide.html" . }}
+  {{/* {{ partial "gridArtworks.html" . }} */}}
 
   <main class="block p-0 my-0 mx-auto max-w-[80vw]" role="main">
-    <section class="py-2">
+    {{/*  <section class="py-2">
       <ul class="flex flex-wrap justify-center gap-2 mx-auto md:gap-8">
         {{ range .Site.Taxonomies.artworks.home.Pages }}
           {{ partial "thumb-artwork.html" . }}
         {{ end }}
       </ul>
-    </section>
+    </section>  */}}
 
     <section
       class="full-bleed flex flex-col pt-8 pb-10 dark:bg-black/10 bg-white border-t border-b border-neutral-3 dark:border-neutralDark-2 ">

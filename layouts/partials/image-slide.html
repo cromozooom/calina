@@ -1,0 +1,88 @@
+<div
+  class="py-6"
+  x-data="{
+					init() {
+						new Splide(this.$refs.splide, {
+							gap       : '1.5rem',
+              type     : 'loop',
+              height   : '25rem',
+              focus    : 'center',
+              autoWidth: true,
+
+              // A carousel for desktop:
+              // {
+              //   breakpoints: {
+              //     640: {
+              //       destroy: true,
+              //     },
+              //   }
+              // }
+              // // A carousel for mobile:
+              // {
+              //   mediaQuery: 'min',
+              //   breakpoints: {
+              //     640: {
+              //       destroy: true,
+              //     },
+              //   }
+              // }
+              
+              mediaQuery: 'min',
+              breakpoints: {
+								// 480: {
+                //   gap       : '1.5rem',
+                //   type     : 'loop',
+                //   height   : '30rem',
+                //   focus    : 'center',
+                //   autoWidth: true,
+								// },
+								768: {
+                  gap       : '1.5rem',
+                  type     : 'loop',
+                  height   : '35rem',
+                  focus    : 'center',
+                  autoWidth: true,
+								},
+							},
+						}).mount()
+					},
+				}">
+  <section x-ref="splide" class="splide" aria-label="Carousel Example">
+    <div class="splide__track">
+      <ul class="splide__list">
+        {{ $artworks := .Site.Taxonomies.artworks.home.Pages }}
+
+        {{ range $i, $artwork  := $artworks }}
+
+          {{ partial "scratching/images.html" $artwork }}
+
+          {{ $sourceM := $artwork.Scratch.Get "_thumb_M" }}
+          {{ $sourceL := $artwork.Scratch.Get "_thumb_L" }}
+          {{ $sourceXL := $artwork.Scratch.Get "_thumb_XL" }}
+
+          {{ $sourceMWidth := $artwork.Scratch.Get "_thumb_M_w" }}
+          {{ $sourceMHeight := $artwork.Scratch.Get "_thumb_M_h" }}
+          {{ $sourceRatio := $artwork.Scratch.Get "_ratio" }}
+
+
+          <li
+            class="flex flex-col items-center justify-center pb-8 splide__slide overflow-hidden">
+            <a href="{{ .Permalink }}" class="rounded-md overflow-hidden">
+              <img
+                {{ if $i }}
+                  loading="lazy" data-src="{{ $sourceXL }}" class="lazyload
+                  w-auto h-[30rem] md:h-[35rem] object-fill object-center"
+                {{ else }}
+                  src="{{ $sourceXL }}" class="product__image w-auto h-[30rem]
+                  md:h-[35rem] "
+                {{ end }}
+                alt=""
+                width="{{ $sourceMWidth }}"
+                height="{{ $sourceMHeight }}" />
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  </section>
+</div>
