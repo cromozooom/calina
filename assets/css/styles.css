@@ -3,6 +3,3 @@
 @tailwind utilities;
 
 @import "components/all.css";
-@import "themes/pink.css";
-@import "themes/calina.css";
-@import "themes/red.css";

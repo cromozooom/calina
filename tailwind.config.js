@@ -1,6 +1,6 @@
 const typography = require('@tailwindcss/typography');
 const forms = require('@tailwindcss/forms');
-const { brandDark, brand, accentDark, accent, neutralDark, neutral } = require('./taylwind/theme');
+const { _brandDark, _brand, _accentDark, _accent, _neutralDark, _neutral } = require('./taylwind/theme');
 
 function withOpacity(variableName) {
 	return ({ opacityValue }) => {
@@ -24,22 +24,32 @@ module.exports = {
 		'[&>*:first-child>span]:border-s',
 		'[&>*:last-child>span]:border-e',
 		'[&>*:svg]:',
+
+		// splide
+		'.splide',
+		'.splide .splide__pagination__page',
+		'.splide .splide__pagination__page.is-active',
+		'.splide .splide__arrow:disabled',
+		'.splide .splide__arrow',
+		'.splide .splide__arrow svg',
+		'.splide .splide__pagination',
+		'.splide .splide__pagination__page',
 	],
 	plugins: [typography, forms],
 	theme: {
 		extend: {
+			colors: {
+				brand: _brand,
+				brandDark: _brandDark,
+				accent: _accent,
+				accentDark: _accentDark,
+				neutral: _neutral,
+				neutralDark: _neutralDark,
+			},
 			fontFamily: {
 				serif: ['Noto Serif', 'serif'],
 				sans: ['Noto Sans', 'sans-serif'],
 				mono: ['monospace'],
-			},
-			colors: {
-				brand: brand,
-				brandDark: brandDark,
-				accent: accent,
-				accentDark: accentDark,
-				neutral: neutral,
-				neutralDark: neutralDark,
 			},
 
 			boxShadow: {

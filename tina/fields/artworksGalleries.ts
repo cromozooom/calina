@@ -17,7 +17,7 @@ export const artworksGalleries: TinaField<false> = {
 		},
 		{
 			value: 'home',
-			label: 'home (only for 👑)',
+			label: 'home',
 		},
 	],
 };

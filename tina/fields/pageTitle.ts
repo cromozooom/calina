@@ -1,7 +1,7 @@
 import { TinaField } from 'tinacms';
 
 export const pageTitle: TinaField<false> = {
-	label: 'Title',
+	label: 'Page Title',
 	name: 'title',
 	type: 'string',
 	isTitle: true,

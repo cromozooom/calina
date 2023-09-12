@@ -108,6 +108,7 @@
   overflow: hidden;
   position: relative;
   z-index: 0;
+  padding-bottom: 1rem;
 }
 
 @keyframes splide-loading {

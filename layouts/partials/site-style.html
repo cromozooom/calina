@@ -10,11 +10,10 @@
 {{/* Other styles */}}
 {{ $splide := resources.Get "/css/splide.css" | minify }}
 {{- if .Page.Params.images -}}
+{{- end -}}
 <style data-splide>
   {{ $splide.Content | safeCSS }}
 </style>
-{{- end -}}
-
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

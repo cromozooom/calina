@@ -85,21 +85,25 @@
   }
 
   .splide .splide__pagination__page {
-    background: var(--fg, black);
+    /* background: var(--fg, black); */
     outline: 2px solid var(--bg, white);
+    @apply aspect-square bg-neutral-9 dark:bg-neutralDark-9 dark:outline-neutralDark-7  outline-neutral-7 outline-2;
   }
   .splide .splide__pagination__page.is-active {
     background: var(--bg, white);
     outline: 0 solid var(--bg, white);
+    @apply aspect-square bg-brand-8 dark:bg-brand-8 dark:outline-brandDark-7  outline-neutral-7 outline-2;
   }
   .splide .splide__arrow:disabled {
     @apply cursor-not-allowed opacity-0 md:opacity-5;
   }
   .splide .splide__arrow {
     background: var(--bg, white);
+    @apply bg-brand-7 dark:bg-brandDark-7;
   }
   .splide .splide__arrow svg {
     fill: var(--fg, black);
+    @apply fill-neutral-12 dark:fill-neutralDark-12;
   }
 
   .splide .splide__pagination {
@@ -107,7 +111,7 @@
   }
   .splide .splide__pagination__page {
     margin: 0 0.5rem;
-    width: 0.8rem;
-    height: 0.8rem;
+    width: 0.7rem;
+    height: 0.7rem;
   }
 }
