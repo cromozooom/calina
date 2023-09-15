@@ -1,0 +1,185 @@
+<style>
+  @keyframes toUp {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(
+        calc(-1px * (var(--column-height) - var(--grid-height)))
+      );
+    }
+  }
+  @keyframes toDown {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(
+        calc(1px * (var(--column-height) - var(--grid-height)))
+      );
+    }
+  }
+
+  .colGrid {
+    position: relative;
+  }
+  .animate-down > div,
+  .animate-up > div {
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .animate-up > div {
+    top: 0;
+    animation: toUp calc(var(--column-height) / 60 * 1s) infinite linear;
+  }
+  .animate-down > div {
+    bottom: 0;
+    animation: toDown calc(var(--column-height) / 60 * 1s) infinite linear;
+  }
+
+  .elevator {
+    box-shadow:
+      inset 0 0px 30px 0px rgba(0, 0, 0, 0.05),
+      inset 0 0px 10px 0px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<section class="elevator h-[60vh] md:h-[80vh] overflow-hidden">
+  <div
+    class="md:rotate-[-4deg] flex w-full justify-center px-3 md:px-5 lg:px-8 my-3 md:my-5 lg:my-8 h-[60vh] md:h-[80vh] "
+    x-data="{ 
+      isMobile: window.innerWidth <= 768,
+      columns: 0,
+      columnHeights: [],
+      imageGroups: [],
+      images: [],
+    }"
+    x-init="() => {
+      const calculateColumns = () => {
+        if (window.innerWidth >= 1280) {
+          return 4; // 4 columns on screens larger than or equal to 1280px
+        } else if (window.innerWidth >= 768) {
+          return 3; // 3 columns on screens larger than or equal to 768px
+        } else {
+          return 2; // 2 columns on screens less than 768px
+        }
+      };
+  
+      const updateColumns = () => {
+        const newColumns = calculateColumns();
+  
+        if (newColumns !== columns) {
+          columns = newColumns;
+          const chunkedImages = chunkArray(images, columns);
+          imageGroups = chunkedImages.map((group, index) => ({
+            images: group,
+            animationClass: (index % 2 === 0) ? 'animate animate-up' : 'animate animate-down',
+          }));
+        }
+      };
+  
+      // Fetch data from the API
+      fetch('/artworks/gallery/index.json')
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Failed to fetch data from the API');
+          }
+        })
+        .then(data => {
+          // Update the 'images' array with data from the API response
+          images = data;
+          // Initial column calculation
+          updateColumns();
+          // Calculate and set column heights and grid height
+          calculateAndSetColumnHeights();
+          calculateAndSetGridHeight();
+        })
+        .catch(error => {
+          console.error('Error fetching data from the API:', error);
+        });
+  
+      // Listen for window resize events and update columns accordingly
+      window.addEventListener('resize', updateColumns);
+  
+      // Calculate and set the column heights as CSS variables
+      function calculateAndSetColumnHeights() {
+        const colElements = document.querySelectorAll('.calcColHeight');
+        const heights = Array.from(colElements).map((col) => col.offsetHeight);
+  
+        colElements.forEach((col, index) => {
+          col.style.setProperty('--column-height', heights[index] + 'px');
+          // Update the columnHeights array in x-data
+          columnHeights[index] = heights[index];
+        });
+      }
+  
+      // Calculate and set the grid height as a CSS variable separately
+      function calculateAndSetGridHeight() {
+        const grid = document.querySelector('.elevator');
+        const gridHeight = grid.offsetHeight;
+        const gridHeightVar = gridHeight;
+        
+        // Set the CSS variable for .colGrid
+        const boxElement = document.querySelector('.box');
+        if (boxElement) {
+          boxElement.style.setProperty('--grid-height', gridHeightVar);
+        }
+      }
+  
+      // Listen for the 'load' event on images to trigger the calculation
+      window.addEventListener('load', () => {
+        calculateAndSetColumnHeights();
+        calculateAndSetGridHeight();
+      });
+  
+      // Recalculate heights on window resize
+      window.addEventListener('resize', () => {
+        calculateAndSetColumnHeights();
+        calculateAndSetGridHeight();
+      });
+    }">
+    <div
+      class="box flex justify-center gap-3 md:gap-5 lg:gap-8 w-full rounded-lg xoverflow-hidden">
+      <template x-for="(group, groupIndex) in imageGroups" :key="groupIndex">
+        <div
+          class="calcGridHeight colGrid w-1/2 md:w-1/3 lg:w-1/4 "
+          :style="'--column-height: ' + columnHeights[groupIndex]">
+          <div :class="group.animationClass">
+            <div class="calcColHeight flex flex-col gap-3 md:gap-5 lg:gap-8">
+              <template
+                x-for="(image, imageIndex) in group.images"
+                :key="imageIndex">
+                <a class="group " href="/artwork/ferma-un-attimo/">
+                  <img
+                    :src="image.thumb_XL"
+                    alt="Image"
+                    class="group-hover:opacity-100  group-hover:translate-y-[-1rem] opacity-95 w-full rounded-md shadow-xl  shadow-brand-10/5 hover:shadow-brand-10/50 transition-all duration-700" />
+                </a>
+              </template>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Helper function to chunk an array into groups
+  function chunkArray(array, size) {
+    const chunked = [];
+    const chunkSize = Math.ceil(array.length / size);
+
+    for (let i = 0; i < size; i++) {
+      const start = i * chunkSize;
+      const end = (i + 1) * chunkSize;
+      chunked.push(array.slice(start, end));
+    }
+
+    return chunked;
+  }
+</script>

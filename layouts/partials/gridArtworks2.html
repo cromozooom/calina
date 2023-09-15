@@ -1,0 +1,93 @@
+{{ $artworks := .Site.Taxonomies.artworks.home.Pages }}
+{{ $currentCount := 0 }}
+{{ $groupSize := 3 }}
+{{ $groupOpen := false }}
+
+<div
+  class="py-6"
+  x-data="{
+					init() {
+						new Splide(this.$refs.splide, {
+							gap       : '1.5rem',
+              // type     : 'loop',
+              height   : '38rem',
+              focus    : 'center',
+              autoWidth: true,
+
+              
+						}).mount()
+					},
+				}">
+
+  <section x-ref="splide" class="splide px-5" aria-label="Carousel Example">
+    <div class="splide__track ">
+      <ul class="splide__list">
+
+        {{ range $index, $artwork := $artworks }}
+        
+
+        
+        {{ if not $groupOpen }}
+          {{ if eq $groupSize 3 }}
+            <li li class="splide__slide ">
+              <div class="xh-[35rem] grid grid-flow-row gap-[1.5rem] grid-cols-[auto_auto] grid-rows-[auto_.5fr]">
+          {{ else if eq  $groupSize 2 }}
+            <li li class="splide__slide">
+              <div class="xh-[35rem] grid grid-flow-row gap-[1.5rem] grid-cols-1 grid-rows-[auto_.5fr]">
+              {{/*  <div class="h-[35rem] flex gap-[1.5rem] flex-col items-center justify-center">  */}}
+            {{ end }}
+            {{ $groupOpen = true }}
+          {{ end }}
+
+          {{ if eq $groupSize 3 }}
+            {{ if eq $currentCount 0 }}
+              <div class="xoutline outline-red-400 col-span-2">
+            {{ else }}
+              <div class="xoutline outline-green-400">
+            {{ end }}
+          {{ else }}
+            <div class="flex items-center justify-center">
+          {{ end }}
+
+            {{ partial "scratching/images.html" $artwork }}
+
+            {{ $sourceM := $artwork.Scratch.Get "_thumb_M" }}
+            {{ $sourceL := $artwork.Scratch.Get "_thumb_L" }}
+            {{ $sourceXL := $artwork.Scratch.Get "_thumb_XL" }}
+    
+            {{ $sourceMWidth := $artwork.Scratch.Get "_thumb_M_w" }}
+            {{ $sourceMHeight := $artwork.Scratch.Get "_thumb_M_h" }}
+            {{ $sourceRatio := $artwork.Scratch.Get "_ratio" }}
+            {{ $sourceColors := $artwork.Scratch.Get "_colors" }}
+
+            <img
+              loading="lazy"
+              style="xaspect-ratio: {{ $sourceRatio }} ;"
+              data-src="{{ $sourceXL }}"
+              class="lazyload flex-grow  object-cover"
+                
+                alt="{{ $sourceRatio }}"
+                width="{{ $sourceMWidth }}"
+                height="{{ $sourceMHeight }}" />
+            </div>
+          {{/*  {{ $currentCount }} {{ $groupSize }}  */}}
+          {{ $currentCount = add $currentCount 1 }}
+          
+    
+          {{ if eq $currentCount $groupSize }}
+            </div>
+          </li>
+            {{ $currentCount = 0 }}
+            {{ $groupOpen = false }}
+            {{ if eq $groupSize 3 }}
+              {{ $groupSize = 2 }}
+            {{ else }}
+              {{ $groupSize = 3 }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      </ul>
+  </div>
+</section>
+</div>
+

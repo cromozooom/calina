@@ -1,0 +1,148 @@
+{{ $artworks := .Site.Taxonomies.artworks.home.Pages }}
+
+
+<section class="py-3">
+  <div class="flex gap-6 outline outline-lime-400 justify-center xflex-wrap overflow-x-scroll">
+    {{ range $i, $artwork := $artworks }}
+      {{ $div := false }}        
+      {{ $groupCount := 0 }}
+
+      {{ if eq (mod $i 2) 0 }}
+      {{/* Start a new set of 3 items */}}
+
+        <div
+        class="flex flex-col overflow-hidden xoutline outline-green-400 gap-6
+        ">      
+        {{ end }}
+        {{ if eq (mod $i 2) 0 }}
+        <div class="item grow flex xoutline outline-red-400">
+          {{ else }}
+          <div class="item grow flex xoutline outline-purple-400">
+            {{end }}
+            
+            
+            {{ partial "scratching/images.html" $artwork }}
+            
+        {{ $sourceM := $artwork.Scratch.Get "_thumb_M" }}
+        {{ $sourceL := $artwork.Scratch.Get "_thumb_L" }}
+        {{ $sourceXL := $artwork.Scratch.Get "_thumb_XL" }}
+        
+        {{ $sourceMWidth := $artwork.Scratch.Get "_thumb_M_w" }}
+        {{ $sourceMHeight := $artwork.Scratch.Get "_thumb_M_h" }}
+        {{ $sourceRatio := $artwork.Scratch.Get "_ratio" }}
+        <img
+        draggable="false"
+        style="aspect-ratio: {{ $sourceRatio }};"
+        class="object-cover z-0 w-full"
+        src="{{ $sourceM }}"
+        srcset="{{ $sourceM }} 303w, {{ $sourceL }} 429w, {{ $sourceXL }} 605w"
+        sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
+        loading="lazy"
+        width="{{ $sourceMWidth }}"
+        height="{{ $sourceMHeight }}"
+        fetchpriority="high" />
+
+        {{ with index $artworks (add $i 1) }}
+        {{ $nextArtwork := . }}
+          <!-- Here you can access properties of the next artwork if needed -->
+        {{ end }}
+
+        {{ $groupCount := add $groupCount 1 }}
+
+        <span class="absolute p-3 bg-slate-700 text-white z-10 top-0 left-0 ">
+          {{ $groupCount }} |  
+          {{ $i }} | {{ $sourceRatio }} | {{ sub (len $artworks) 1 }}</span>
+        
+        {{ if mod (len $artworks) 2 | ne 0 }}
+        </div>
+        {{ end }}
+
+      {{/*  {{ if or (eq (mod $i 3) 2) (eq $i (sub (len $artworks) 1)) }}  */}}
+      {{ if or (eq (mod $i 2) 1) (eq $i (sub (len $artworks) 1)) }}
+        {{/* Close the set of items */}}
+        {{ $groupItemCount := mod $groupCount 3 }}
+        
+        {{/* New parameter: $groupItemCount (count of items in the group) */}}
+        
+        {{/*  {{ $groupItemCount }}  */}}
+        </div>
+      {{ end }}
+
+    {{ end }}
+  </div>
+</section>
+
+
+<hr>
+<section class="py-3">
+  <div class="flex gap-6 outline outline-lime-400 justify-center xflex-wrap overflow-x-scroll">
+    {{ range $i, $artwork := $artworks }}
+      {{ $div := false }}        
+      {{ $groupCount := 0 }}
+
+      {{ if eq (mod $i 2) 0 }}
+      {{/* Start a new set of 3 items */}}
+
+        <div
+        class="grid grid-flow-col overflow-hidden grid-rows-[auto_auto] grid-cols-[auto_auto] outline outline-green-400 gap-3
+        ">      
+        {{ end }}
+        {{ if eq (mod $i 2) 0 }}
+        <div class="item relative flex justify-center items-center overflow-hidden outline outline-red-400 xcol-span-2">
+          {{ else }}
+          <div class="item relative flex justify-center items-center overflow-hidden outline outline-purple-400">
+            {{end }}
+            
+            
+            {{ partial "scratching/images.html" $artwork }}
+            
+        {{ $sourceM := $artwork.Scratch.Get "_thumb_M" }}
+        {{ $sourceL := $artwork.Scratch.Get "_thumb_L" }}
+        {{ $sourceXL := $artwork.Scratch.Get "_thumb_XL" }}
+        
+        {{ $sourceMWidth := $artwork.Scratch.Get "_thumb_M_w" }}
+        {{ $sourceMHeight := $artwork.Scratch.Get "_thumb_M_h" }}
+        {{ $sourceRatio := $artwork.Scratch.Get "_ratio" }}
+        <img
+        draggable="false"
+        style="aspect-ratio: {{ $sourceRatio }};"
+        class="object-cover z-0 w-full xh-full xmax-h-[25vh]"
+        src="{{ $sourceM }}"
+        srcset="{{ $sourceM }} 303w, {{ $sourceL }} 429w, {{ $sourceXL }} 605w"
+        sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
+        loading="lazy"
+        width="{{ $sourceMWidth }}"
+        height="{{ $sourceMHeight }}"
+        fetchpriority="high" />
+
+        {{ with index $artworks (add $i 1) }}
+        {{ $nextArtwork := . }}
+          <!-- Here you can access properties of the next artwork if needed -->
+        {{ end }}
+
+        {{ $groupCount := add $groupCount 1 }}
+
+        <span class="absolute p-3 bg-slate-700 text-white z-10 top-0 left-0 ">
+          {{ $groupCount }} |  
+          {{ $i }} | {{ $sourceRatio }} | {{ sub (len $artworks) 1 }}</span>
+        
+        {{ if mod (len $artworks) 2 | ne 0 }}
+        </div>
+        {{ end }}
+
+      {{/*  {{ if or (eq (mod $i 3) 2) (eq $i (sub (len $artworks) 1)) }}  */}}
+      {{ if or (eq (mod $i 2) 1) (eq $i (sub (len $artworks) 1)) }}
+        {{/* Close the set of items */}}
+        {{ $groupItemCount := mod $groupCount 3 }}
+        
+        {{/* New parameter: $groupItemCount (count of items in the group) */}}
+        
+        {{/*  {{ $groupItemCount }}  */}}
+        </div>
+      {{ end }}
+
+    {{ end }}
+  </div>
+</section>
+
+<hr>
