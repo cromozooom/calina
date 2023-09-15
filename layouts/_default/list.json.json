@@ -14,7 +14,7 @@
     {{- if ne $fakeIndex 0 -}},{{- end -}}
     {{- partial "scratching/images.html" . -}}
     {
-      "title": "{{ .Title }}",
+      "title": "{{- .Title | title -}}",
       "url": "{{- .Permalink -}}",
       "thumb_XL" : "{{- .Scratch.Get "_thumb_XL" -}}",
       "thumb_XL_w" : "{{- .Scratch.Get "_thumb_XL_w" -}}",
@@ -26,6 +26,7 @@
       "thumb_M_w" : "{{- .Scratch.Get "_thumb_M_w" -}}",
       "thumb_M_h" : "{{- .Scratch.Get "_thumb_M_h" -}}",
       "ratio": {{- .Scratch.Get "_ratio" -}},
+      "color": {{- .Scratch.Get "color" | jsonify -}},
       "shortId": "{{- replace (dateFormat "2006-01-02" .Date)  "-" "" -}}",    
       
       "archive": "{{- .Params.archive -}}",
@@ -36,7 +37,6 @@
       {{/*
         "kind": "{{- .Kind | title -}}",
         "type": "{{- .Type | title -}}",
-        "color": {{- .Scratch.Get "color" | jsonify -}},
         "alt": "{{- .Title | title -}} - {{- $.Site.Params.artwork -}} ",
         "shape": "{{- .Params.shapes | title -}}",
         "size": "{{- .Params.size | title -}}",
