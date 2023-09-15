@@ -1,0 +1,72 @@
+{{ $artworks  := .Site.Taxonomies.artworks.home.Pages }}
+{{ $currentCount := 0 }}
+{{ $currentRatio := 0 }}
+{{ $groupSize := 3 }}
+{{ $groupOpen := false }}
+
+{{ $remainer := 0 }}
+{{ $len := $artworks | len }}
+{{ $groupCount := div $len $groupSize }}
+{{ $remainder := mod $len $groupSize }}
+{{ if gt $remainder 0 }}
+  {{ $groupCount = add $groupCount 1 }}
+{{ end }}
+
+
+{{ $len }} : {{ $groupSize }} = {{ $groupCount }}
+<div class="py-4">
+  <section>
+    <div class="track">
+      <ul>
+        {{ range $index, $artwork := $artworks }}
+
+        {{ partial "scratching/images.html" $artwork }}
+            
+        {{ $sourceM := $artwork.Scratch.Get "_thumb_M" }}
+        {{ $sourceL := $artwork.Scratch.Get "_thumb_L" }}
+        {{ $sourceXL := $artwork.Scratch.Get "_thumb_XL" }}
+        
+        {{ $sourceMWidth := $artwork.Scratch.Get "_thumb_M_w" }}
+        {{ $sourceMHeight := $artwork.Scratch.Get "_thumb_M_h" }}
+        {{ $sourceRatio := $artwork.Scratch.Get "_ratio" }}
+
+        {{ $currentRatio = $sourceRatio}}
+
+        {{ if eq $currentCount 0 }}
+          <li class="outline outline-red-500 p-3">
+        {{ end }}
+        
+        {{/* Set image data in the "images" object using .Scratch.SetInMap */}}
+        {{ $imageName := printf "image%d" $currentCount }}
+        {{ $.Scratch.SetInMap "images" $imageName (dict "width" $sourceMWidth "height" $sourceMHeight) }}
+            
+        
+        {{ $remainer = sub $len ( add $index 1 ) }}
+        {{ $index }}
+        <span class="bg-red-500 rounded p-2">
+          curentCount {{ $currentCount }}  {{ $groupSize }} {{ $remainer }}
+          {{/*  - {{ $sourceMWidth }}
+          | 
+          {{ $sourceMHeight }}
+          |   */}}
+        </span>
+        {{ $currentCount = add $currentCount 1 }}
+        
+        {{ if eq $currentCount $groupSize }}
+        -
+        {{/*  {{ $currentCount = 1 }}  */}}
+      </li>
+      {{ $groupOpen = false }}
+      {{ $currentCount = 0 }}
+      {{ end }}
+      
+      {{ end }}
+      
+    </ul>
+  </div>
+</section>
+
+</div>
+{{ with .Scratch.Get "images" }}
+{{ . }}
+{{ end }}
