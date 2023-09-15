@@ -39,6 +39,11 @@
     animation: toDown calc(var(--column-height) / 60 * 1s) infinite linear;
   }
 
+  /*
+  .elevator {
+    transform: rotate(-5deg);
+  }
+  */
   .elevator {
     box-shadow:
       inset 0 0px 30px 0px rgba(0, 0, 0, 0.05),
@@ -101,7 +106,8 @@
         .catch(error => {
           console.error('Error fetching data from the API:', error);
         });
-  
+        
+        
       // Listen for window resize events and update columns accordingly
       window.addEventListener('resize', updateColumns);
   
@@ -111,7 +117,7 @@
         const heights = Array.from(colElements).map((col) => col.offsetHeight);
   
         colElements.forEach((col, index) => {
-          col.style.setProperty('--column-height', heights[index] + 'px');
+          col.style.setProperty('--column-height', heights[index]);
           // Update the columnHeights array in x-data
           columnHeights[index] = heights[index];
         });
@@ -132,8 +138,11 @@
   
       // Listen for the 'load' event on images to trigger the calculation
       window.addEventListener('load', () => {
-        calculateAndSetColumnHeights();
-        calculateAndSetGridHeight();
+        setTimeout(() => { 
+          calculateAndSetColumnHeights();
+          calculateAndSetGridHeight();
+          }, 1000); 
+
       });
   
       // Recalculate heights on window resize
@@ -141,6 +150,13 @@
         calculateAndSetColumnHeights();
         calculateAndSetGridHeight();
       });
+
+
+      
+      
+
+      
+
     }">
     <div
       class="box flex justify-center gap-3 md:gap-5 lg:gap-8 w-full rounded-lg xoverflow-hidden">
@@ -153,7 +169,7 @@
               <template
                 x-for="(image, imageIndex) in group.images"
                 :key="imageIndex">
-                <a class="group " href="/artwork/ferma-un-attimo/">
+                <a class="group " :href="image.url">
                   <img
                     :src="image.thumb_XL"
                     alt="Image"
