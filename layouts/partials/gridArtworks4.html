@@ -11,7 +11,8 @@
     }
   } 
   */
-  @keyframes toUp {
+
+  @keyframes xtoUp {
     0% {
       transform: translateY(0);
     }
@@ -31,6 +32,7 @@
     }
   }
 
+  /*
   .animate-up > div {
     transform: translate3d(0, 0, 0);
     will-change: transform;
@@ -44,6 +46,7 @@
     animation: toUp calc(var(--column-height) / 150 * 1s) infinite linear;
     animation-delay: 0.5ms;
   }
+  */
 
   .elevator {
     box-shadow:
@@ -87,7 +90,7 @@
           const chunkedImages = chunkArray(images, columns);
           imageGroups = chunkedImages.map((group, index) => ({
             images: group.concat(group),
-            animationClass: (index % 2 === 0) ? 'animate animate-up' : 'animate animate-down',
+            animationClass: (index % 2 === 0) ? '[&_div]:md:animate-toUpMD [&_div]:animate-toUpSlow' : '[&_div]:md:animate-toUpSlowMD [&_div]:animate-toUpSlow',
           }));
         }
       };
@@ -166,14 +169,14 @@
           :style="'--column-height: ' + columnHeights[groupIndex]">
           <div :class="group.animationClass">
             <div
-              class="calcColHeight w-full absolute z-[1] flex flex-col xgap-3 md:xgap-5 lg:xgap-8">
+              class="calcColHeight will-change-transform w-full absolute z-[1] flex flex-col xgap-3 md:xgap-5 lg:xgap-8">
               <template
                 x-for="(image, imageIndex) in group.images"
                 :key="imageIndex">
                 <a
                   x:style="`width: 100%; aspect-ratio: ${image.thumb_XL_w} / ${image.thumb_XL_h};`"
                   :href="image.url"
-                  class="group relative p-4"
+                  class="group relative p-2 md:p-4"
                   :width="`${image.thumb_XL_w}`"
                   :height="`${image.thumb_XL_h}`">
                   <span
@@ -188,7 +191,7 @@
                     x:width="`${image.thumb_XL_w}`"
                     x:height="`${image.thumb_XL_h}`"
                     sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
-                    class="duration-500 transition-all ease-in-out w-full height-auto rounded shadow-xl xmargin-[2rem]" />
+                    class="duration-500 transition-all ease-in-out w-full height-auto rounded shadow-xl" />
                   <!--img
                     :src="image.thumb_M"
                     :alt="image.title"
