@@ -34,10 +34,31 @@ module.exports = {
 		'.splide .splide__arrow svg',
 		'.splide .splide__pagination',
 		'.splide .splide__pagination__page',
+
+		// elevator
+		'[&_div]:md:animate-toUpMD',
+		'[&_div]:md:animate-toUpSlowMD',
+		'[&_div]:animate-toUp',
+		'[&_div]:animate-toUpSlow',
 	],
 	plugins: [typography, forms],
 	theme: {
 		extend: {
+			// ANIMATION for elevator
+			keyframes: {
+				toUp: {
+					'0%': { transform: 'translateY(0)' },
+					'100%': { transform: 'translateY(calc((-1px * (var(--column-height)) / 2)))' },
+				},
+			},
+
+			animation: {
+				toUpMD: 'toUp calc(var(--column-height) / 250 * 1s) infinite linear',
+				toUpSlowMD: 'toUp calc(var(--column-height) / 150 * 1s) infinite linear',
+				toUp: 'toUp calc(var(--column-height) / 250 * 1s) infinite linear',
+				toUpSlow: 'toUp calc(var(--column-height) / 80 * 1s) infinite linear',
+			},
+
 			colors: {
 				brand: _brand,
 				brandDark: _brandDark,
