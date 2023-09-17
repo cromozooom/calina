@@ -1,5 +1,6 @@
 document.addEventListener('alpine:init', () => {
 	function init() {
+		console.log('alpine:init');
 		this.$refs.appContainer.classList.add('alpine-is-loaded');
 	}
 
