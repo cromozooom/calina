@@ -1,3 +1,4 @@
+{{ $elevatorFetch := .data }}
 <style>
   /*
   @keyframes toUp {
@@ -66,6 +67,7 @@
     class="md:rotate-[-4deg] flex w-full justify-center px-3 md:px-5 lg:px-8 my-3 md:my-5 lg:my-8 h-[60vh] md:h-[80vh] "
     x-data="{ 
       isMobile: window.innerWidth <= 768,
+      elevatorFetch: '{{ $elevatorFetch }}' ,
       columns: 0,
       columnHeights: [],
       imageGroups: [],
@@ -96,9 +98,10 @@
       };
   
       // Fetch data from the API
-      fetch('/artworks/gallery/index.json')
+      fetch(elevatorFetch)
         .then(response => {
           if (response.ok) {
+            
             return response.json();
           } else {
             throw new Error('Failed to fetch data from the API');
@@ -107,6 +110,7 @@
         .then(data => {
           // Update the 'images' array with data from the API response
           images = data;
+          console.log(images.length)
           // Initial column calculation
           updateColumns();
           // Calculate and set column heights and grid height
