@@ -37,7 +37,7 @@
   "thumb_M_w" : "{{- .Scratch.Get "_thumb_M_w" -}}",
   "thumb_M_h" : "{{- .Scratch.Get "_thumb_M_h" -}}",
   "ratio": {{- .Scratch.Get "_ratio" -}},
-  "hues": {{ $hues }}
+  "hues": {{- $hues -}},
   "color": {{- .Scratch.Get "_colors" | jsonify -}},
   "shortId": "{{- replace (dateFormat "2006-01-02" .Date)  "-" "" -}}",
   "year": {{- dateFormat "2006" .Params.Date -}},
