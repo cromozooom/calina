@@ -24,12 +24,10 @@
 {{- if .Page.Params.images -}}
   {{ partial "scratching/images.html" . }}
   {{ $colors :=.Scratch.Get "_colors" }}
-
   {{ $scssTemplate := resources.Get "scss/colors.scss" }}
-
   {{ $vars := $scssTemplate | resources.ExecuteAsTemplate "var.colors.scss" . | toCSS | minify | fingerprint }}
 
-<style data-colors>
-{{ $vars.Content | safeCSS }}
-</style>
+  <style data-colors>
+    {{ $vars.Content | safeCSS }}
+  </style>
 {{ end }}

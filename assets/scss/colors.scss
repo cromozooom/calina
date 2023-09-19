@@ -1,10 +1,13 @@
 {{ partial "scratching/images.html" . }}
 {{ $colors := $.Scratch.Get "_colors" }}
 
+@mixin hue($n) {
+  $hue: blue($n);
+  content: $hue;
+}
 @mixin text-contrast($n) {
   $color-brightness: round((red($n) * 299) + (green($n) * 587) + (blue($n) * 114) / 1000);
   $light-color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000);
-  
   @if abs($color-brightness) < ($light-color/2){
     --fg: white;
   }
@@ -16,7 +19,9 @@
 
 
 body {
-  --test: {{ $colors }};
+  {{ range $i, $color := $colors }}
+    @include hue({{ . }});
+  {{ end }}
   {{ range first 1 $colors }}
   @include text-contrast({{ . }});
   --bg: {{ . }};

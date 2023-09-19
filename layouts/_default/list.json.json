@@ -9,7 +9,18 @@
 {{- range $i, $artwork := .Pages }}
 {{- if ne $fakeIndex 0 }},{{ end -}}
 {{- partial "scratching/images.html" -}}
-
+{{- $scssTemplate := resources.Get "scss/colors.scss" -}}
+{{- $vars := $scssTemplate | resources.ExecuteAsTemplate "var.colors.scss" . | toCSS | minify | fingerprint -}}
+{{- $contentString := $vars.Content | safeCSS -}}
+{{- $matches := findRE "content:(\\d+);" $contentString -}}
+{{- $data := newScratch -}}
+{{- $data.Set "hue" slice -}}
+{{- range $index, $match := $matches -}}
+  {{- $val := findRE "(\\d+);" $match -}}
+  {{- $val := replace (replace $match ";" "") "content:" "" -}}
+  {{- $data.Add "hue" $val -}}
+{{- end -}}
+{{- $hues := $data.Get "hue" | jsonify -}}
 {
   "index": "{{ add $fakeIndex 1 }}",
   "file": "list",
@@ -25,7 +36,8 @@
   "thumb_M_w" : "{{- .Scratch.Get "_thumb_M_w" -}}",
   "thumb_M_h" : "{{- .Scratch.Get "_thumb_M_h" -}}",
   "ratio": {{- .Scratch.Get "_ratio" -}},
-  "color": {{- .Scratch.Get "color" | jsonify -}},
+  "color": {{- .Scratch.Get "_colors" | jsonify -}},
+  "hues": {{ $hues }}
   "shortId": "{{- replace (dateFormat "2006-01-02" .Date)  "-" "" -}}",
   "year": {{- dateFormat "2006" .Params.Date -}},
   "date": "{{- dateFormat "2006-01-02" .Params.Date -}}",

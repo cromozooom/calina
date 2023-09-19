@@ -83,6 +83,7 @@
         {{- /* Check COLOR ----------------------- */ -}}
         {{- $colors := $thumb.Colors -}}
         {{- $images.Set "_colors" $colors -}}
+        {{- $colors -}}
 
         {{- /* Resize ----------------------------- */ -}}
         {{- if gt ($images.Get "_ratio") 1.8 -}}
