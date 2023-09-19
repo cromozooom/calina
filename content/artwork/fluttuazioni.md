@@ -1,7 +1,7 @@
 ---
 title: Fluttuazioni
 date: 2023-09-08T23:24:58.924Z
-years: "2018"
+years: 2018
 themes:
   - abstract
 artworks:

@@ -1,7 +1,7 @@
 ---
 title: "sample "
 date: 2023-09-11T18:25:34.007Z
-years: "1971"
+years: 1971
 themes:
   - abstract
   - figurtative

@@ -1,7 +1,7 @@
 ---
 title: Eros
 date: 2023-09-10T23:00:00.000Z
-years: "1971"
+years: 1971
 themes:
   - figurtative
   - abstract

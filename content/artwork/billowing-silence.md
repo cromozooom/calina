@@ -1,7 +1,7 @@
 ---
 title: Billowing silence
 date: 2023-09-08T23:00:00.000Z
-years: "2021"
+years: 2021
 themes:
   - abstract
 artworks:

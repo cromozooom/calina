@@ -1,7 +1,7 @@
 ---
 title: Errante
 date: 2023-09-08T23:15:38.820Z
-years: "2010"
+years: 2010
 themes:
   - abstract
 artworks:

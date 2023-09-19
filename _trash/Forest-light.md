@@ -25,7 +25,7 @@ images:
   - title: Symulation
     asset: /uploads/forest-light_sim.jpg
     type: sym
-years: "2023"
+years: 2023
 ---
 
 No text

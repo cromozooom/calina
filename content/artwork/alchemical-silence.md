@@ -1,7 +1,7 @@
 ---
 title: Alchemical silence
 date: 2023-09-06T18:20:06.502Z
-years: "2020"
+years: 2020
 themes:
   - abstract
 artworks:

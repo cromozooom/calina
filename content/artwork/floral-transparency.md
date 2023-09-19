@@ -1,7 +1,7 @@
 ---
 title: Floral transparency
 date: 2023-09-10T23:00:00.000Z
-years: "1973"
+years: 1973
 themes:
   - abstract
   - figurtative

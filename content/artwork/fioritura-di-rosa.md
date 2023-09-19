@@ -1,7 +1,7 @@
 ---
 title: Fioritura di rosa
 date: 2023-09-08T23:21:16.283Z
-years: "2021"
+years: 2021
 themes:
   - abstract
 artworks:

@@ -1,7 +1,7 @@
 ---
 title: Giallo sottobosco
 date: 2023-09-08T23:27:05.902Z
-years: "2017"
+years: 2017
 themes:
   - abstract
 artworks:

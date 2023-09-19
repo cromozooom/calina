@@ -1,7 +1,7 @@
 ---
 title: Distant view
 date: 2023-09-11T08:17:41.697Z
-years: "2001"
+years: 2001
 themes:
   - abstract
   - figurtative

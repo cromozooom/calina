@@ -1,7 +1,7 @@
 ---
 title: Aspro sentiero
 date: 2023-09-06T18:29:53.287Z
-years: "2016"
+years: 2016
 themes:
   - figurtative
 artworks:

@@ -1,7 +1,7 @@
 ---
 title: Boccioli di rose
 date: 2023-09-08T23:12:42.796Z
-years: "2021"
+years: 2021
 themes:
   - abstract
 artworks:

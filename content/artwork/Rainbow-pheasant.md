@@ -1,7 +1,7 @@
 ---
 title: rainbow pheasant
 date: 2023-08-18T16:55:35.249Z
-years: "2023"
+years: 2023
 themes:
   - figurtative
 techniqueUsed: "Oil, acrylic, walnut ink crystals on deep cotton canvas"

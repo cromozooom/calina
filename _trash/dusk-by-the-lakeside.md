@@ -28,5 +28,5 @@ images:
   - title: Details
     asset: /uploads/rainbow_pheasant_det1.jpg
     type: details
-years: "2021"
+years: 2021
 ---

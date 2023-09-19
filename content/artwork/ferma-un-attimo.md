@@ -1,7 +1,7 @@
 ---
 title: ferma un attimo
 date: 2023-09-12T23:00:00.000Z
-years: "1972"
+years: 1972
 themes:
   - abstract
   - figurtative

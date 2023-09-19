@@ -1,7 +1,7 @@
 ---
 title: A Place of Angels
 date: 2023-09-06T18:12:38.671Z
-years: "2021"
+years: 2021
 themes:
   - abstract
   - figurtative

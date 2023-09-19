@@ -1,7 +1,7 @@
 ---
 title: dusk by the lakeside
 date: 2023-08-19T03:52:12.204Z
-years: "2023"
+years: 2023
 themes:
   - abstract
   - figurtative
