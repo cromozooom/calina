@@ -3,26 +3,6 @@
 
 
   <main class="block p-0 my-0 mx-auto max-w-[90vw]" role="main">
-    {{/* src : 300 x 433
-      303w: 300 x 433
-      429w: 400 x 577
-      605w: 500 x 577
-
-      <img draggable="false"
-      src="https://img01.ztat.net/article/spp-media-p1/202e5d4c136b404aadb2a77c41fbcf2c/b29834bd9ead4dfda09c3468cb816077.jpg?imwidth=300&amp;filter=packshot"
-      srcset="
-      https://img01.ztat.net/article/spp-media-p1/202e5d4c136b404aadb2a77c41fbcf2c/b29834bd9ead4dfda09c3468cb816077.jpg?imwidth=300&amp;filter=packshot 303w,
-      https://img01.ztat.net/article/spp-media-p1/202e5d4c136b404aadb2a77c41fbcf2c/b29834bd9ead4dfda09c3468cb816077.jpg?imwidth=400&amp;filter=packshot 429w,
-      https://img01.ztat.net/article/spp-media-p1/202e5d4c136b404aadb2a77c41fbcf2c/b29834bd9ead4dfda09c3468cb816077.jpg?imwidth=500&amp;filter=packshot 605w
-      "
-      sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
-      loading="eager"
-      width="300"
-      height="433"
-      fetchpriority="high">
-    */}}
-
-
     <section class="py-2">
       <div
         class="{{ .Site.Params.Prose }} max-w-[90vw] mx-auto pt-3 pb-4 text-center">
@@ -30,12 +10,153 @@
           {{ .Title }}
         </h1>
       </div>
-      <ul class="flex flex-wrap justify-center gap-2 mx-auto md:gap-8">
-        {{ range .Paginator.Pages }}
-          {{ partial "thumb-artwork.html" . }}
-        {{ end }}
-      </ul>
-      {{ partial "site-pagination.html" .Paginator }}
+
+      <!-- ALPINE LIST -->
+      <div class="w-full" x-data="collection" x-init="() => {refreshLists()}">
+        <span x-text="filters.theme"></span>
+        <fieldset class="flex flex-wrap gap-2 px-4 py-3">
+          <div class="">
+            <label class="sr-only sr-only-focusable" for="theme">themes</label>
+            <select
+              class="rounded form-control border-neutral-6"
+              id="theme"
+              x-model="filters.theme">
+              <option value="">All themes</option>
+              <template x-for="theme in themes">
+                <option x-text="theme"></option>
+              </template>
+            </select>
+          </div>
+          <div class="">
+            <label class="sr-only sr-only-focusable" for="hue">Hues</label>
+            <select
+              class="rounded form-control border-neutral-6"
+              id="hue"
+              x-model="filters.hue">
+              <option value="">All hues</option>
+              <template x-for="hue in hues">
+                <option x-text="hue"></option>
+              </template>
+            </select>
+          </div>
+          <div class="">
+            <label class="sr-only sr-only-focusable" for="year">Years</label>
+            <select
+              class="rounded form-control border-neutral-6"
+              id="year"
+              x-model="filters.year">
+              <option value="">All years</option>
+              <template x-for="year in years">
+                <option x-text="year"></option>
+              </template>
+            </select>
+          </div>
+          <div class="mb-0 form-group">
+            <label class="sr-only sr-only-focusable" for="ratio">Ratio</label>
+            <select
+              class="bg-white rounded dark:bg-neutral-d-6 form-control border-neutral-6 text-neutral-11 dark:border-neutral-d-5 dark:text-neutral-d-11"
+              id="ratio"
+              x-model="filters.ratio">
+              <option value="">All ratios</option>
+              <template x-for="ratio in ratios">
+                <option x-text="ratio"></option>
+              </template>
+            </select>
+          </div>
+          <button
+            class="flex items-center gap-2 px-3 py-1 ml-3 bg-white rounded shadow text-neutral-11 dark:bg-black dark:text-neutral-d-11"
+            x-show="filtersHaveValue() & artworkCounter > 0"
+            x-on:click="resetFilters"
+            x-transition>
+            <span>
+              <svg
+                xmlns="https://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-x-lg"
+                viewBox="0 0 16 16">
+                <path
+                  d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
+              </svg>
+            </span>
+            <span x-text="artworkCounter"></span>
+            <span class="text-bro"> Filters </span>
+          </button>
+        </fieldset>
+
+        <div x-show="!isLoading" [x-cloak] class="">
+          <ul class="flex flex-wrap justify-center gap-2 mx-auto md:gap-8">
+            <template x-for="(artwork, index) in page().slice(0, limit)">
+              <li
+                class="listing-item w-full md:w-auto mx-4 md:mx-[initial] flex flex-col justify-between max-w-[20rem] p-2 mb-6 duration-500 ease-in-out bg-white rounded-sm hover:shadow-myShadow-hover shadow-myShadow dark:bg-neutralDark-3 border dark:border-neutralDark-3 hover:dark:border-neutralDark-5 dark:border-neutralDark-3 hover:dark:border-neutralDark-5">
+                <div>
+                  <img
+                    draggable="false"
+                    class="w-full rounded-sm"
+                    x-bind:src="artwork.thumb_M"
+                    x-bind:srcset="`
+                    ${artwork.thumb_M} 303w,
+                    ${artwork.thumb_L}  429w,
+                    ${artwork.thumb_XL} 605w
+                  `"
+                    sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
+                    loading="lazy"
+                    x-bind:width="artwork.thumb_M_w"
+                    x-bind:height="artwork.thumb_M_h" />
+                </div>
+                <div class="flex flex-col w-full gap-2 pt-4">
+                  <a class="artworkLink mainLink" :href="artwork.url"
+                    ><h2
+                      class="py-0 my-0 font-serif text-lg text-brand-11 dark:text-brandDark-10"
+                      x-text="artwork.title"></h2
+                  ></a>
+                  <div>
+                    <template x-for="el in artwork.theme">
+                      <span x-text="el"></span>
+                    </template>
+                  </div>
+                  <div>
+                    hues:
+                    <template x-for="el in artwork.hue">
+                      <span
+                        x-bind:style="`background: hsl(${el}deg 50% 50%);`"
+                        x-text="el"></span>
+                      |
+                    </template>
+                  </div>
+                  <div>
+                    <span x-text="artwork.year"></span>
+                  </div>
+                  <div>
+                    <span x-text="artwork.ratio"></span>
+                  </div>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </div>
+      <!-- END ALPINE LIST -->
+      <div id="artworkList">
+        <ul class="flex flex-wrap justify-center gap-2 mx-auto md:gap-8">
+          {{ range .Paginator.Pages }}
+            {{ partial "thumb-artwork.html" . }}
+          {{ end }}
+        </ul>
+        {{ partial "site-pagination.html" .Paginator }}
+      </div>
+
+      <!-- Use JavaScript to hide the <ul> element if JavaScript is supported -->
+      <script>
+        // Check if JavaScript is supported by adding a class to the <ul>
+        document.getElementById("artworkList").classList.add("js-supported");
+      </script>
+      <style>
+        #artworkList.js-supported {
+          display: none;
+        }
+      </style>
     </section>
   </main>
 {{ end }}

@@ -1,0 +1,13 @@
+{{ partial "scratching/images.html" . }}
+{{-  $colors := $.Scratch.Get "_colors" -}}
+
+@mixin hue($i, $n) {
+    $hue: round(hue($n));
+    return $hue;
+}
+
+{{ range  $index, $color := $colors }}
+@include hue( {{ $index }}, {{ $color }});
+{{ }}
+
+
