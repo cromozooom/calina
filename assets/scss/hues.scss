@@ -1,13 +1,6 @@
-{{ partial "scratching/images.html" . }}
-{{-  $colors := $.Scratch.Get "_colors" -}}
-
-@mixin hue($i, $n) {
-    $hue: round(hue($n));
-    return $hue;
+{{- partial "scratching/images.html" . -}}
+{{- $colours := .Scratch.Get "_colors" -}}
+body {
+  --page: "{{ . }}";
+  --colours: "{{ $colours }}";
 }
-
-{{ range  $index, $color := $colors }}
-@include hue( {{ $index }}, {{ $color }});
-{{ }}
-
-
