@@ -1,17 +1,19 @@
 {{ partial "scratching/images.html" . }}
-{{ $colors := $.Scratch.Get "_colors" }}
+{{-  $colors := $.Scratch.Get "_colors" -}}
 
-@mixin hue($n) {
-  $hue: blue($n);
+@mixin hue($i, $n) {
+  $hue: round(hue($n));
+  $index: $i;
   content: $hue;
+  //--hue-#{$i}:  hsl(#{$hue}, 50, 50);
 }
+
 @mixin text-contrast($n) {
   $color-brightness: round((red($n) * 299) + (green($n) * 587) + (blue($n) * 114) / 1000);
   $light-color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000);
   @if abs($color-brightness) < ($light-color/2){
     --fg: white;
   }
-
   @else {
     --fg: black;
   }
@@ -19,8 +21,12 @@
 
 
 body {
-  {{ range $i, $color := $colors }}
-    @include hue({{ . }});
+  {{ $counter := 0 }}
+  {{ range  $index, $color := $colors }}
+    @include hue( {{ $index }}, {{ $color }});
+    {{ if lt $counter 3 }}
+      {{ $counter = add $counter 1 }}
+    {{ end }}
   {{ end }}
   {{ range first 1 $colors }}
   @include text-contrast({{ . }});
