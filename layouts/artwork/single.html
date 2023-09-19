@@ -64,9 +64,9 @@
       <small>artwork by {{ .Site.Params.name }} {{ with .Params.years }}- {{ . }}{{ end }}</small>
     </h1>
     {{ with .Params.techniqueUsed }}
-      <p class="mt-6 font-serif text-white dark:text-neutralDark-11">{{ . }}</p>
+      <p class="mt-6 font-serif text-neutral11 dark:text-neutralDark-11">{{ . }}</p>
     {{ end }}
-    <p class="font-serif text-white dark:text-neutralDark-11">
+    <p class="font-serif text-neutral-11 dark:text-neutralDark-11">
       {{ with .Params.dimensions.width  }}
       {{ . }}w
       {{ end }}

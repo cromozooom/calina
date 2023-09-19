@@ -87,7 +87,6 @@ export default defineConfig({
 						weight: 0,
 						stock: 0,
 						years: 1976,
-						creationDate: 'May 23, 1976',
 					};
 				},
 				// ui: {
@@ -134,7 +133,6 @@ export default defineConfig({
 						eventCategory: 'exhibition',
 						layout: 'event',
 						date: new Date().toISOString(),
-						endDate: 'May 23, 1976',
 						hour: 'only for premium member',
 						solo: true,
 						org: 'only for premium member',
@@ -158,8 +156,8 @@ export default defineConfig({
 					endDate,
 
 					{
-						label: '👑 Event Category',
-						description: '⚠️ should be event',
+						label: 'Event Category',
+						description: 'should be event',
 						name: 'eventCategory',
 						type: 'string',
 						// ui: {

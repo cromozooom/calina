@@ -11,7 +11,7 @@ dimensions:
   height: 100
   width: 120
   thickness: 4
-creationDate: "1976-05-23T10:16:57.902Z"
+creationDate: 1976-05-23T10:16:57.902Z
 stock: 0
 price: 0
 weight: 0

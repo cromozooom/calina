@@ -4,7 +4,8 @@
   src : 300 x 433
   303w: 300 x 433
   429w: 400 x 577
-  605w: 500 x 577 */ -}}
+  605w: 500 x 577
+ */ -}}
 {{- $thumbCropOptionXL := "500x800 smart q100 picture webp" -}}
 {{- $thumbCropOptionL := "400x700 smart q100 picture webp" -}}
 {{- $thumbCropOptionM := "300x500 smart q100 picture webp" -}}
@@ -79,9 +80,9 @@
         {{- $h := $thumb.Height -}}
         {{- $images.Set "_ratio" (div ( div $h 1.00) $w | lang.FormatNumber 2) -}}
 
-        {{- $colors := $thumb.Colors -}}
+        {{- $colors := first 4 $thumb.Colors -}}
         {{- $images.Set "_colors" $colors -}}
-        
+
         {{- /* Check COLOR ----------------------- */ -}}
         {{- /* Resize ----------------------------- */ -}}
         {{- if gt ($images.Get "_ratio") 1.8 -}}
