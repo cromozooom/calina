@@ -2,13 +2,13 @@
 title: Stardust
 date: 2023-08-16T10:16:57.902Z
 themes: figurtative
-techniqueUsed: 'Oil, acrylic, walnut ink crystals'
+techniqueUsed: "Oil, acrylic, walnut ink crystals"
 dimensions:
   height: 50
   width: 50
   thickness: 4
   dimensionDescription: single panel - cotton deep canvas
-creationDate: 'May 23, 1976'
+creationDate: 2023-08-16T10:16:57.902Z
 inHome: false
 stock: 0
 price: 0
@@ -26,4 +26,3 @@ images:
     type: sym
 years: 1976
 ---
-

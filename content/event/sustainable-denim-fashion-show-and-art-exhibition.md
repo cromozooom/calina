@@ -7,7 +7,7 @@ link: "https://www.rga-artists.org.uk/exhibitions-events.html"
 place: Home
 org: only for premium member
 solo: true
-endDate: "May 23, 1976"
+endDate: 2023-09-06T18:20:06.502Z
 hour: only for premium member
 eventCategory: exhibition
 layout: event

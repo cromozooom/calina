@@ -2,13 +2,13 @@
 title: Forest light
 date: 2023-08-16T10:13:28.298Z
 themes: figurtative
-techniqueUsed: 'Oil, acrylic, walnut ink crystals on deep cotton canvas'
+techniqueUsed: "Oil, acrylic, walnut ink crystals on deep cotton canvas"
 dimensions:
   height: 40
   width: 30
   thickness: 4
   dimensionDescription: single panel - cotton deep canvas
-creationDate: 'May 23, 1976'
+creationDate: 2023-08-16T10:16:57.902Z
 inHome: false
 stock: 0
 price: 0
@@ -25,7 +25,7 @@ images:
   - title: Symulation
     asset: /uploads/forest-light_sim.jpg
     type: sym
-years: '2023'
+years: "2023"
 ---
 
 No text

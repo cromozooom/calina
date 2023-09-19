@@ -15,7 +15,7 @@ dimensions:
   width: 50
   thickness: 4
   dimensionDescription: single panel - cotton deep canvas
-creationDate: "May 23, 1976"
+creationDate: 1976-05-23T10:16:57.902Z
 stock: 0
 price: 0
 weight: 0

@@ -23,8 +23,8 @@
 body {
   {{ $counter := 0 }}
   {{ range  $index, $color := $colors }}
-    @include hue( {{ $index }}, {{ $color }});
-    {{ if lt $counter 3 }}
+  {{ if lt $counter 4 }}
+      @include hue( {{ $index }}, {{ $color }});
       {{ $counter = add $counter 1 }}
     {{ end }}
   {{ end }}
