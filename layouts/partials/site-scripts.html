@@ -9,24 +9,15 @@
 <script defer src="/js/alpine.min.js?v={{ now.Unix }}"></script>
 <script defer src="/js/lazysizes.min.js?v={{ now.Unix }}"></script>
 {{ if or ( eq .Layout "contact" ) (eq .Layout "form") }}
-  <script src="/js/_form.js?v={{ now.Unix }}"></script>
+  {{ $form := resources.Get "js/form.js" | js.Build (dict "minify" true "params" (dict "myparam" "Hugo Rocks!" )) | resources.Fingerprint }}
+  <script src="{{ $form.RelPermalink }}"></script>
   <script async defer src="https://www.google.com/recaptcha/api.js"></script>
 {{ end }}
 
 {{ if .Page.Params.images }}
 {{ end }}
-<script src="/js/splide.min.js?v={{ now.Unix }}"></script>
+<script src="/js/splide.min.js?v={{ now.Unix }}?v={{ now.Unix }}"></script>
 
-<script>
-  if (
-    localStorage.theme === "dark" ||
-    (!("theme" in localStorage) &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
-  ) {
-    document.documentElement.classList.add("dark");
-    document.documentElement.style.colorScheme = "dark"; // Add this line
-  } else {
-    document.documentElement.classList.remove("dark");
-    document.documentElement.style.colorScheme = "light"; // Add this
-  }
-</script>
+{{/* Load MAIN JS */}}
+{{ $js := resources.Get "js/main.js" | js.Build (dict "minify" true "params" (dict "myparam" "Hugo Rocks!" )) }}
+<script src="{{ $js.RelPermalink }}"></script>

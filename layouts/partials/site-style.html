@@ -21,15 +21,17 @@
   href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;1,400;1,600&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
   rel="stylesheet" />
 
-{{- if .Page.Params.images -}}
-  {{ partial "scratching/images.html" . }}
+{{- /*
   {{ $colors :=.Scratch.Get "_colors" }}
+  {{ partial "scratching/images.html" . }}
+*/ -}}
 
+
+{{- if .Page.Params.images -}}
   {{ $scssTemplate := resources.Get "scss/colors.scss" }}
-
   {{ $vars := $scssTemplate | resources.ExecuteAsTemplate "var.colors.scss" . | toCSS | minify | fingerprint }}
 
-<style data-colors>
-{{ $vars.Content | safeCSS }}
-</style>
+  <style data-colors>
+    {{ $vars.Content | safeCSS }}
+  </style>
 {{ end }}

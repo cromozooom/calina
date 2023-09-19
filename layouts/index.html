@@ -4,7 +4,7 @@
     {{ .Content }}
   </section>  */}}
 
-  {{ partial "gridArtworks4.html" . }}
+  {{ partial "gridArtworks4.html" (dict "data" "/artworks/home/index.json") }}
   {{/*  {{ partial "image-slide.html" . }}  */}}
   {{/* {{ partial "gridArtworks.html" . }} */}}
 
