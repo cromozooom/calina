@@ -1,3 +1,12 @@
-<header>
+<header
+  x-data="scrollToReveal()"
+  x-ref="navbar"
+  x-on:scroll.window="scroll()"
+  x-bind:class="{
+		'sticky top-0': sticky,
+		'absolute top-0': !sticky
+	}"
+  x-init="scrollToReveal"
+  class="z-40 w-full backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90 transition-all duration-700 ease-in-out  children ">
   {{ partial "site-nav.html" . }}
 </header>
