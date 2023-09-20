@@ -3,10 +3,10 @@
 {{- $Kind := .Page.Kind -}}
 {{- $Type := .Page.Type -}}
 {{- $Layout := .Page.Layout -}}
+{{- $fakeIndex := 0 -}}
 [  
 {{- range $index, $page :=  $RegularPages }}
-  {{- $fakeIndex := 0 -}}
-  {{- range $i, $artwork := .Pages }}
+{{- range $i, $artwork := .Pages }}
     {{- if ne $fakeIndex 0 }},{{ end -}}
     {{- partial "scratching/images.html" -}}
     {{- $scssTemplate := resources.Get "scss/colors.scss" -}}

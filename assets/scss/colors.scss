@@ -21,7 +21,7 @@
 
 
 body {
-  --colors: "#{{ . }}";
+  --colors: '{{ . }}';
   {{ $counter := 0 }}
   {{ range  $index, $color := $colors }}
   {{ if lt $counter 4 }}
