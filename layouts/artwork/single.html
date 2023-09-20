@@ -1,31 +1,30 @@
 {{ define "main" }}
-
 <div class="mx-auto md:max-w-[1600px] grid grid-cols-[1fr] md:grid-cols-[auto_minmax(30rem,_.4fr)] mb-10 md:px-3">
   <div class="self-stretch mt-1 md:mt-3
   md:before:rounded-md relative mb-4 md:py-3 before:opacity-[.3] md:before:opacity-[.1] before:z-[-1] before:bg-[var(--bg)] before:inset-0 before:absolute before:block before:content-['']">
-      
-      {{ partial "scratching/images.html" . }}
-
-      {{ $slider := .Scratch.Get "slider" }}
-
-      {{/*  {{ $colors := .Scratch.Get "_colors" }}
+  
+  {{ partial "scratching/images.html" . }}
+  
+  {{ $slider := .Scratch.Get "slider" }}
+  
+  {{/*  {{ $colors := .Scratch.Get "_colors" }}
       <div class="flex">
         {{ range $colors }}
-          <div class="w-8 h-8" style="background: {{ safeCSS  . }};"></div>
+        <div class="w-8 h-8" style="background: {{ safeCSS  . }};"></div>
         {{ end }}
       </div>  */}}
-
+      
       {{/*  <div class="splide__pagination__page is-active splide__arrow splide__pagination splide__pagination__page"></div>  */}}
-
+      
       <div
-        x-data="{
-					init() {
-						new Splide(this.$refs.splide, {
-							perPage: 1,
-							gap: '0.5rem',
-							type   : 'slide',
-							breakpoints: {
-								640: {
+      x-data="{
+        init() {
+          new Splide(this.$refs.splide, {
+            perPage: 1,
+            gap: '0.5rem',
+            type   : 'slide',
+            breakpoints: {
+              640: {
 									perPage: 1,
 								},
 							},

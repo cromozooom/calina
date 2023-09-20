@@ -12,6 +12,7 @@
 {{- $images.Set "_ctx" . -}}
 {{- $images.Set "_ratio" "-" -}}
 {{- $images.Set "_colors" slice -}}
+{{- $images.Set "_hues" slice -}}
 {{- $images.Set "slider" slice -}}
 
 {{- /* THUMB ----------------------------- */ -}}
@@ -77,6 +78,52 @@
 
         {{- $colors := first 4 $thumb.Colors -}}
         {{- $images.Set "_colors" $colors -}}
+
+        {{- /* HUES */ -}}
+
+        {{ range $colors }}
+          {{ $hex := . }}
+          {{ $hexToDec := dict "0" 0 "1" 1 "2" 2 "3" 3 "4" 4 "5" 5 "6" 6 "7" 7 "8" 8 "9" 9 "a" 10 "b" 11 "c" 12 "d" 13 "e" 14 "f" 15 }}
+          {{ $r1 := index $hexToDec (index $hex 1 | printf "%c") }}
+          {{ $r2 := index $hexToDec (index $hex 2 | printf "%c") }}
+          {{ $g1 := index $hexToDec (index $hex 3 | printf "%c") }}
+          {{ $g2 := index $hexToDec (index $hex 4 | printf "%c") }}
+          {{ $b1 := index $hexToDec (index $hex 5 | printf "%c") }}
+          {{ $b2 := index $hexToDec (index $hex 6 | printf "%c") }}
+          {{ $r := div (add (mul $r1 16) $r2) 255.0 }}
+          {{ $g := div (add (mul $g1 16) $g2) 255.0 }}
+          {{ $b := div (add (mul $b1 16) $b2) 255.0 }}
+          {{ $max := $r }}
+          {{ $min := $r }}
+          {{ if lt $g $min }}{{ $min = $g }}{{ end }}
+          {{ if lt $b $min }}{{ $min = $b }}{{ end }}
+
+          {{ if gt $g $max }}{{ $max = $g }}{{ end }}
+          {{ if gt $b $max }}{{ $max = $b }}{{ end }}
+
+          {{ $delta := sub $max $min }}
+
+          {{ $hue := 0.0 }}
+          {{ if eq $delta 0.0 }}
+            {{ $hue = 0.0 }}
+          {{ else if eq $max $r }}
+            {{ $hue = div (sub $g $b) $delta }}
+          {{ else if eq $max $g }}
+            {{ $hue = add (div (sub $b $r) $delta) 2.0 }}
+          {{ else }}
+            {{ $hue = add (div (sub $r $g) $delta) 4.0 }}
+          {{ end }}
+          {{ $hue = mul $hue 60.0 }}
+
+          {{ if lt $hue 0.0 }}
+            {{ $hue = add $hue 360.0 }}
+          {{ end }}
+          {{ printf "%.0f" $hue }}
+
+          {{ $h := math.Mul ( math.Round (math.Mul (int (printf "%.0f" $hue)) 0.1)) 10 }}
+
+          {{ $images.Add "_hues" (slice $h) }}
+        {{ end }}
 
         {{- /* Check COLOR ----------------------- */ -}}
         {{- /* Resize ----------------------------- */ -}}

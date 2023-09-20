@@ -70,11 +70,16 @@ document.addEventListener('alpine:init', () => {
 			this.isLoading = false;
 			this.artworks = this.int;
 
+			function getUniqueHues(artwork) {
+				return [...new Set(artwork.hue)];
+			}
+
 			// Step 1: Create Buttons for Each Theme
 			this.themes = [...new Set(this.artworks.flatMap((artwork) => artwork.theme))];
 			this.years = [...new Set(this.artworks.map((artwork) => artwork.year))];
 			this.ratios = [...new Set(this.artworks.map((artwork) => artwork.ratio))];
-			this.hues = [...new Set(this.artworks.flatMap((artwork) => artwork.hue))];
+			this.huesx = [...new Set(this.artworks.flatMap((artwork) => artwork.hue))];
+			this.hues = [...new Set(this.artworks.flatMap(getUniqueHues))];
 			console.log(this.rations);
 		},
 
@@ -88,6 +93,7 @@ document.addEventListener('alpine:init', () => {
 
 		resetFilters() {
 			this.filters.theme = '';
+			this.filters.hue = '';
 			this.filters.year = '';
 			this.filters.ratio = '';
 		},

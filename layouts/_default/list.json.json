@@ -9,24 +9,7 @@
 {{- range $i, $artwork := .Pages }}
     {{- if ne $fakeIndex 0 }},{{ end -}}
     {{- partial "scratching/images.html" -}}
-    {{- $scssTemplate := resources.Get "scss/colors.scss" -}}
-    {{- $vars := $scssTemplate | resources.ExecuteAsTemplate "var.colors.scss" . | toCSS | minify -}}
-    {{- $hues := newScratch -}}
-    {{- $hues.Set "hue" slice -}}
-    {{- $contentString := $vars.Content | safeCSS -}}
-    {{- $matches := findRE "content:(\\d+)deg;" $contentString -}}
-
-    {{ $hueCounter := 0 }}
-    {{- range $index, $match := $matches -}}
-      {{- $val := findRE "(\\d+);" $match -}}
-      {{- $val := float (replace (replace (replace $match ";" "") "content:" "") "deg" "") -}}
-      {{- $val := mul (math.Round (mul $val 0.1)) 10  -}}
-      {{- $hues.Add "hue" $val -}}
-      {{ $hueCounter = add $hueCounter 1 }}
-    {{- end -}}
-    {{- $hues := $hues.Get "hue" | jsonify -}}
     {
-      "vars": "{{ $vars.Content }}",
       "file": "list",
       "title": "{{- .Title | title -}}",
       "url": "{{- .Permalink -}}",
@@ -40,7 +23,7 @@
       "thumb_M_w" : "{{- .Scratch.Get "_thumb_M_w" -}}",
       "thumb_M_h" : "{{- .Scratch.Get "_thumb_M_h" -}}",
       "ratio": {{- .Scratch.Get "_ratio" -}},
-      "hue": {{- $hues -}},
+      "hue": {{- .Scratch.Get "_hues" | jsonify -}},
       "color": {{- .Scratch.Get "_colors" | jsonify -}},
       "shortId": "{{- replace (dateFormat "2006-01-02" .Params.creationDate)  "-" "" -}}",
       "year": {{- dateFormat "2006" .Params.creationDate -}},
