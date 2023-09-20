@@ -7,64 +7,48 @@
 [  
 {{- range $index, $page :=  $RegularPages }}
 {{- range $i, $artwork := .Pages }}
-{{- if ne $fakeIndex 0 }},{{ end -}}
-{{- partial "scratching/images.html" -}}
-{{- $scssTemplate := resources.Get "scss/colors.scss" -}}
-{{- $vars := $scssTemplate | resources.ExecuteAsTemplate "var.colors.scss" . | toCSS | minify | fingerprint -}}
-{{- $contentString := $vars.Content | safeCSS -}}
-{{- $matches := findRE "content:(\\d+)deg;" $contentString -}}
-{{- $data := newScratch -}}
-
-{{- $data.Set "hue" slice -}}
-{{ $hueCounter := 0 }}
-{{- range $index, $match := $matches -}}
-  {{- $val := findRE "(\\d+);" $match -}}
-  {{- $val := replace (replace $match ";" "") "content:" "" -}}
-  {{- $data.Add "hue" $val -}}
-  {{ $hueCounter = add $hueCounter 1 }}
-{{- end -}}
-{{- $hues := $data.Get "hue" | jsonify -}}
-{
-  "index": "{{ add $fakeIndex 1 }}",
-  "file": "list",
-  "title": "{{- .Title | title -}}",
-  "url": "{{- .Permalink -}}",
-  "thumb_XL" : "{{- .Scratch.Get "_thumb_XL" -}}",
-  "thumb_XL_w" : "{{- .Scratch.Get "_thumb_XL_w" -}}",
-  "thumb_XL_h" : "{{- .Scratch.Get "_thumb_XL_h" -}}",
-  "thumb_L" : "{{- .Scratch.Get "_thumb_L" -}}",
-  "thumb_L_w" : "{{- .Scratch.Get "_thumb_L_w" -}}",
-  "thumb_L_h" : "{{- .Scratch.Get "_thumb_L_h" -}}",
-  "thumb_M" : "{{- .Scratch.Get "_thumb_M" -}}",
-  "thumb_M_w" : "{{- .Scratch.Get "_thumb_M_w" -}}",
-  "thumb_M_h" : "{{- .Scratch.Get "_thumb_M_h" -}}",
-  "ratio": {{- .Scratch.Get "_ratio" -}},
-  "hues": {{- $hues -}},
-  "color": {{- .Scratch.Get "_colors" | jsonify -}},
-  "shortId": "{{- replace (dateFormat "2006-01-02" .Params.creationDate)  "-" "" -}}",
-  "year": {{- dateFormat "2006" .Params.Date -}},
-  "date": "{{- dateFormat "2006-01-02" .Params.Date -}}",
-  "artworks": {{- .Params.artworks  | jsonify -}},
-  "id": "{{ .File.UniqueID }}"
-  {{- /*
-    "kind": "{{- .Kind | title -}}",
-    "type": "{{- .Type | title -}}",
-    "alt": "{{- .Title | title -}} - {{- $.Site.Params.artwork -}} ",
-    "shape": "{{- .Params.shapes | title -}}",
-    "size": "{{- .Params.size | title -}}",
-    "weight": {{- .Params.weight -}},
-    "theme": "{{- .Params.themes | title -}}",
-    "w": "{{- .Params.dimensions.width -}}",
-    "h": "{{- .Params.dimensions.height -}}",
-    "reproduction": {{- .Params.reproduction -}},
-    "custom_order": "{{- .Params.custom_order | default false -}}",
-    "archive": {{- printf "%t" .Params.archive -}},
-    "price": {{- .Params.store_info.price -}},
-    "stock": {{- if .Params.instock -}}"In stock"{{- else -}}"Out of stock"{{- end -}}
-  */ -}}
-  {{/**/}}
-}
-{{- $fakeIndex = add $fakeIndex 1 -}}
-{{ end -}}
+    {{- if ne $fakeIndex 0 }},{{ end -}}
+    {{- partial "scratching/images.html" -}}
+    {
+      "file": "list",
+      "title": "{{- .Title | title -}}",
+      "url": "{{- .Permalink -}}",
+      "thumb_XL" : "{{- .Scratch.Get "_thumb_XL" -}}",
+      "thumb_XL_w" : "{{- .Scratch.Get "_thumb_XL_w" -}}",
+      "thumb_XL_h" : "{{- .Scratch.Get "_thumb_XL_h" -}}",
+      "thumb_L" : "{{- .Scratch.Get "_thumb_L" -}}",
+      "thumb_L_w" : "{{- .Scratch.Get "_thumb_L_w" -}}",
+      "thumb_L_h" : "{{- .Scratch.Get "_thumb_L_h" -}}",
+      "thumb_M" : "{{- .Scratch.Get "_thumb_M" -}}",
+      "thumb_M_w" : "{{- .Scratch.Get "_thumb_M_w" -}}",
+      "thumb_M_h" : "{{- .Scratch.Get "_thumb_M_h" -}}",
+      "ratio": {{- .Scratch.Get "_ratio" -}},
+      "hue": {{- .Scratch.Get "_hues" | jsonify -}},
+      "color": {{- .Scratch.Get "_colors" | jsonify -}},
+      "shortId": "{{- replace (dateFormat "2006-01-02" .Params.creationDate)  "-" "" -}}",
+      "year": {{- dateFormat "2006" .Params.creationDate -}},
+      "date": "{{- dateFormat "2006-01-02" .Params.Date -}}",
+      "artworks": {{- .Params.artworks | jsonify -}},
+      "theme": {{- .Params.themes  | jsonify -}},
+      "id": "{{ .File.UniqueID }}"
+      {{- /*
+        "kind": "{{- .Kind | title -}}",
+        "type": "{{- .Type | title -}}",
+        "alt": "{{- .Title | title -}} - {{- $.Site.Params.artwork -}} ",
+        "shape": "{{- .Params.shapes | title -}}",
+        "size": "{{- .Params.size | title -}}",
+        "weight": {{- .Params.weight -}},
+        "w": "{{- .Params.dimensions.width -}}",
+        "h": "{{- .Params.dimensions.height -}}",
+        "reproduction": {{- .Params.reproduction -}},
+        "custom_order": "{{- .Params.custom_order | default false -}}",
+        "archive": {{- printf "%t" .Params.archive -}},
+        "price": {{- .Params.store_info.price -}},
+        "stock": {{- if .Params.instock -}}"In stock"{{- else -}}"Out of stock"{{- end -}}
+      */ -}}
+      {{/**/}}
+    }
+    {{- $fakeIndex = add $fakeIndex 1 -}}
+  {{ end -}}
 {{ end -}}
 ]

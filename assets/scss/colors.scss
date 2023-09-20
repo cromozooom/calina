@@ -1,5 +1,5 @@
 {{ partial "scratching/images.html" . }}
-{{-  $colors := $.Scratch.Get "_colors" -}}
+{{-  $colors := .Scratch.Get "_colors" -}}
 
 @mixin hue($i, $n) {
   $hue: round(hue($n));
@@ -21,6 +21,7 @@
 
 
 body {
+  --colors: '{{ . }}';
   {{ $counter := 0 }}
   {{ range  $index, $color := $colors }}
   {{ if lt $counter 4 }}

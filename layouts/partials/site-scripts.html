@@ -14,6 +14,9 @@
   <script async defer src="https://www.google.com/recaptcha/api.js"></script>
 {{ end }}
 
+{{ $filter := resources.Get "js/filter.js" | js.Build (dict "minify" true "params" (dict "myparam" "Hugo Rocks!" )) | resources.Fingerprint }}
+<script src="{{ $filter.RelPermalink }}"></script>
+
 {{ if .Page.Params.images }}
 {{ end }}
 <script src="/js/splide.min.js?v={{ now.Unix }}?v={{ now.Unix }}"></script>

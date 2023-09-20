@@ -1,0 +1,6 @@
+{{- partial "scratching/images.html" . -}}
+{{- $colours := .Scratch.Get "_colors" -}}
+body {
+  --page: "{{ . }}";
+  --colours: "{{ $colours }}";
+}
