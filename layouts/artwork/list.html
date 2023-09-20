@@ -34,11 +34,12 @@
               id="hue"
               x-model="filters.hue">
               <option value="">All hues</option>
-              <template x-for="hue in hues">
+              <template x-for="hue in sortedHues">
                 <option x-text="hue"></option>
               </template>
             </select>
           </div>
+
           <div class="">
             <label class="sr-only sr-only-focusable" for="year">Years</label>
             <select
@@ -84,6 +85,20 @@
             <span class="text-bro"> Filters </span>
           </button>
         </fieldset>
+        <div class="flex flex-wrap gap-1 px-4 py-3">
+          <template x-for="hue in sortedHues">
+            <button
+              x-bind:style="`background: hsl(${hue}deg 50% 50%); color: hsl(${hue}deg 50% 50%);`"
+              class="px-2 mx-1 outline outline-2 outline-brand-2/0 outline-brand-8 rounded grow"
+              x-bind:class="{
+                'outline-brand-2.0': filters.hue != hue,
+                'outline-brand-8': filters.hue == hue
+              }"
+              x-on:click="filters.hue = (filters.hue == hue) ? '' : hue">
+              hue
+            </button>
+          </template>
+        </div>
 
         <div x-show="!isLoading" [x-cloak] class="">
           <ul class="flex flex-wrap justify-center gap-2 mx-auto md:gap-8">
@@ -111,27 +126,30 @@
                       class="py-0 my-0 font-serif text-lg text-brand-11 dark:text-brandDark-10"
                       x-text="artwork.title"></h2
                   ></a>
-                  <div>
-                    <template x-for="el in artwork.theme">
-                      <span x-text="el"></span>
-                    </template>
+                  
+                  {{ if $dev }}
+                    <div>
+                      <template x-for="el in artwork.theme">
+                        <span x-text="el"></span>
+                      </template>
+                    </div>
+                    <div>
+                      hues:
+                      <template x-for="el in artwork.hue">
+                        <span
+                          x-bind:style="`background: hsl(${el}deg 50% 50%);`"
+                          x-text="el"></span>
+                        |
+                      </template>
+                    </div>
+                    <div>
+                      <span x-text="artwork.year"></span>
+                    </div>
+                    <div>
+                      <span x-text="artwork.ratio"></span>
+                    </div>
                   </div>
-                  <div>
-                    hues:
-                    <template x-for="el in artwork.hue">
-                      <span
-                        x-bind:style="`background: hsl(${el}deg 50% 50%);`"
-                        x-text="el"></span>
-                      |
-                    </template>
-                  </div>
-                  <div>
-                    <span x-text="artwork.year"></span>
-                  </div>
-                  <div>
-                    <span x-text="artwork.ratio"></span>
-                  </div>
-                </div>
+                  {{ end  }}
               </li>
             </template>
           </ul>

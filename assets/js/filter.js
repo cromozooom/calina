@@ -64,6 +64,11 @@ document.addEventListener('alpine:init', () => {
 
 		archive: false,
 
+		// Computed property to sort hues
+		get sortedHues() {
+			return this.hues.sort((a, b) => a - b);
+		},
+
 		// Get artworks
 		async getArtworks() {
 			this.int = await (await fetch('index.json')).json();
@@ -78,8 +83,7 @@ document.addEventListener('alpine:init', () => {
 			this.themes = [...new Set(this.artworks.flatMap((artwork) => artwork.theme))];
 			this.years = [...new Set(this.artworks.map((artwork) => artwork.year))];
 			this.ratios = [...new Set(this.artworks.map((artwork) => artwork.ratio))];
-			this.huesx = [...new Set(this.artworks.flatMap((artwork) => artwork.hue))];
-			this.hues = [...new Set(this.artworks.flatMap(getUniqueHues))];
+			this.hues = [...new Set(this.artworks.flatMap((artwork) => artwork.hue))];
 			console.log(this.rations);
 		},
 
@@ -116,6 +120,7 @@ document.addEventListener('alpine:init', () => {
 					}
 				});
 			});
+
 			// Observe all the images with a `data-src` attribute
 			const images = document.querySelectorAll('img[data-src]');
 			images.forEach((img) => observer.observe(img));
@@ -126,8 +131,15 @@ document.addEventListener('alpine:init', () => {
 						continue;
 					}
 
-					if (!String(item[key]).includes(this.filters[key])) {
-						return false;
+					if (key === 'hue') {
+						// Check if the selected hue value exists within the artwork's "hue" array
+						if (!item.hue.includes(parseInt(this.filters.hue))) {
+							return false;
+						}
+					} else {
+						if (!String(item[key]).includes(this.filters[key])) {
+							return false;
+						}
 					}
 				}
 
@@ -135,7 +147,6 @@ document.addEventListener('alpine:init', () => {
 			});
 
 			this.artworkCounter = filtered.length;
-
 			console.log(filtered.length);
 
 			const viewAttrs = this.computedViewAttributes;

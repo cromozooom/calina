@@ -44,6 +44,14 @@ module.exports = {
 	plugins: [typography, forms],
 	theme: {
 		extend: {
+			colors: {
+				brand: _brand,
+				brandDark: _brandDark,
+				accent: _accent,
+				accentDark: _accentDark,
+				neutral: _neutral,
+				neutralDark: _neutralDark,
+			},
 			// ANIMATION for elevator
 			keyframes: {
 				toUp: {
@@ -59,14 +67,6 @@ module.exports = {
 				toUpSlow: 'toUp calc(var(--column-height) / 80 * 1s) infinite linear',
 			},
 
-			colors: {
-				brand: _brand,
-				brandDark: _brandDark,
-				accent: _accent,
-				accentDark: _accentDark,
-				neutral: _neutral,
-				neutralDark: _neutralDark,
-			},
 			fontFamily: {
 				serif: ['Noto Serif', 'serif'],
 				sans: ['Noto Sans', 'sans-serif'],
