@@ -3,9 +3,9 @@
 {{- $Kind := .Page.Kind -}}
 {{- $Type := .Page.Type -}}
 {{- $Layout := .Page.Layout -}}
-{{- $fakeIndex := 0 -}}
 [  
 {{- range $index, $page :=  $RegularPages }}
+  {{- $fakeIndex := 0 -}}
   {{- range $i, $artwork := .Pages }}
     {{- if ne $fakeIndex 0 }},{{ end -}}
     {{- partial "scratching/images.html" -}}
@@ -26,7 +26,7 @@
     {{- end -}}
     {{- $hues := $hues.Get "hue" | jsonify -}}
     {
-      "index": "{{ add $fakeIndex 1 }}",
+      "vars": "{{ $vars.Content }}",
       "file": "list",
       "title": "{{- .Title | title -}}",
       "url": "{{- .Permalink -}}",
