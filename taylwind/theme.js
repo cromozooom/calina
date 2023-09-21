@@ -18,16 +18,16 @@ const {
 	// indigo,
 	// blue,
 	// cyan,
-	// teal,
+	teal,
 	// jade,
 	// green,
 	// grass,
 	// brown,
-	// bronze,
+	bronze,
 	// gold,
 	// sky,
 	// mint,
-	// lime,
+	lime,
 	// yellow,
 	// amber,
 	// grayA,
@@ -82,16 +82,16 @@ const {
 	// indigoDark,
 	// blueDark,
 	// cyanDark,
-	// tealDark,
+	tealDark,
 	// jadeDark,
 	// greenDark,
 	// grassDark,
 	// brownDark,
-	// bronzeDark,
+	bronzeDark,
 	// goldDark,
 	// skyDark,
 	// mintDark,
-	// limeDark,
+	limeDark,
 	// yellowDark,
 	// amberDark,
 	// grayDarkA,
@@ -136,19 +136,19 @@ const {
 // const _neutralDark = slateDark;
 
 // Criss
-const _brandDark = tomatoDark;
-const _accent = orange;
-const _brand = tomato;
-const _accentDark = orangeDark;
-const _neutral = slate;
-const _neutralDark = slateDark;
-
-// Calina
-// const _brand = bronze;
-// const _brandDark = bronzeDark;
-// const _accent = teal;
-// const _accentDark = tealDark;
+// const _brandDark = tomatoDark;
+// const _accent = orange;
+// const _brand = tomato;
+// const _accentDark = orangeDark;
 // const _neutral = slate;
 // const _neutralDark = slateDark;
+
+// Calina
+const _brand = bronze;
+const _brandDark = bronzeDark;
+const _accent = teal;
+const _accentDark = tealDark;
+const _neutral = slate;
+const _neutralDark = slateDark;
 
 export { _brandDark, _brand, _accentDark, _accent, _neutralDark, _neutral };

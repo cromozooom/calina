@@ -23,7 +23,7 @@
         <div
           class="{{ .Site.Params.Prose }} pt-6 pb-8 text-center w-full max-w-none">
           <h2
-            class="text-5xl font-normal text-neutral-11 dark:text-neutralDark-11">
+            class="text-base md:text-xl font-normal">
             My Recent events
           </h2>
         </div>
@@ -46,8 +46,9 @@
           {{ end }}
         </ol>
 
+        
         <div class="flex justify-center">
-          {{ partial "molecules/cta" (dict "ctx" . "type" "/events/" "color" "solid" "label" "View all events" "size" "xl") }}
+          {{ partial "molecules/cta" (dict "ctx" . "type" "/events/" "color" "soft" "label" "View all events" "size" "lg") }}
         </div>
       </div>
     </section>

@@ -118,7 +118,6 @@
           {{ if lt $hue 0.0 }}
             {{ $hue = add $hue 360.0 }}
           {{ end }}
-          {{ printf "%.0f" $hue }}
 
           {{ $h := math.Mul ( math.Round (math.Mul (int (printf "%.0f" $hue)) 0.1)) 10 }}
 
