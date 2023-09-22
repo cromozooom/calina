@@ -1,26 +1,41 @@
 ---
-title: Distant view
-date: 2023-09-11T08:17:41.697Z
-years: 2001
-themes:
-  - abstract
-  - figurtative
+aliases: []
+archive: true
+custom_order: 6-8
+date: 2023-06-19T00:00:00Z
+creationDate: 2023-06-19T00:00:00Z
+dimensions:
+  height: 50
+  size_txt: single panel - cotton deep canvas
+  thickness: 4
+  width: 50
+draft: false
+summary: ""
 artworks:
   - gallery
   - home
-techniqueUsed: xxx
-dimensions:
-  height: 50
-  width: 50
-  thickness: 4
-  dimensionDescription: single panel - cotton deep canvas
 images:
   - asset: /uploads/2023-distant-view.jpg
-    type: full
-creationDate: 2023-08-16T10:16:57.902Z
-stock: 0
-price: 0
-weight: 0
-siteMap: true
+    description: ""
+    type: main
+instock: 1
 layout: artwork
+materials: ""
+preview: /2023-distant-view.jpg
+reproduction: true
+seo:
+  focus_keyword: []
+  meta_description: ""
+  seo_title: ""
+  short_name: ""
+  sitemap: true
+shapes: square
+size: medium
+store_info:
+  price: 370
+tehnica: ""
+themes:
+  - nature
+title: Distant view
+weight: 1000
 ---

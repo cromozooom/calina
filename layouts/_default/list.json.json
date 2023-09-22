@@ -22,7 +22,38 @@
       "thumb_M" : "{{- .Scratch.Get "_thumb_M" -}}",
       "thumb_M_w" : "{{- .Scratch.Get "_thumb_M_w" -}}",
       "thumb_M_h" : "{{- .Scratch.Get "_thumb_M_h" -}}",
+      "price" : "{{- .Params.store_info.price -}}",
+      {{ $stock := false }}
+      {{- if gt .Params.instock 0 -}}
+      {{- $stock = true -}}
+      {{- end -}}
+
+      "stock": {{- $stock -}}, 
+      {{ $size := "" }}
+      {{- $surface := mul .Params.dimensions.width .Params.dimensions.height -}}
+      {{- if gt $surface 12000 -}}
+      {{- $size = "Extra large" -}}
+        {{- else if gt $surface 6000 -}}
+        {{- $size = "Large" -}}
+      {{- else if gt $surface 1600 -}}
+        {{- $size = "Medium" -}}
+      {{- else if gt $surface 1 -}}
+        {{- $size = "Small" -}}
+      {{- end -}}
+      "w": "{{- .Params.dimensions.width -}}",
+      "w": "{{- .Params.dimensions.width -}}",
+      "w": "{{- .Params.dimensions.width -}}",
+      "h": "{{- .Params.dimensions.height -}}",
+      "size": "{{- $size -}}",
+      "area": "{{- mul .Params.dimensions.width .Params.dimensions.height -}}",
       "ratio": {{- .Scratch.Get "_ratio" -}},
+      {{ $orientation := "square" }}
+      {{- if gt .Params.dimensions.width .Params.dimensions.height -}}
+      {{- $orientation = "horisontal" -}}
+      {{- else if gt  .Params.dimensions.height .Params.dimensions.width -}}
+      {{- $orientation = "vertical" -}}
+      {{- end -}}
+      "orientation": "{{- $orientation -}}",
       "hue": {{- .Scratch.Get "_hues" | jsonify -}},
       "color": {{- .Scratch.Get "_colors" | jsonify -}},
       "shortId": "{{- replace (dateFormat "2006-01-02" .Params.creationDate)  "-" "" -}}",
@@ -31,22 +62,6 @@
       "artworks": {{- .Params.artworks | jsonify -}},
       "theme": {{- .Params.themes  | jsonify -}},
       "id": "{{ .File.UniqueID }}"
-      {{- /*
-        "kind": "{{- .Kind | title -}}",
-        "type": "{{- .Type | title -}}",
-        "alt": "{{- .Title | title -}} - {{- $.Site.Params.artwork -}} ",
-        "shape": "{{- .Params.shapes | title -}}",
-        "size": "{{- .Params.size | title -}}",
-        "weight": {{- .Params.weight -}},
-        "w": "{{- .Params.dimensions.width -}}",
-        "h": "{{- .Params.dimensions.height -}}",
-        "reproduction": {{- .Params.reproduction -}},
-        "custom_order": "{{- .Params.custom_order | default false -}}",
-        "archive": {{- printf "%t" .Params.archive -}},
-        "price": {{- .Params.store_info.price -}},
-        "stock": {{- if .Params.instock -}}"In stock"{{- else -}}"Out of stock"{{- end -}}
-      */ -}}
-      {{/**/}}
     }
     {{- $fakeIndex = add $fakeIndex 1 -}}
   {{ end -}}

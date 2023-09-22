@@ -140,12 +140,20 @@
       </template>
 
     </div>
+    {{ partial "prev-next.html" (dict "dot" . "color" "fake") }}
+    
+
+    
     {{ $colors := .Scratch.Get "_colors" }}
+    {{ $colors := slice }}
+    
+    {{ with $colors }}
     <div class="flex gap-1">
-      {{ range $colors }}
+      {{ range . }}
         <div class="w-8 h-8 rounded-full" style="background: {{ safeCSS  . }};"></div>
       {{ end }}
     </div>
+    {{ end }}
 
   </div>
 </div>
@@ -156,7 +164,7 @@
   </section>
 </main>
 
-{{ partial "prev-next" . }}
+{{ partial "prev-next.html" (dict "dot" . "color" "soft") }}
 
   
 {{ end }}

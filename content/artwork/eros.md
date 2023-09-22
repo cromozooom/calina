@@ -1,24 +1,44 @@
 ---
-title: Eros
-date: 2023-09-10T23:00:00.000Z
-years: 1971
-themes:
-  - figurtative
-  - abstract
+aliases:
+  - /gallery/eros/
+archive: true
+custom_order: ""
+date: 2010-01-28T00:00:00Z
+creationDate: 2010-01-28T00:00:00Z
+dimensions:
+  height: 50
+  size_txt: single panel - cotton deep canvas
+  thickness: 4
+  width: 60
+draft: false
+summary: ""
 artworks:
   - gallery
-  - home
-dimensions:
-  height: 60
-  width: 50
-  thickness: 4
-  dimensionDescription: single panel - cotton deep canvas
-creationDate: 2023-08-16T10:16:57.902Z
-stock: 0
-price: 0
-weight: 0
-siteMap: true
-layout: artwork
 images:
   - asset: /uploads/2010-eros.jpg
+    description: ""
+    type: main
+  - asset: 2010-eros-living-1.jpg
+    description: ""
+    type: sim living room
+inHome: false
+instock: 0
+layout: artwork
+materials: ""
+reproduction: false
+seo:
+  focus_keyword: []
+  meta_description: ""
+  seo_title: ""
+  short_name: ""
+  sitemap: true
+shapes: horizontal
+size: medium
+store_info:
+  price: false
+tehnica: ""
+themes:
+  - other
+title: Eros
+weight: 1000
 ---

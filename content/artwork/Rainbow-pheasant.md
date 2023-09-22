@@ -1,44 +1,79 @@
 ---
-title: rainbow pheasant
-date: 2023-08-18T16:55:35.249Z
-years: 2023
-themes:
-  - figurtative
-techniqueUsed: "Oil, acrylic, walnut ink crystals on deep cotton canvas"
+aliases:
+  - /gallery/rainbow-pheasant/
+archive: true
+custom_order: 5-7days
+date: 2021-03-10T00:00:00Z
+creationDate: 2021-03-10T00:00:00Z
 dimensions:
   height: 50
-  width: 50
+  size_txt: single panel - cotton deep canvas
   thickness: 4
-  dimensionDescription: single panel - cotton deep canvas
-creationDate: 1976-05-23T10:16:57.902Z
-inHome: false
-stock: 0
-price: 0
-weight: 0
-siteMap: true
-layout: artwork
-images:
-  - title: Det
-    asset: /uploads/rainbow_pheasant_det1.jpg
-    type: details
-  - title: Full
-    asset: /uploads/rainbow_pheasant_thumb.jpg
-    type: full
-  - title: Sym
-    asset: /uploads/rainbow_pheasant_sim3.jpg
-    type: sym
+  width: 50
+summary: pheasant countryside bird
 artworks:
   - gallery
-  - archive
-  - home
+images:
+  - asset: /uploads/rainbow_pheasant_thumb.jpg
+    description: ""
+    type: main
+  - asset: /uploads/rainbow_pheasant_sim1.jpg
+    description: ""
+    type: sim
+  - asset: /uploads/rainbow_pheasant_sim2.jpg
+    description: ""
+    type: sim
+  - asset: /uploads/rainbow_pheasant_sim3.jpg
+    description: ""
+    type: sim
+  - asset: /uploads/rainbow_pheasant_det1.jpg
+    description: ""
+    type: details
+  - asset: /uploads/rainbow_pheasant_det3.jpg
+    description: ""
+    type: details
+  - asset: /uploads/rainbow_pheasant_det4.jpg
+    description: ""
+    type: details
+inHome: false
+instock: 0
+layout: artwork
+materials: Oil, acrylic, walnut ink crystals
+preview: /rainbow_pheasant_thumb.jpg
+reproduction: true
+seo:
+  focus_keyword:
+    - artist
+    - buy original artwork
+    - birdart
+    - animalart
+  meta_description: ""
+  seo_title: ""
+  short_name: ""
+  sitemap: true
+shapes: square
+size: medium
+store_info:
+  price: 550
+tehnica: Dripping and palette knife
+themes:
+  - animals
+title: Rainbow pheasant
+weight: 1000
 ---
 
-# “Flourishing Journey”
+One day when I had my daily walking routine I saw the most pheasants in one place. This amazing colourful bird can be seen in the suburbs of the Henley on Thames' (North Reading). They are least common in upland and urban areas. They can usually be seen in the open countryside near woodland edges, copses and hedgerows.
 
-Artwork invites you into a captivating world where nature’s beauty and the comforts of home intertwine. The artwork portrays a tranquil scene that beckons you to explore its depths. Against a backdrop dominated by rich, velvety dark brown tones, a charming house emerges amidst the embrace of a lush forest.
+Honestly, I didn't even know how noisy they could be if they are disturbed in their quiet country environment.
 
-As you gaze at the painting, your senses are awakened by the intricate details that make up the forest landscape. Deep, verdant shades of green form a tapestry of foliage, with leaves delicately capturing the play of sunlight filtering through the branches. The forest exudes an air of ancient wisdom, as if each tree holds secrets from years long past.
+Anyway, I would like a pheasant of this amazing colours to be a model for me one day at my studio. Till then I'll keep inspiring myself from my short trips in their wild world close to my house.
 
-Nestled within this thriving woodland is the focal point of the artwork—an inviting house. The house exudes warmth, its wooden facade echoing the hues of the surrounding trees. It stands as a symbol of respite, a sanctuary where one can find solace and connection with the natural world. Soft, amber light emanates from the windows, casting a gentle glow that contrasts beautifully against the dark brown tones of the forest.
+I use high quality colours and gallery wrap canvas (has staples at the back). The painting's edges are already varnished in harmony with rest of the composition. The artwork can be already hung on your wall.
 
-“Flourishing Journey” captures a moment of serene coexistence between humanity and nature. The forest, with its dense beauty, seems to embrace the house, creating a harmonious interplay between the man-made and the organic. This painting is an ode to the idea that within the heart of even the most enchanting wilderness, there lies a place where we can find belonging, shelter, and a sense of wonder—an everlasting testament to the beauty of life’s journey.
+Last coat of gloss varnish gives preciousness and protects artwork by harmful external factors.
+
+No need to frame - looks fabulous in this contemporary style.
+
+I believe this handsome pheasant painting will create an impressive statement in your house.
+
+{{< youtube video="9wNn1P5N6C4&ab" ratio="9/16" >}}

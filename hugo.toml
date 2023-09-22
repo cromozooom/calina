@@ -54,6 +54,9 @@ exhibitionEndDate = false
 organizedBy = false
 prose = "prose prose-brand dark:prose-invert prose-h1:font-serif prose-h1:font-normal prose-h2:font-serif prose-h3:font-serif prose-h4:font-serif prose-h5:font-bold prose-thead:font-bold prose-thead:font-serif"
 
+[instagram]
+appId = "523341531977033"
+clientToken = "2aa28a45c689ae608ec71dcc4c6849a6"
 
 # Studio MAP --------------------------
 # -------------------------------------

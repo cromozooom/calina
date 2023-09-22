@@ -58,15 +58,15 @@
 {{ end }}
 
 {{- if eq $color "accent" -}}
-  {{- $colors = "text-accent-1 dark:text-accentDark-12 bg-accent-9 hover:bg-accent-10 focus:ring-4 focus:outline-none focus:ring-accent-3 dark:bg-accentDark-8 dark:hover:bg-accentDark-7 dark:focus:ring-accent-8 " -}}
+  {{- $colors = "btn-accent text-accent-1 dark:text-accentDark-12 bg-accent-9 hover:bg-accent-10 focus:ring-4 focus:outline-none focus:ring-accent-3 dark:bg-accentDark-8 dark:hover:bg-accentDark-7 dark:focus:ring-accent-8 " -}}
 {{- else if eq $color "solid" -}}
-  {{- $colors = "text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 " -}}
+  {{- $colors = "btn-solid text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 " -}}
 {{- else if eq $color "soft" -}}
-  {{- $colors = "text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8 " -}}
+  {{- $colors = "btn-soft text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8 " -}}
 {{- else if eq $color "ghost" -}}
-  {{- $colors = "text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3 " -}}
+  {{- $colors = "btn-ghost text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3 " -}}
 {{- else if eq $color "fake" -}}
-  {{- $colors = "text-brand-10 hover:text-brand-12 hover:bg-brand-3 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:text-brandDark-10 dark:hover:text-brandDark-12 dark:hover:bg-brandDark-3 dark:focus:ring-brandDark-3 " -}}
+  {{- $colors = "btn-fake text-brand-10 hover:text-brand-12 hover:bg-brand-3 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:text-brandDark-10 dark:hover:text-brandDark-12 dark:hover:bg-brandDark-3 dark:focus:ring-brandDark-3 " -}}
 {{- end -}}
 
 {{- $contructor := "block w-auto justify-center items-center gap-1 text-center font-bold transition duration-200 " -}}
