@@ -88,8 +88,16 @@
         {{ partial "id-to-clipboard.html"  ( dict "ctx" . "type" "artwork id" ) }}
       </small>
 
-      {{ partial "molecules/cta" (dict "ctx" . "type" "button" "click" "pullOut = true, bodyOverlay = false" "color" "accent" "label" "Make a offer" "size" "lg") }}
+      {{ partial "molecules/cta" (dict
+        "ctx" .
+        "type" "button"
+        "color" "accent"
+        "label" "Make a offer"
+        "size" "xl"
+        "click" "pullOut = true, bodyOverlay = false" ) 
+      }}
 
+      
       
       {{ $source := .File | urlize }}
       {{ $string := "?source=" }}
@@ -148,19 +156,7 @@
   </section>
 </main>
 
-<div class="grid grid-cols-2 gap-3 py-4">
-  <div class="flex justify-end">
-    {{ with .PrevInSection }}
-    {{ $link := .Permalink }}
-    {{ partial "molecules/cta" (dict "ctx" . "type" $link "color" "soft" "label" "Previous" "size" "lg") }}  
-    {{ end }}
-  </div>
-  <div class="flex justify-start">
-    {{ with .NextInSection }}
-      {{ $link := .Permalink }}
-      {{ partial "molecules/cta" (dict "ctx" . "type" $link "color" "soft" "label" "Next" "size" "lg") }}
-    {{ end }}
-  </div>
-</div>
+{{ partial "prev-next" . }}
+
   
 {{ end }}
