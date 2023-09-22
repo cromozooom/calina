@@ -40,6 +40,17 @@ module.exports = {
 		'[&_div]:md:animate-toUpSlowMD',
 		'[&_div]:animate-toUp',
 		'[&_div]:animate-toUpSlow',
+
+		// icon widths
+		'[&_svg]:w-3',
+		'[&_svg]:w-3.5',
+		'[&_svg]:w-4',
+		'[&_svg]:h-3',
+		'[&_svg]:h-3.5',
+		'[&_svg]:h-4',
+		// icon margins
+		'[&_svg]:mr-2',
+		'[&_svg]:ml-2',
 	],
 	plugins: [typography, forms],
 	theme: {

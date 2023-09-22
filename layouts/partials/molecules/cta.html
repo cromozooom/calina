@@ -1,98 +1,157 @@
-{{ $type := .type }}
-{{ $color := .color }}
-{{ $label := .label }}
-{{ $size := .size }}
-{{ $click := .click }}
+{{- $ctx := .ctx -}}
+{{- $type := .type -}}
+{{- $color := .color -}}
+{{- $label := .label -}}
+{{- $title := .title -}}
+{{- $size := .size -}}
+{{- $click := .click -}}
+{{- $icon := .icon | default false -}}
+{{- $iconPlace := .iconPlace | default "" -}}
 
-{{ $classes := "" }}
-{{ $colors := "" }}
+{{- $sizes := "" -}}
+{{- $colors := "" -}}
+{{- $lableledClases := "" -}}
 
-{{ if eq $size "xs" }}
-  {{ $classes = "text-xs rounded-sm min-w-[5rem] py-2 px-3 " }}
-{{ else if eq $size "sm" }}
-  {{ $classes = "text-sm rounded rounded-md min-w-[6rem] p-3" }}
+{{- if eq $size "xs" -}}
+  {{- $sizes = "[&_svg]:w-3 [&_svg]:h-3 rounded-sm text-xs font-normal text-center inline-flex items-center " -}}
+{{- else if eq $size "s" -}}
+  {{- $sizes = "[&_svg]:w-3 [&_svg]:h-3 rounded text-sm font-medium text-center inline-flex items-center " -}}
+{{- else if eq $size "base" -}}
+  {{- $sizes = "[&_svg]:w-3.5 [&_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center " -}}
+{{- else if eq $size "l" -}}
+  {{- $sizes = "[&_svg]:w-4 [&_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center " -}}
+{{- else if eq $size "xl" -}}
+  {{- $sizes = "[&_svg]:w-4 [&_svg]:h-4 rounded-md text-base font-medium text-center inline-flex items-center " -}}
+{{- else -}}
+  {{- $sizes = "[&_svg]:w-3 [&_svg]:h-3 rounded text-sm font-medium text-center inline-flex items-center " -}}
+{{- end -}}
+
+{{- $spacing := "" -}}
+{{- if eq $size "xs" -}}
+  {{- $spacing = "px-2 py-2 " -}}
+{{- else if eq $size "s" -}}
+  {{- $spacing = "px-2 py-2 " -}}
+{{- else if eq $size "base" -}}
+  {{ if or (eq $iconPlace "before")  (eq $iconPlace "after") }}
+    {{- $spacing = " px-2 py-2.5 " -}}
+  {{ else }}
+    {{- $spacing = " px-2 py-2 " -}}
+  {{ end }}
+{{- else if eq $size "l" -}}
+  {{ if or (eq $iconPlace "before")  (eq $iconPlace "after") }}
+    {{- $spacing = "px-2 py-3 " -}}
+  {{ else }}
+    {{- $spacing = " px-3 py-3 " -}}
+  {{ end }}
+{{- else if eq $size "xl" -}}
+  {{ if or (eq $iconPlace "before")  (eq $iconPlace "after") }}
+    {{- $spacing = "px-2 py-3.5 " -}}
+  {{ else }}
+    {{- $spacing = " px-3.5 py-3.5 " -}}
+  {{ end }}
 {{ else }}
-  {{ $classes = "rounded-md min-w-[8rem] px-5 py-3 " }}
+  {{ if or (eq $iconPlace "before")  (eq $iconPlace "after") }}
+    {{- $spacing = "px-2 py-2.5 " -}}
+  {{ else }}
+    {{- $spacing = " px-2 py-2 " -}}
+  {{ end }}
 {{ end }}
 
-{{ if eq $color "accent" }}
-  {{ $colors = "text-accent-1 dark:text-accentDark-12 bg-accent-9  dark:bg-accentDark-8 hover:dark:text-white hover:dark:bg-opacity-80 hover:bg-accent-11 shadow-accent-10/30" }}
-{{ else if eq $color "solid" }}
-  {{ $colors = "text-brand-1 dark:text-brandDark-12 bg-brand-10 hover:dark:text-white dark:bg-brandDark-7 hover:dark:bg-opacity-80 hover:bg-brand-11 shadow-brand-10/50 dark:shadow-brand-12/20" }}
-{{ else if eq $color "soft" }}
-  {{ $colors = "text-brand-10 dark:text-brandDark-11 hover:dark:text-white bg-brand-3 dark:bg-brandDark-4 hover:dark:bg-opacity-80 hover:bg-brand-5 hover:text-black shadow-brand-10/30 dark:shadow-brand-12/10" }}
-{{ else if eq $color "ghost" }}
-  {{ $colors = "text-brand-10 dark:text-brandDark-11 hover:dark:text-white border border-brandDark-7/50 dark:hover:border-brandDark-7 hover:dark:bg-opacity-80 hover:bg-brandDark-1 hover:text-black shadow-brand-10/30 dark:shadow-brand-12/10" }}
+{{- if eq $color "accent" -}}
+  {{- $colors = "text-accent-1 dark:text-accentDark-12 bg-accent-9 hover:bg-accent-10 focus:ring-4 focus:outline-none focus:ring-accent-3 dark:bg-accentDark-8 dark:hover:bg-accentDark-7 dark:focus:ring-accent-8 " -}}
+{{- else if eq $color "solid" -}}
+  {{- $colors = "text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 " -}}
+{{- else if eq $color "soft" -}}
+  {{- $colors = "text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8 " -}}
+{{- else if eq $color "ghost" -}}
+  {{- $colors = "text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3 " -}}
+{{- else if eq $color "fake" -}}
+  {{- $colors = "text-brand-10 hover:text-brand-12 hover:bg-brand-3 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:text-brandDark-10 dark:hover:text-brandDark-12 dark:hover:bg-brandDark-3 dark:focus:ring-brandDark-3 " -}}
+{{- end -}}
+
+{{- $contructor := "block w-auto justify-center items-center gap-1 text-center font-bold transition duration-200 " -}}
+
+{{ $classIconSpacing := "" }}
+
+{{ if eq $iconPlace "before" }}
+  {{ $classIconSpacing = " [&_svg]:mr-2 " }}
+{{ else if eq $iconPlace "after" }}
+  {{ $classIconSpacing = " [&_svg]:ml-2 " }}
 {{ end }}
 
-{{/* {{ $size | default "normal" }} | {{ $color }} */}}
-{{ if eq $type "button" }}
+{{- /* {{- $size | default "normal" -}} | {{- $color -}} */ -}}
+{{- if eq $type "button" -}}
   <button
-    type="{{ $type }}"
-    {{ with .click }}
-      @click="{{ . }}"
-    {{ end }}
-    class="{{ $classes }} {{ $colors }} flex justify-center items-center gap-1 text-center font-bold  shadow  transition duration-200 
-">
-    {{ if eq $label "Previous" }}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentcolor"
-        class="bi bi-arrow-left"
-        viewBox="0 0 16 16">
-        <path
-          fill-rule="evenodd"
-          d="M15 8a.5.5.0 00-.5-.5H2.707l3.147-3.146a.5.5.0 10-.708-.708l-4 4a.5.5.0 000 .708l4 4a.5.5.0 00.708-.708L2.707 8.5H14.5A.5.5.0 0015 8z"></path>
-      </svg>
-    {{ end }}
-    {{ $label }}
-    {{ if eq $label "Next" }}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentcolor"
-        class="bi bi-arrow-right"
-        viewBox="0 0 16 16">
-        <path
-          fill-rule="evenodd"
-          d="M1 8a.5.5.0 01.5-.5h11.793l-3.147-3.146a.5.5.0 01.708-.708l4 4a.5.5.0 010 .708l-4 4a.5.5.0 01-.708-.708L13.293 8.5H1.5A.5.5.0 011 8z"></path>
-      </svg>
+    type="button"
+    {{- with .click -}}
+      @click="{{- . -}}"
+    {{- end -}}
+    class="{{- $sizes -}} {{- $spacing -}} {{ $classIconSpacing }} {{- $colors -}}
+{{- $contructor -}} {{- $lableledClases -}}">
+    {{ if eq $iconPlace "before" }}
+      <span class="flex items-center px-2">
+        {{- with $icon -}}
+          {{- $path := printf "icons/%s.svg" $icon -}}
+          {{- partial $path -}}
+        {{- end -}}
+
+        {{ $label }}
+      </span>
+    {{ else if eq $iconPlace "after" }}
+      <span class="flex items-center px-2">
+        {{ $label }}
+        {{- with $icon -}}
+          {{- $path := printf "icons/%s.svg" $icon -}}
+          {{- partial $path -}}
+        {{- end -}}
+      </span>
+    {{ else }}
+      {{- with $icon -}}
+        {{- $path := printf "icons/%s.svg" $icon -}}
+        {{- partial $path -}}
+      {{ else }}
+        {{ with $label }}
+          <span class="flex items-center px-4">
+            {{ $label }}
+          </span>
+        {{ end }}
+      {{- end -}}
     {{ end }}
   </button>
-{{ else }}
+{{- else -}}
   <a
-    href="{{ $type }}"
-    class="{{ $classes }} {{ $colors }} flex justify-center items-center gap-2 no-underline text-center font-bold shadow transition duration-200
-  ">
-    {{ if eq $label "Previous" }}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentcolor"
-        class="bi bi-arrow-left"
-        viewBox="0 0 16 16">
-        <path
-          fill-rule="evenodd"
-          d="M15 8a.5.5.0 00-.5-.5H2.707l3.147-3.146a.5.5.0 10-.708-.708l-4 4a.5.5.0 000 .708l4 4a.5.5.0 00.708-.708L2.707 8.5H14.5A.5.5.0 0015 8z"></path>
-      </svg>
-    {{ end }}
-    {{ $label }}
-    {{ if eq $label "Next" }}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentcolor"
-        class="bi bi-arrow-right"
-        viewBox="0 0 16 16">
-        <path
-          fill-rule="evenodd"
-          d="M1 8a.5.5.0 01.5-.5h11.793l-3.147-3.146a.5.5.0 01.708-.708l4 4a.5.5.0 010 .708l-4 4a.5.5.0 01-.708-.708L13.293 8.5H1.5A.5.5.0 011 8z"></path>
-      </svg>
+    title="{{- $title -}}"
+    href="{{- $type -}}"
+    class="{{- $sizes -}} {{- $spacing -}} {{ $classIconSpacing }} {{- $colors -}} {{- $contructor -}}  {{- $lableledClases -}} no-underline
+">
+    {{ if eq $iconPlace "before" }}
+      <span class="flex items-center px-2">
+        {{- with $icon -}}
+          {{- $path := printf "icons/%s.svg" $icon -}}
+          {{- partial $path -}}
+        {{- end -}}
+
+        {{ $label }}
+      </span>
+    {{ else if eq $iconPlace "after" }}
+      <span class="flex items-center px-2">
+        {{ $label }}
+        {{- with $icon -}}
+          {{- $path := printf "icons/%s.svg" $icon -}}
+          {{- partial $path -}}
+        {{- end -}}
+      </span>
+    {{ else }}
+      {{- with $icon -}}
+        {{- $path := printf "icons/%s.svg" $icon -}}
+        {{- partial $path -}}
+      {{ else }}
+        {{ with $label }}
+          <span class="flex items-center px-4">
+            {{ $label }}
+          </span>
+        {{ end }}
+      {{- end -}}
     {{ end }}
   </a>
-{{ end }}
+{{- end -}}

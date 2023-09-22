@@ -58,7 +58,7 @@
         </p>
       {{ end }}
       <div class="flex w-full {{ $center }}">
-        {{ partial "molecules/cta" (dict "ctx" . "type" $link "color" "ghost" "label" "Read more ..." "size" "sm") }}
+        {{ partial "molecules/cta" (dict "ctx" . "icon" "arrow-right" "title" "Read more" "type" $link "color" "ghost"  "size" "sm") }}
       </div>
     </div>
   </li>
@@ -116,7 +116,7 @@
         </p>
       {{ end }}
       <div class="flex w-full {{ $center }}">
-        {{ partial "molecules/cta" (dict "ctx" . "type" $link "color" "ghost" "label" "Read more ..." "size" "sm") }}
+        {{ partial "molecules/cta" (dict "title" "read more about this event" "ctx" . "type" $link "color" "fake" "size" "sm") }}
       </div>
     </div>
   </li>

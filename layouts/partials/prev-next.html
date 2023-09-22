@@ -1,0 +1,31 @@
+<div class="grid grid-cols-2 gap-3 py-4">
+  <div class="flex justify-end">
+    {{ with .PrevInSection }}
+      {{ $link := .Permalink }}
+
+      {{ partial "molecules/cta" (dict
+        "ctx" .
+        "icon" "arrow-left"
+        "iconPlace" "before"
+        "type" $link
+        "color" "soft"
+        "label" "Previous"
+        "size" "xl")
+      }}
+    {{ end }}
+  </div>
+  <div class="flex justify-start">
+    {{ with .NextInSection }}
+      {{ $link := .Permalink }}
+      {{ partial "molecules/cta" (dict
+        "ctx" .
+        "icon" "arrow-right"
+        "iconPlace" "after"
+        "type" $link
+        "color" "soft"
+        "label" "Next"
+        "size" "xl")
+      }}
+    {{ end }}
+  </div>
+</div>

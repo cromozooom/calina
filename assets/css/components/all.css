@@ -1,10 +1,6 @@
 @import "buttons.css";
 
 @layer base {
-  /* body * {
-    outline: 1px solid red;
-  } */
-
   :root {
     color-scheme: var(--initial-color-scheme, light);
   }
@@ -30,6 +26,13 @@
   body {
     overflow-x: hidden;
   }
+
+  /*
+  body * {
+    outline: 1px solid red;
+  }
+  */
+
   .full-bleed {
     width: 100vw;
     margin-left: calc(50% - 50vw);
