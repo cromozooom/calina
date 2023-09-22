@@ -1,0 +1,35 @@
+{{ $id := .id }}
+{{ $showLabel := .showLabel }}
+{{ $label := .label }}
+{{ $items := .items }}
+{{ $firstItem := .firstItem | default false }}
+{{ $model := .model }}
+
+{{ $showLabelClass := "" }}
+
+{{ if $showLabel }}
+  {{ $showLabelClass = "" }}
+{{ else }}
+  {{ $showLabelClass = "sr-only" }}
+{{ end }}
+
+
+<label
+  for="{{ $id }}"
+  class="{{ $showLabelClass }} block mb-2 text-sm font-medium text-neutral-9 dark:text-white"
+  >{{ $label }}</label
+>
+<select
+  id="{{ $id }}"
+  {{ with $model }}
+    x-model="{{ $model }}"
+  {{ end }}
+
+  class="bg-neutral-1 border border-neutral-6 text-neutral-11 text-sm rounded-md focus:ring-brand-8 focus:border-brand-5 block w-full py-2.5 pl-2.5 pr-5.5 dark:bg-neutralDark-3 dark:border-neutralDark-5 dark:placeholder-neutralDark-4 dark:text-white dark:focus:ring-brandDark-5 dark:focus:border-brand-10">
+  {{ with $firstItem }}
+    <option>{{ $firstItem }}</option>
+  {{ end }}
+  <template x-for="item in {{ $items }}">
+    <option class="py-2" x-text="item"></option>
+  </template>
+</select>
