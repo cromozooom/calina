@@ -21,6 +21,7 @@ document.addEventListener('alpine:init', () => {
 		},
 
 		showTints: false,
+
 		gridLayout: false,
 		isLoading: true,
 		themes: [],
@@ -75,6 +76,12 @@ document.addEventListener('alpine:init', () => {
 
 		// Get artworks
 		async getArtworks() {
+			// remove hues list on scroll
+			window.addEventListener('scroll', () => {
+				// Update showTints here based on your conditions
+				this.showTints = false; // or false
+			});
+
 			this.int = await (await fetch('index.json')).json();
 			this.isLoading = false;
 			this.artworks = this.int;
@@ -187,7 +194,12 @@ document.addEventListener('alpine:init', () => {
 		},
 
 		init() {
+			window.addEventListener('scroll', this.handleScroll);
 			this.getArtworks();
+		},
+
+		destroy() {
+			window.removeEventListener('scroll', this.handleScroll);
 		},
 	}));
 });

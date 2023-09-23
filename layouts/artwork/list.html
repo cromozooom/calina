@@ -109,12 +109,13 @@
                   class="btn-l [&amp;_svg]:w-4 [&amp;_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center  px-2 py-2 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3  w-auto justify-center gap-1 transition duration-200 ">
                   {{/* {{ partial "icons/color-whell.svg" }} */}}
                   <span
-                    class="w-6 h-6 rounded-full"
-                    style="background-blend-mode: screen; background: radial-gradient(circle closest-side, white, black 90%), conic-gradient(#bf4040, #bf8040, #bfbf40, #80bf40, #40bf40, #40bf80, #40bfbf, #4080bf, #4040bf, #8040bf, #bf40bf, #bf4080, #bf4040);"></span>
+                    class="w-6 h-6 rounded-full dark:opacity-70"
+                    style="background-blend-mode: screen;
+                    background: radial-gradient(circle closest-side, white, black 90%), conic-gradient(red, #ff8000, yellow, #80ff00, lime, #00ff80, aqua, #0080ff, blue, #8000ff, fuchsia, #ff0080, red);"></span>
                 </button>
               </div>
 
-              <div class="flex items-center min-w-[8rem]">
+              <div class="flex items-center">
                 <label class="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
@@ -129,10 +130,10 @@
 
                   <div
                     class="w-11 h-6 
-                    rounded-full peer peer-focus:ring-4 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all
+                    rounded-full peer  peer-focus:ring-2 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all
                     
-                  peer-checked:bg-brand-6 peer-checked:dak:bg-brandDark-8
-                  peer-checked:after:border-brand-8 peer-checked:dark:after:border-brandDark-8
+                  peer-checked:bg-brand-8 peer-checked:dark:bg-brandDark-8/50
+                  peer-checked:after:border-brand-10 peer-checked:dark:after:border-brandDark-10
                   
                   dark:peer-focus:ring-brand-8
                   peer-focus:ring-brand-3
@@ -146,14 +147,14 @@
                       "></div>
                   <span
                     x-show="filters.stock"
-                    class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    All
+                    class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
+                    In Stock
                   </span>
                   <span
                     x-show="!filters.stock"
-                    class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Available</span
-                  >
+                    class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
+                    All
+                  </span>
                 </label>
               </div>
             </div>
@@ -192,6 +193,12 @@
           </fieldset>
           <div
             x-show="showTints"
+            x-transition:enter="transition-opacity ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-in duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
             class="flex flex-wrap justify-center gap-2 px-4 py-3 mb-3">
             <template x-for="hue in sortedHues">
               <button
@@ -205,7 +212,7 @@
                   'background': filters.hue !== hue ? `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))`,
                   'outline': filters.hue !== hue ? `3px solid hsla(${hue}deg, 50%, 50%, .8)` : `3px solid  hsla(${hue}deg, 50%, 50%, .3)`,
                 }"
-                x-on:click="filters.hue = (filters.hue == hue) ? '' : hue; showTints = false">
+                x-on:click="filters.hue = (filters.hue == hue) ? '' : hue;">
                 <svg
                   x-show="filters.hue === hue"
                   xmlns="http://www.w3.org/2000/svg"
