@@ -12,7 +12,7 @@
         ">
           <fieldset
             class="flex flex-wrap gap-2 px-2  md:px-0 py-3 justify-between max-w-[80rem] mx-auto">
-            <div class="flex gap-2 justify-start">
+            <div class="flex gap-2   flex-wrap justify-start">
               <div class="flex items-center mr-3">
                 <h1
                   class="text-sm flex items-center gap-1 md:text-base text-neutral-11 dark:text-neutralDark-11">
@@ -106,8 +106,11 @@
                 <button
                   x-on:click="showTints = !showTints"
                   type="button"
-                  class="btn-l [&amp;_svg]:w-4 [&amp;_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center  px-3 py-3 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3 block w-auto justify-center items-center gap-1 text-center font-bold transition duration-200 ">
-                  {{ partial "icons/color-whell.svg" }}
+                  class="btn-l [&amp;_svg]:w-4 [&amp;_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center  px-2 py-2 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3  w-auto justify-center gap-1 transition duration-200 ">
+                  {{/* {{ partial "icons/color-whell.svg" }} */}}
+                  <span
+                    class="w-6 h-6 rounded-full"
+                    style="background-blend-mode: screen; background: radial-gradient(circle closest-side, white, black 90%), conic-gradient(#bf4040, #bf8040, #bfbf40, #80bf40, #40bf40, #40bf80, #40bfbf, #4080bf, #4040bf, #8040bf, #bf40bf, #bf4080, #bf4040);"></span>
                 </button>
               </div>
 
@@ -119,8 +122,28 @@
                     class="sr-only peer"
                     x-on:click="toggleStockFilter()" />
 
+                  {{ $peerFocus := "" }}
+                  {{ $peerCheck := "" }}
+                  {{ $after := "" }}
+
+
                   <div
-                    class="w-11 h-6 bg-neutral-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-brand-3 dark:peer-focus:ring-brand-8 dark:bg-neutral-7 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-neutral-3 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-neutral-6 peer-checked:bg-brand-6"></div>
+                    class="w-11 h-6 
+                    rounded-full peer peer-focus:ring-4 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all
+                    
+                  peer-checked:bg-brand-6 peer-checked:dak:bg-brandDark-8
+                  peer-checked:after:border-brand-8 peer-checked:dark:after:border-brandDark-8
+                  
+                  dark:peer-focus:ring-brand-8
+                  peer-focus:ring-brand-3
+
+                  dark:border-neutralDark-5  dark:bg-neutralDark-5 bg-neutral-5
+
+                  after:bg-brand-9 after:border-brand-9
+                  dark:after:bg-brandDark-9 after:dark:border-brandDark-9
+                     
+                    
+                      "></div>
                   <span
                     x-show="filters.stock"
                     class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -129,7 +152,7 @@
                   <span
                     x-show="!filters.stock"
                     class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Stock only</span
+                    Available</span
                   >
                 </label>
               </div>

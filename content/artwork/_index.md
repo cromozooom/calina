@@ -19,6 +19,14 @@ seo:
   short_name: gallery
   sitemap: true
 title: Calina Lefter Gallery of unique and original paintings
+
+cascade:
+  - _target:
+      kind: page
+      lang: en
+      path: /artwork/**
+    artworks:
+      - archive
 ---
 
 Buy Affordable Original Art. Calina Lefter artwork gallery improves the decoration of your home with unique, original paintings, including oil, acrylic and watercolours in every size and a personal style.

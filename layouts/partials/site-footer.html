@@ -1,3 +1,6 @@
+{{ $dev := 0 | default $.Site.Params.dev }}
+
+
 <footer class="py-8 mb-[2rem] md:mb-0">
   <ul class="flex w-full justify-center items-center gap-2 flex-wrap">
     {{ range .Site.Params.social }}
@@ -160,30 +163,30 @@
   </div>
 </footer>
 
-<div
-  class="block border-t border-t-neutral-3 dark:border-t-black/60 sm:hidden fixed bottom-0 left-0 z-50 w-full h-16 shadow-lg shadow-brand-11/10 dark:shadow-black/20 backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90">
-  <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
-    {{ range .Site.Menus.main }}
-      <a
-        href="{{ .URL }}"
-        title="{{ .Name }}"
-        name="{{ .Name }}"
-        class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
-        {{ if .Post }}
-          {{ $icon := string .Post }}
+{{ if $dev }}
+  <div
+    class="block border-t border-t-neutral-3 dark:border-t-black/60 sm:hidden fixed bottom-0 left-0 z-50 w-full h-16 shadow-lg shadow-brand-11/10 dark:shadow-black/20 backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90">
+    <div class="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+      {{ range .Site.Menus.main }}
+        <a
+          href="{{ .URL }}"
+          title="{{ .Name }}"
+          name="{{ .Name }}"
+          class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+          {{ if .Post }}
+            {{ $icon := string .Post }}
+            <span
+              class="ml-1 [&>*]:w-6 [&>*]:h-auto min-w-[1.8rem] md:min-w-[initial] h-auto dark:text-brand-d-10 md:dark:text-brand-d-10 text-brand-10 min-h-[1.5rem] flex items-center justify-center">
+              {{ partial $icon . }}
+            </span>
+          {{ end }}
           <span
-            class="ml-1 [&>*]:w-6 [&>*]:h-auto min-w-[1.8rem] md:min-w-[initial] h-auto dark:text-brand-d-10 md:dark:text-brand-d-10 text-brand-10 min-h-[1.5rem] flex items-center justify-center">
-            {{ partial $icon . }}
-          </span>
-        {{ end }}
+            class="text-sm font-bold group-hover:text-brand-6 dark:group-hover:text-brand-5"
+            >{{ .Name }}</span
+          >
+        </a>
+      {{ end }}
 
-
-        <span
-          class="text-sm font-bold group-hover:text-brand-6 dark:group-hover:text-brand-5"
-          >{{ .Name }}</span
-        >
-      </a>
-    {{ end }}
-
+    </div>
   </div>
-</div>
+{{ end }}
