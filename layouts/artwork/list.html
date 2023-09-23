@@ -2,7 +2,9 @@
   {{ $dev := 0 | default $.Site.Params.dev }}
 
 
-  <main class="block p-0 my-0 mx-auto max-w-[90vw] mt-[4rem]" role="main">
+  <main
+    class="hidden xblock p-0 my-0 mx-auto max-w-[90vw] mt-[4rem]"
+    role="main">
     <secteion class="p-8">
       <table>
         {{ range $index, $page := .Pages }}

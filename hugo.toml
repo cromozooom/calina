@@ -14,11 +14,11 @@ year = "years"
 
 # MENU --------------------------------
 # -------------------------------------
-[[menu.main]]
-identifier = "artworks"
-name = "Artworks"
-url = "/artworks/"
-weight = 1
+# [[menu.main]]
+# identifier = "artworks"
+# name = "Artworks"
+# url = "/artworks/"
+# weight = 1
 [[menu.main]]
 identifier = "gallery"
 name = "Gallery"
