@@ -3,6 +3,32 @@
 
 
   <main class="block p-0 my-0 mx-auto max-w-[90vw] mt-[4rem]" role="main">
+    <secteion class="p-8">
+      <table>
+        {{ range $index, $page := .Pages }}
+          <tr class="bg-brand-9 text-brand-3">
+            <td>{{ $index }}</td>
+            <td>
+              <strong>
+                {{ .Title }}
+              </strong>
+            </td>
+            <td>{{ .Kind }}</td>
+          </tr>
+          {{ range  $index, $page := .Pages }}
+            <tr>
+              <td>{{ $index }}</td>
+              <td>{{ .Title }}</td>
+              <td>{{ .Kind }}</td>
+            </tr>
+          {{ end }}
+        {{ end }}
+
+      </table>
+    </secteion>
+  </main>
+
+  <main class="block p-0 my-0 mx-auto max-w-[90vw] mt-[4rem]" role="main">
     <section class="py-2">
       <!-- ALPINE LIST -->
       <div class="w-full" x-data="collection" x-init="() => {refreshLists()}">
@@ -157,7 +183,7 @@
               class="flex items-center gap-2 text-sm text-neutral-10 dark:text-neutralDark-10">
               <template x-if="artworkCounter">
                 <span class="flex gap-1">
-                  showing
+                  Showing
                   <span class="text-center flex" x-text="artworkCounter"></span>
                   <span
                     x-show="artworkCounter > 1"
