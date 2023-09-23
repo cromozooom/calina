@@ -1,58 +1,60 @@
 {{ $dev := 0 | default $.Site.Params.dev }}
-<li class="listing-item w-full md:w-auto mx-4 md:mx-[initial] flex flex-col justify-between max-w-[20rem] p-2 mb-6 duration-500 ease-in-out bg-white rounded-sm hover:shadow-myShadow-hover shadow-myShadow dark:bg-neutralDark-3 border dark:border-neutralDark-3 hover:dark:border-neutralDark-5 dark:border-neutralDark-3 hover:dark:border-neutralDark-5">
+<template x-for="(artwork, index) in page().slice(0, limit)">
+  <li  class="listing-item w-full md:w-auto mx-4 md:mx-[initial] flex flex-col justify-between max-w-[20rem] p-2 mb-6 duration-500 ease-in-out bg-white rounded-sm hover:shadow-myShadow-hover shadow-myShadow dark:bg-neutralDark-3 border dark:border-neutralDark-3 hover:dark:border-neutralDark-5 dark:border-neutralDark-3 hover:dark:border-neutralDark-5">
+    <div>
+      <img
+      draggable="false"
+      class="w-full rounded-sm"
+      x-bind:src="artwork.thumb_M"
+      x-bind:srcset="`
+      ${artwork.thumb_M} 303w,
+      ${artwork.thumb_L}  429w,
+      ${artwork.thumb_XL} 605w
+      `"
+      sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
+      loading="lazy"
+      x-bind:width="artwork.thumb_M_w"
+      x-bind:height="artwork.thumb_M_h" />
+    </div>
+    <div class="flex flex-col w-full gap-2 pt-4">
+    <a class="artworkLink mainLink" :href="artwork.url">
+      <h2 class="py-0 my-0 font-serif text-lg text-neutral-11 dark:text-neutralDark-11" x-text="artwork.title"></h2></a>
+    <div class="flex gap-1 justify-between items-baseline">
+      <div>
+        <p class="text-sm text-neutral-10 dark:text-neutralDark-10">
+          <span x-text="artwork.w + 'W x '"></span>
+          <span x-text="artwork.h + 'H (cm)'"></span>
+        </p>
+      </div>
+      <div>
+        <span class="font-serif  text-neutral-8 dark:text-neutralDark-8" >£</span>
+        <span class="font-serif  text-neutral-11 dark:text-neutralDark-11 text-2xl" x-text="artwork.h"></span>
+      </div>
+    </div>
+  {{ if $dev }}
+  <span x-text="artwork.area"></span>
   <div>
-    <img
-    draggable="false"
-    class="w-full rounded-sm"
-    x-bind:src="artwork.thumb_M"
-    x-bind:srcset="`
-    ${artwork.thumb_M} 303w,
-    ${artwork.thumb_L}  429w,
-    ${artwork.thumb_XL} 605w
-    `"
-    sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
-    loading="lazy"
-    x-bind:width="artwork.thumb_M_w"
-    x-bind:height="artwork.thumb_M_h" />
+  <br>
+  <template x-for="el in artwork.theme">
+  <span x-text="el"></span>
+  </template>
   </div>
-  <div class="flex flex-col w-full gap-2 pt-4">
-  <a class="artworkLink mainLink" :href="artwork.url">
-    <h2 class="py-0 my-0 font-serif text-lg text-neutral-11 dark:text-neutralDark-11" x-text="artwork.title"></h2></a>
-  <div class="flex gap-1 justify-between items-baseline">
-    <div>
-      <p class="text-sm text-neutral-10 dark:text-neutralDark-10">
-        <span x-text="artwork.w + 'W x '"></span>
-        <span x-text="artwork.h + 'H (cm)'"></span>
-      </p>
-    </div>
-    <div>
-      <span class="font-serif  text-neutral-8 dark:text-neutralDark-8" >£</span>
-      <span class="font-serif  text-neutral-11 dark:text-neutralDark-11 text-2xl" x-text="artwork.h"></span>
-    </div>
+  <div>
+  hues:
+  <template x-for="el in artwork.hue">
+  <span
+  x-bind:style="`background: hsl(${el}deg 50% 50%);`"
+  x-text="el"></span>
+  |
+  </template>
   </div>
-{{ if $dev }}
-<span x-text="artwork.area"></span>
-<div>
-<br>
-<template x-for="el in artwork.theme">
-<span x-text="el"></span>
+  <div>
+  <span x-text="artwork.year"></span>
+  </div>
+  <div>
+  <span x-text="artwork.ratio"></span>
+  </div>
+  </div>
+  {{ end  }}
+  </li>
 </template>
-</div>
-<div>
-hues:
-<template x-for="el in artwork.hue">
-<span
-x-bind:style="`background: hsl(${el}deg 50% 50%);`"
-x-text="el"></span>
-|
-</template>
-</div>
-<div>
-<span x-text="artwork.year"></span>
-</div>
-<div>
-<span x-text="artwork.ratio"></span>
-</div>
-</div>
-{{ end  }}
-</li>

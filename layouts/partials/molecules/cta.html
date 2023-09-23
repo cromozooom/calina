@@ -12,16 +12,22 @@
 {{- $colors := "" -}}
 {{- $lableledClases := "" -}}
 
+{{- $btnSizeName := "" -}}
 {{- if eq $size "xs" -}}
+  {{- $btnSizeName := "btn-xs " -}}
   {{- $sizes = "btn-xs [&_svg]:w-3 [&_svg]:h-3 rounded-sm text-xs font-normal text-center inline-flex items-center " -}}
 {{- else if eq $size "s" -}}
-  {{- $sizes = "btn-s [&_svg]:w-3 [&_svg]:h-3 rounded text-sm font-medium text-center inline-flex items-center " -}}
+  {{- $btnSizeName := "btn-s " -}}
+  {{- $sizes = "[&_svg]:w-3 [&_svg]:h-3 rounded text-sm font-medium text-center inline-flex items-center " -}}
 {{- else if eq $size "base" -}}
-  {{- $sizes = "btn-base [&_svg]:w-3.5 [&_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center " -}}
+  {{- $btnSizeName := "btn-base " -}}
+  {{- $sizes = "[&_svg]:w-3.5 [&_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center " -}}
 {{- else if eq $size "l" -}}
-  {{- $sizes = "btn-l [&_svg]:w-4 [&_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center " -}}
+  {{- $btnSizeName := "btn-l " -}}
+  {{- $sizes = "[&_svg]:w-4 [&_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center " -}}
 {{- else if eq $size "xl" -}}
-  {{- $sizes = "btn-xl [&_svg]:w-4 [&_svg]:h-4 rounded-md text-base font-medium text-center inline-flex items-center " -}}
+  {{- $btnSizeName := "btn-xl " -}}
+  {{- $sizes = "[&_svg]:w-4 [&_svg]:h-4 rounded-md text-base font-medium text-center inline-flex items-center " -}}
 {{- else -}}
   {{- $sizes = "[&_svg]:w-3 [&_svg]:h-3 rounded text-sm font-medium text-center inline-flex items-center " -}}
 {{- end -}}
@@ -57,16 +63,22 @@
   {{ end }}
 {{ end }}
 
+{{- $btnColorName := "" -}}
 {{- if eq $color "accent" -}}
-  {{- $colors = "btn-accent text-accent-1 dark:text-accentDark-12 bg-accent-9 hover:bg-accent-10 focus:ring-4 focus:outline-none focus:ring-accent-3 dark:bg-accentDark-8 dark:hover:bg-accentDark-7 dark:focus:ring-accent-8 " -}}
+  {{- $btnColorName = "btn-accent " -}}
+  {{- $colors = "text-accent-1 dark:text-accentDark-12 bg-accent-9 hover:bg-accent-10 focus:ring-4 focus:outline-none focus:ring-accent-3 dark:bg-accentDark-8 dark:hover:bg-accentDark-7 dark:focus:ring-accent-8 " -}}
 {{- else if eq $color "solid" -}}
-  {{- $colors = "btn-solid text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 " -}}
+  {{- $btnColorName = "btn-solid " -}}
+  {{- $colors = "text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 " -}}
 {{- else if eq $color "soft" -}}
-  {{- $colors = "btn-soft text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8 " -}}
+  {{- $btnColorName = "btn-soft " -}}
+  {{- $colors = "text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8 " -}}
 {{- else if eq $color "ghost" -}}
-  {{- $colors = "btn-ghost text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3 " -}}
+  {{- $btnColorName = "btn-ghost " -}}
+  {{- $colors = "text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3 " -}}
 {{- else if eq $color "fake" -}}
-  {{- $colors = "btn-fake text-brand-10 hover:text-brand-12 hover:bg-brand-3 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:text-brandDark-10 dark:hover:text-brandDark-12 dark:hover:bg-brandDark-3 dark:focus:ring-brandDark-3 " -}}
+  {{- $btnColorName = "btn-fake " -}}
+  {{- $colors = "text-brand-10 hover:text-brand-12 hover:bg-brand-3 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:text-brandDark-10 dark:hover:text-brandDark-12 dark:hover:bg-brandDark-3 dark:focus:ring-brandDark-3 " -}}
 {{- end -}}
 
 {{- $contructor := "block w-auto justify-center items-center gap-1 text-center font-bold transition duration-200 " -}}
@@ -79,15 +91,14 @@
   {{ $classIconSpacing = " [&_svg]:ml-2 " }}
 {{ end }}
 
-{{- with $script -}}
-    <script>{{- safeHTML . -}}</script>
-{{- end -}}
-
 {{- /* {{- $size | default "normal" -}} | {{- $color -}} */ -}}
 {{- if eq $type "button" -}}
   <button
+    {{ if eq $ctx.Title "Sitemap" }}
+      @click="copyToClipboard($event.target)"
+    {{ end }}
     type="button"
-    class="{{- $sizes -}} {{- $spacing -}} {{ $classIconSpacing }} {{- $colors -}}
+    class="{{- $btnColorName -}} {{- $btnSizeName -}} {{- $sizes -}} {{- $spacing -}} {{ $classIconSpacing }} {{- $colors -}}
     {{- $contructor -}} {{- $lableledClases -}}">
     {{ if eq $iconPlace "before" }}
       <span class="flex items-center px-2">
@@ -123,7 +134,7 @@
   <a
     title="{{- $title -}}"
     href="{{- $type -}}"
-    class="{{- $sizes -}} {{- $spacing -}} {{ $classIconSpacing }} {{- $colors -}} {{- $contructor -}}  {{- $lableledClases -}} no-underline
+    class="{{- $btnColorName -}} {{- $btnSizeName -}} {{- $sizes -}} {{- $spacing -}} {{ $classIconSpacing }} {{- $colors -}} {{- $contructor -}}  {{- $lableledClases -}} no-underline
 ">
     {{ if eq $iconPlace "before" }}
       <span class="flex items-center px-2">

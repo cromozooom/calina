@@ -1,6 +1,38 @@
 {{ define "main" }}
+  <script>
+    function copyToClipboard(clickedElement) {
+      // Find the closest button or anchor element
+      const buttonOrAnchor = clickedElement.closest("button, a");
+
+      if (buttonOrAnchor) {
+        const htmlContent = buttonOrAnchor.outerHTML;
+
+        // Create a temporary textarea to hold the HTML content
+        const textarea = document.createElement("textarea");
+        textarea.value = htmlContent;
+        document.body.appendChild(textarea);
+
+        // Select and copy the HTML content
+        textarea.select();
+        document.execCommand("copy");
+
+        // Remove the temporary textarea
+        document.body.removeChild(textarea);
+
+        // Set copied to true to display the success message
+        this.copied = true;
+
+        // Reset copied to false after a short delay (you can adjust the delay)
+        setTimeout(() => {
+          this.copied = false;
+        }, 2000);
+      }
+    }
+  </script>
   <div class="container mx-auto pt-[5rem]">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full justify-center">
+    <div
+      x-data="{ copied: false }"
+      class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full justify-center">
       <div>
         <h2>Buttons</h2>
         <div class="py-4 flex gap-3">
@@ -451,7 +483,7 @@
           <div class="flex flex-col gap-4">
             <small> Accent </small>
             <div>
-              {{ partial "molecules/cta" (dict "ctx" . "icon" "arrow-right" "type" "button" "color" "accent" "title" "Open" "size" "xs") }}
+              {{ partial "molecules/cta" (dict "ctx" . "icon" "arrow-right" "type" "button" "color" "accent" "title" "Open 1" "size" "xs") }}
             </div>
             <div>
               {{ partial "molecules/cta" (dict "ctx" . "icon" "arrow-right" "type" "button" "color" "accent" "title" "Open" "size" "s") }}

@@ -52,7 +52,7 @@ document.addEventListener('alpine:init', () => {
 
 		artworks: [],
 		artworksCustomLinst: [],
-		limit: 2000,
+		limit: 20,
 		itemsPerPage: 2000,
 		currentPage: 0,
 		artworkCounter: 0,
@@ -72,6 +72,20 @@ document.addEventListener('alpine:init', () => {
 		// Computed property to sort hues
 		get sortedHues() {
 			return this.hues.sort((a, b) => a - b);
+		},
+
+		// count number of filter aplied
+		get filtersCount() {
+			const filters = this.filters;
+			let count = 0;
+
+			for (const key in filters) {
+				if (filters[key] !== '') {
+					count++;
+				}
+			}
+
+			return count;
 		},
 
 		// Get artworks

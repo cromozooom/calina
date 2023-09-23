@@ -5,7 +5,7 @@
   <main class="block p-0 my-0 mx-auto max-w-[90vw] mt-[4rem]" role="main">
     <section class="py-2">
       <!-- ALPINE LIST -->
-      <div class="w-full " x-data="collection" x-init="() => {refreshLists()}">
+      <div class="w-full" x-data="collection" x-init="() => {refreshLists()}">
         <div
           class="filters sticky top-[-1px] z-[10]
          w-full backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90 
@@ -146,14 +146,8 @@
                     
                       "></div>
                   <span
-                    x-show="filters.stock"
                     class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
                     In Stock
-                  </span>
-                  <span
-                    x-show="!filters.stock"
-                    class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
-                    All
                   </span>
                 </label>
               </div>
@@ -162,9 +156,18 @@
             <div
               class="flex items-center gap-2 text-sm text-neutral-10 dark:text-neutralDark-10">
               <template x-if="artworkCounter">
-                <span
-                  class="text-center flex"
-                  x-text="artworkCounter + ' artworks'"></span>
+                <span class="flex gap-1">
+                  showing
+                  <span class="text-center flex" x-text="artworkCounter"></span>
+                  <span
+                    x-show="artworkCounter > 1"
+                    x-text="'artworks'"
+                    class="text-center flex"></span>
+                  <span
+                    x-show="artworkCounter === 1"
+                    x-text="' artwork'"
+                    class="text-center flex"></span>
+                </span>
               </template>
 
               <button
@@ -172,7 +175,7 @@
                 x-on:click="resetFilters"
                 x-transition
                 type="button"
-                class="[&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium inline-flex   px-2 py-2.5  [&amp;_svg]:mr-2 text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8  w-auto justify-center items-center gap-1 text-center transition duration-200 ">
+                class="[&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium inline-flex gap-1 px-2 py-2.5  [&amp;_svg]:mr-2 text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8  w-auto justify-center items-center text-center transition duration-200 ">
                 <span class="flex items-center px-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -184,8 +187,12 @@
                     <path
                       d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
                   </svg>
-                  <span class="hidden invisible md:flex md:visible">
-                    Reset Filters
+                  <span
+                    class="hidden invisible md:flex gap-1 md:visible items-center">
+                    Reset
+                    <span x-text="filtersCount"></span>
+                    <span x-show="filtersCount > 1" x-text="'filters'"></span>
+                    <span x-show="filtersCount === 1" x-text="'filter'"></span>
                   </span>
                 </span>
               </button>
@@ -241,13 +248,43 @@
             </template>
           </div>
         </div>
+
+        <div x-show="isLoading" class="flex justify-center p-3 w-full">
+          <span> LOADING </span>
+        </div>
         <div x-show="!isLoading" [x-cloak] class="">
           <ul class="flex flex-wrap justify-center gap-2 mx-auto md:gap-8">
-            <template x-for="(artwork, index) in page().slice(0, limit)">
-              {{ partial "thumb-artwork-js.html" . }}
-
-            </template>
+            {{ partial "thumb-artwork-js.html" . }}
           </ul>
+        </div>
+
+        <div class="flex justify-center w-full">
+          <div>
+            <button
+              x-on:click="limit = Infinity"
+              x-show="page().length > limit"
+              type="button"
+              class="btn-solid [&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center  px-2 py-2.5  [&amp;_svg]:ml-2 text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 w-auto justify-center  gap-1  transition duration-200 ">
+              <span class="flex items-center px-2"> Show all </span>
+            </button>
+            <button
+              x-on:click="limit = limit + 20"
+              x-show="page().length > limit"
+              type="button"
+              class="btn-solid [&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center  px-2 py-2.5  [&amp;_svg]:ml-2 text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 w-auto justify-center  gap-1  transition duration-200 ">
+              <span class="flex items-center px-2"> Load More ...</span>
+            </button>
+            <button
+              x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+              x-show="page().length < limit"
+              type="button"
+              class="btn-solid [&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center  px-2 py-2.5  [&amp;_svg]:ml-2 text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 w-auto justify-center  gap-1  transition duration-200 ">
+              <span class="flex items-center px-2">
+                Back to top
+                {{ partial "icons/heart-fill.svg" }}
+              </span>
+            </button>
+          </div>
         </div>
       </div>
       <!-- END ALPINE LIST -->
