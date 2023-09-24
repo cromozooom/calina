@@ -117,4 +117,53 @@
     width: 0.7rem;
     height: 0.7rem;
   }
+
+  /* TIPPY start */
+
+  [x-cloak] {
+    display: none;
+  }
+
+  .tippy-box[data-theme~="lime"] {
+    background-color: black;
+    color: rgb(163, 230, 53);
+  }
+  .tippy-box[data-theme~="lime"][data-placement^="top"] > .tippy-arrow::before {
+    border-top-color: black;
+  }
+  .tippy-box[data-theme~="lime"][data-placement^="bottom"]
+    > .tippy-arrow::before {
+    border-bottom-color: black;
+  }
+  .tippy-box[data-theme~="lime"][data-placement^="left"]
+    > .tippy-arrow::before {
+    border-left-color: black;
+  }
+  .tippy-box[data-theme~="lime"][data-placement^="right"]
+    > .tippy-arrow::before {
+    border-right-color: black;
+  }
+
+  .tippy-box[data-theme~="warning"] {
+    background-color: black;
+    color: rgb(250 204 21);
+  }
+  .tippy-box[data-theme~="warning"][data-placement^="top"]
+    > .tippy-arrow::before {
+    border-top-color: black;
+  }
+  .tippy-box[data-theme~="warning"][data-placement^="bottom"]
+    > .tippy-arrow::before {
+    border-bottom-color: black;
+  }
+  .tippy-box[data-theme~="warning"][data-placement^="left"]
+    > .tippy-arrow::before {
+    border-left-color: black;
+  }
+  .tippy-box[data-theme~="warning"][data-placement^="right"]
+    > .tippy-arrow::before {
+    border-right-color: black;
+  }
+
+  /* TIPPY end */
 }

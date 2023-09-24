@@ -1,6 +1,17 @@
 const typography = require('@tailwindcss/typography');
 const forms = require('@tailwindcss/forms');
-const { _brandDark, _brand, _accentDark, _accent, _neutralDark, _neutral } = require('./taylwind/theme');
+const {
+	_accent,
+	_accentDark,
+	_brand,
+	_brandDark,
+	_neutral,
+	_neutralDark,
+	_success,
+	_warning,
+	_successDark,
+	_warningDark,
+} = require('./taylwind/theme');
 
 function withOpacity(variableName) {
 	return ({ opacityValue }) => {
@@ -51,17 +62,37 @@ module.exports = {
 		// icon margins
 		'[&_svg]:mr-2',
 		'[&_svg]:ml-2',
+
+		// tippy
+		'[&_svg]:m-2',
+		'[&_svg]:w-5',
+		'[&_svg]:h-5',
+
+		'.tippy-box[data-theme~="lime"]',
+		'.tippy-box[data-theme~="lime"][data-placement^="top"] > .tippy-arrow::before',
+		'.tippy-box[data-theme~="lime"][data-placement^="bottom"] > .tippy-arrow::before',
+		'.tippy-box[data-theme~="lime"][data-placement^="left"] > .tippy-arrow::before',
+		'.tippy-box[data-theme~="lime"][data-placement^="right"] > .tippy-arrow::before',
+		'.tippy-box[data-theme~="warning"]',
+		'.tippy-box[data-theme~="warning"][data-placement^="top"] > .tippy-arrow::before',
+		'.tippy-box[data-theme~="warning"][data-placement^="bottom"] > .tippy-arrow::before',
+		'.tippy-box[data-theme~="warning"][data-placement^="left"] > .tippy-arrow::before',
+		'.tippy-box[data-theme~="warning"][data-placement^="right"] > .tippy-arrow::before',
 	],
 	plugins: [typography, forms],
 	theme: {
 		extend: {
 			colors: {
-				brand: _brand,
-				brandDark: _brandDark,
 				accent: _accent,
 				accentDark: _accentDark,
+				brand: _brand,
+				brandDark: _brandDark,
 				neutral: _neutral,
 				neutralDark: _neutralDark,
+				success: _success,
+				warning: _warning,
+				successDark: _successDark,
+				warningDark: _warningDark,
 			},
 			// ANIMATION for elevator
 			keyframes: {

@@ -1,8 +1,19 @@
 {{/* For Users's overwrite */}}
 {{/* Libraries */}}
+
+
 <script src="/js/popper.min.js?v={{ now.Unix }}"></script>
 <script src="/js/tippy-bundle.umd.min.js?v={{ now.Unix }}"></script>
+{{/* <!-- Development -->
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+  <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+*/}}
 
+{{/* {{ $popper := resources.Get "js/_popper.min.js" | js.Build (dict "minify" true ) | resources.Fingerprint }}
+<script src="{{ $popper.RelPermalink }}"></script>
+{{ $tippy := resources.Get "js/_tippy-bundle.umd.min.js" | js.Build (dict "minify" true ) | resources.Fingerprint }}
+<script src="{{ $tippy.RelPermalink }}"></script>
+*/}}
 {{/* Alpine Plugins */}}
 <script defer src="/js/collapse.min.js?v={{ now.Unix }}"></script>
 {{/* Alpine Core */}}

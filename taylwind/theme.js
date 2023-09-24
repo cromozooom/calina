@@ -20,7 +20,7 @@ const {
 	// cyan,
 	teal,
 	// jade,
-	// green,
+	green,
 	// grass,
 	// brown,
 	bronze,
@@ -28,7 +28,7 @@ const {
 	// sky,
 	// mint,
 	lime,
-	// yellow,
+	yellow,
 	// amber,
 	// grayA,
 	// mauveA,
@@ -84,7 +84,7 @@ const {
 	// cyanDark,
 	tealDark,
 	// jadeDark,
-	// greenDark,
+	greenDark,
 	// grassDark,
 	// brownDark,
 	bronzeDark,
@@ -92,7 +92,7 @@ const {
 	// skyDark,
 	// mintDark,
 	limeDark,
-	// yellowDark,
+	yellowDark,
 	// amberDark,
 	// grayDarkA,
 	// mauveDarkA,
@@ -147,8 +147,23 @@ const {
 const _brand = bronze;
 const _brandDark = bronzeDark;
 const _accent = teal;
+const _success = lime;
+const _warning = yellow;
+const _successDark = limeDark;
+const _warningDark = yellowDark;
 const _accentDark = tealDark;
 const _neutral = slate;
 const _neutralDark = slateDark;
 
-export { _brandDark, _brand, _accentDark, _accent, _neutralDark, _neutral };
+export {
+	_brandDark,
+	_brand,
+	_accentDark,
+	_accent,
+	_neutralDark,
+	_neutral,
+	_success,
+	_warning,
+	_successDark,
+	_warningDark,
+};

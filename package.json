@@ -16,7 +16,8 @@
 		"@tinacms/cli": "^1.5.25",
 		"alpinejs": "^3.13.0",
 		"next-tinacms-cloudinary": "^4.3.0",
-		"tinacms": "^1.5.16"
+		"tinacms": "^1.5.16",
+		"tippy.js": "^6.3.7"
 	},
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.5.4",
