@@ -32,132 +32,367 @@
 
   <main class="block p-0 my-0 mx-auto max-w-[90vw] mt-[4rem]" role="main">
     <section class="py-2">
+      {{ $filterVersion := 2 }}
       <!-- ALPINE LIST -->
       <div class="w-full" x-data="collection" x-init="() => {refreshLists()}">
-        <div
-          class="filters sticky top-[-1px] z-[10]
+        {{ if eq $filterVersion 2 }}
+          <div
+            class="filters sticky top-[-1px] z-[10]
          w-full backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90 
         ">
-          <fieldset
-            class="flex flex-wrap gap-2 px-2  md:px-0 py-3 justify-between max-w-[80rem] mx-auto">
-            <div class="flex gap-2   flex-wrap justify-start">
-              <div class="flex items-center mr-3">
-                <h1
-                  class="text-sm flex items-center gap-1 md:text-base text-neutral-11 dark:text-neutralDark-11">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-funnel"
-                    viewBox="0 0 16 16">
-                    <path
-                      d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
-                  </svg>
-                  <span class="hidden invisible md:flex md:visible">
-                    {{ .Title }} filters
-                  </span>
-                </h1>
-              </div>
+            <div x-data="{ open: true }" class="d-flex flex-column">
+              <div class="flex items-center min-h-[4rem]">
+                <div>
+                  <button
+                    @click="open = !open"
+                    class="flex justify-center items-center gap-1 p-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-funnel"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+                    </svg>
+                    <span x-show="!open" x-text="'Show Filters'"> </span>
+                    <span x-show="open" x-text="'Hide Filters'"> </span>
+                  </button>
+                </div>
+                <div class="grow">
+                  <template x-if="open">
+                    <div class="flex justify-between items-center w-full">
+                      <div class="flex gap-2">
+                        <div>
+                          {{ partial "molecules/select.html" ( dict
+                            "id" "orientation"
+                            "showLabel" false
+                            "label" "orientation"
+                            "items" "orientations"
+                            "firstItem" "All orientations"
+                            "model" "filters.orientation"
+                            )
+                          }}
+                        </div>
+                        <div>
+                          {{ partial "molecules/select.html" ( dict
+                            "id" "theme"
+                            "showLabel" false
+                            "label" "Theme"
+                            "items" "themes"
+                            "firstItem" "All themes"
+                            "model" "filters.theme"
+                            )
+                          }}
+                        </div>
+                        <div>
+                          {{ partial "molecules/select.html" ( dict
+                            "id" "size"
+                            "showLabel" false
+                            "label" "size"
+                            "items" "sizes"
+                            "firstItem" "All sizes"
+                            "model" "filters.size"
+                            )
+                          }}
+                        </div>
 
-              {{ if $dev }}
+                        <div>
+                          {{ partial "molecules/select.html" ( dict
+                            "id" "year"
+                            "showLabel" false
+                            "label" "year"
+                            "items" "years"
+                            "firstItem" "All years"
+                            "model" "filters.year"
+                            )
+                          }}
+                        </div>
+
+                        <div class="flex items-center">
+                          <label
+                            class="relative inline-flex items-center cursor-pointer">
+                            <input
+                              type="checkbox"
+                              x-bind:checked="filters.stock === 'true'"
+                              class="sr-only peer"
+                              x-on:click="toggleStockFilter()" />
+
+                            {{ $peerFocus := "" }}
+                            {{ $peerCheck := "" }}
+                            {{ $after := "" }}
+
+
+                            <div
+                              class="w-11 h-6 
+                            rounded-full peer  peer-focus:ring-2 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all
+                            
+                          peer-checked:bg-brand-8 peer-checked:dark:bg-brandDark-8/50
+                          peer-checked:after:border-brand-10 peer-checked:dark:after:border-brandDark-10
+                          
+                          dark:peer-focus:ring-brand-8
+                          peer-focus:ring-brand-3
+        
+                          dark:border-neutralDark-5  dark:bg-neutralDark-5 bg-neutral-5
+        
+                          after:bg-brand-9 after:border-brand-9
+                          dark:after:bg-brandDark-9 after:dark:border-brandDark-9
+                             
+                            
+                              "></div>
+                            <span
+                              class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
+                              In Stock
+                            </span>
+                          </label>
+                        </div>
+
+                        <div>
+                          <button
+                            x-on:click="showTints = !showTints"
+                            type="button"
+                            class="btn-l [&amp;_svg]:w-4 [&amp;_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center  px-2 py-2 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3  w-auto justify-center gap-1 transition duration-200 ">
+                            {{/* {{ partial "icons/color-whell.svg" }} */}}
+                            <span
+                              class="w-6 h-6 rounded-full dark:opacity-70"
+                              style="background-blend-mode: screen;
+                            background: radial-gradient(circle closest-side, white, black 90%), conic-gradient(red, #ff8000, yellow, #80ff00, lime, #00ff80, aqua, #0080ff, blue, #8000ff, fuchsia, #ff0080, red);"></span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <template x-if="artworkCounter">
+                          <span class="flex gap-1">
+                            Showing
+                            <span
+                              class="text-center flex"
+                              x-text="artworkCounter"></span>
+                            <span
+                              x-show="artworkCounter > 1"
+                              x-text="'artworks'"
+                              class="text-center flex"></span>
+                            <span
+                              x-show="artworkCounter === 1"
+                              x-text="' artwork'"
+                              class="text-center flex"></span>
+                          </span>
+                        </template>
+
+                        <button
+                          x-show="filtersHaveValue()"
+                          x-on:click="resetFilters"
+                          x-transition
+                          type="button"
+                          class="[&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium inline-flex gap-1 px-2 py-2.5  [&amp;_svg]:mr-2 text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8  w-auto justify-center items-center text-center transition duration-200 ">
+                          <span class="flex items-center px-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              class="bi bi-trash3"
+                              viewBox="0 0 16 16">
+                              <path
+                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                            </svg>
+                            <span
+                              class="hidden invisible md:flex gap-1 md:visible items-center">
+                              Reset
+                              <span x-text="filtersCount"></span>
+                              <span
+                                x-show="filtersCount > 1"
+                                x-text="'filters'"></span>
+                              <span
+                                x-show="filtersCount === 1"
+                                x-text="'filter'"></span>
+                            </span>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+              <div
+                x-show="showTints"
+                x-transition:enter="transition-opacity ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition-opacity ease-in duration-300"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="flex flex-wrap justify-center gap-2 px-4 py-3 mb-3">
+                <template x-for="hue in sortedHues">
+                  <button
+                    class="flex justify-center items-center py-2 rounded grow min-w-[3rem] max-w-[3rem]"
+                    x-bind:class="{
+                  'bg-opacity-50': filters.hue != hue,
+                  'bg-opacity-100': filters.hue == hue
+                }"
+                    x-bind:style="{
+                  'color': filters.hue !== hue ? `hsla(${hue}deg, 50%, 100%, 0)` : `hsl(0deg, 0%, 100%)`,
+                  'background': filters.hue !== hue ? `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))`,
+                  'outline': filters.hue !== hue ? `3px solid hsla(${hue}deg, 50%, 50%, .8)` : `3px solid  hsla(${hue}deg, 50%, 50%, .3)`,
+                }"
+                    x-on:click="filters.hue = (filters.hue == hue) ? '' : hue;">
+                    <svg
+                      x-show="filters.hue === hue"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-check2-square"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                      <path
+                        d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                    </svg>
+                    <svg
+                      x-show="filters.hue !== hue"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-square"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                    </svg>
+                  </button>
+                </template>
+              </div>
+            </div>
+          </div>
+        {{ else if eq $filterVersion 2 }}
+
+          <div
+            class="filters sticky top-[-1px] z-[10]
+         w-full backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90 
+        ">
+            <fieldset
+              class="flex flex-wrap gap-2 px-2  md:px-0 py-3 justify-between max-w-[80rem] mx-auto">
+              <div class="flex gap-2   flex-wrap justify-start">
+                <div class="flex items-center mr-3">
+                  <h1
+                    class="text-sm flex items-center gap-1 md:text-base text-neutral-11 dark:text-neutralDark-11">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-funnel"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+                    </svg>
+                    <span class="hidden invisible md:flex md:visible">
+                      {{ .Title }} filters
+                    </span>
+                  </h1>
+                </div>
+
+                {{ if $dev }}
+                  <div>
+                    {{ partial "molecules/select.html" ( dict
+                      "id" "hue"
+                      "showLabel" false
+                      "label" "hue"
+                      "items" "hues"
+                      "firstItem" "All hues"
+                      "model" "filters.hue"
+                      )
+                    }}
+                  </div>
+                  <div>
+                    {{ partial "molecules/select.html" ( dict
+                      "id" "ratio"
+                      "showLabel" false
+                      "label" "ratio"
+                      "items" "ratios"
+                      "firstItem" "All ratios"
+                      "model" "filters.ratio"
+                      )
+                    }}
+                  </div>
+                {{ end }}
                 <div>
                   {{ partial "molecules/select.html" ( dict
-                    "id" "hue"
+                    "id" "orientation"
                     "showLabel" false
-                    "label" "hue"
-                    "items" "hues"
-                    "firstItem" "All hues"
-                    "model" "filters.hue"
+                    "label" "orientation"
+                    "items" "orientations"
+                    "firstItem" "All orientations"
+                    "model" "filters.orientation"
                     )
                   }}
                 </div>
                 <div>
                   {{ partial "molecules/select.html" ( dict
-                    "id" "ratio"
+                    "id" "theme"
                     "showLabel" false
-                    "label" "ratio"
-                    "items" "ratios"
-                    "firstItem" "All ratios"
-                    "model" "filters.ratio"
+                    "label" "Theme"
+                    "items" "themes"
+                    "firstItem" "All themes"
+                    "model" "filters.theme"
                     )
                   }}
                 </div>
-              {{ end }}
-              <div>
-                {{ partial "molecules/select.html" ( dict
-                  "id" "orientation"
-                  "showLabel" false
-                  "label" "orientation"
-                  "items" "orientations"
-                  "firstItem" "All orientations"
-                  "model" "filters.orientation"
-                  )
-                }}
-              </div>
-              <div>
-                {{ partial "molecules/select.html" ( dict
-                  "id" "theme"
-                  "showLabel" false
-                  "label" "Theme"
-                  "items" "themes"
-                  "firstItem" "All themes"
-                  "model" "filters.theme"
-                  )
-                }}
-              </div>
-              <div>
-                {{ partial "molecules/select.html" ( dict
-                  "id" "size"
-                  "showLabel" false
-                  "label" "size"
-                  "items" "sizes"
-                  "firstItem" "All sizes"
-                  "model" "filters.size"
-                  )
-                }}
-              </div>
+                <div>
+                  {{ partial "molecules/select.html" ( dict
+                    "id" "size"
+                    "showLabel" false
+                    "label" "size"
+                    "items" "sizes"
+                    "firstItem" "All sizes"
+                    "model" "filters.size"
+                    )
+                  }}
+                </div>
 
-              <div>
-                {{ partial "molecules/select.html" ( dict
-                  "id" "year"
-                  "showLabel" false
-                  "label" "year"
-                  "items" "years"
-                  "firstItem" "All years"
-                  "model" "filters.year"
-                  )
-                }}
-              </div>
+                <div>
+                  {{ partial "molecules/select.html" ( dict
+                    "id" "year"
+                    "showLabel" false
+                    "label" "year"
+                    "items" "years"
+                    "firstItem" "All years"
+                    "model" "filters.year"
+                    )
+                  }}
+                </div>
 
-              <div>
-                <button
-                  x-on:click="showTints = !showTints"
-                  type="button"
-                  class="btn-l [&amp;_svg]:w-4 [&amp;_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center  px-2 py-2 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3  w-auto justify-center gap-1 transition duration-200 ">
-                  {{/* {{ partial "icons/color-whell.svg" }} */}}
-                  <span
-                    class="w-6 h-6 rounded-full dark:opacity-70"
-                    style="background-blend-mode: screen;
+                <div>
+                  <button
+                    x-on:click="showTints = !showTints"
+                    type="button"
+                    class="btn-l [&amp;_svg]:w-4 [&amp;_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center  px-2 py-2 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3  w-auto justify-center gap-1 transition duration-200 ">
+                    {{/* {{ partial "icons/color-whell.svg" }} */}}
+                    <span
+                      class="w-6 h-6 rounded-full dark:opacity-70"
+                      style="background-blend-mode: screen;
                     background: radial-gradient(circle closest-side, white, black 90%), conic-gradient(red, #ff8000, yellow, #80ff00, lime, #00ff80, aqua, #0080ff, blue, #8000ff, fuchsia, #ff0080, red);"></span>
-                </button>
-              </div>
+                  </button>
+                </div>
 
-              <div class="flex items-center">
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    x-bind:checked="filters.stock === 'true'"
-                    class="sr-only peer"
-                    x-on:click="toggleStockFilter()" />
+                <div class="flex items-center">
+                  <label
+                    class="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      x-bind:checked="filters.stock === 'true'"
+                      class="sr-only peer"
+                      x-on:click="toggleStockFilter()" />
 
-                  {{ $peerFocus := "" }}
-                  {{ $peerCheck := "" }}
-                  {{ $after := "" }}
+                    {{ $peerFocus := "" }}
+                    {{ $peerCheck := "" }}
+                    {{ $after := "" }}
 
 
-                  <div
-                    class="w-11 h-6 
+                    <div
+                      class="w-11 h-6 
                     rounded-full peer  peer-focus:ring-2 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all
                     
                   peer-checked:bg-brand-8 peer-checked:dark:bg-brandDark-8/50
@@ -173,109 +408,115 @@
                      
                     
                       "></div>
-                  <span
-                    class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
-                    In Stock
-                  </span>
-                </label>
+                    <span
+                      class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
+                      In Stock
+                    </span>
+                  </label>
+                </div>
               </div>
-            </div>
 
-            <div
-              class="flex items-center gap-2 text-sm text-neutral-10 dark:text-neutralDark-10">
-              <template x-if="artworkCounter">
-                <span class="flex gap-1">
-                  Showing
-                  <span class="text-center flex" x-text="artworkCounter"></span>
-                  <span
-                    x-show="artworkCounter > 1"
-                    x-text="'artworks'"
-                    class="text-center flex"></span>
-                  <span
-                    x-show="artworkCounter === 1"
-                    x-text="' artwork'"
-                    class="text-center flex"></span>
-                </span>
-              </template>
-
-              <button
-                x-show="filtersHaveValue()"
-                x-on:click="resetFilters"
-                x-transition
-                type="button"
-                class="[&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium inline-flex gap-1 px-2 py-2.5  [&amp;_svg]:mr-2 text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8  w-auto justify-center items-center text-center transition duration-200 ">
-                <span class="flex items-center px-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-trash3"
-                    viewBox="0 0 16 16">
-                    <path
-                      d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                  </svg>
-                  <span
-                    class="hidden invisible md:flex gap-1 md:visible items-center">
-                    Reset
-                    <span x-text="filtersCount"></span>
-                    <span x-show="filtersCount > 1" x-text="'filters'"></span>
-                    <span x-show="filtersCount === 1" x-text="'filter'"></span>
+              <div
+                class="flex items-center gap-2 text-sm text-neutral-10 dark:text-neutralDark-10">
+                <template x-if="artworkCounter">
+                  <span class="flex gap-1">
+                    Showing
+                    <span
+                      class="text-center flex"
+                      x-text="artworkCounter"></span>
+                    <span
+                      x-show="artworkCounter > 1"
+                      x-text="'artworks'"
+                      class="text-center flex"></span>
+                    <span
+                      x-show="artworkCounter === 1"
+                      x-text="' artwork'"
+                      class="text-center flex"></span>
                   </span>
-                </span>
-              </button>
-            </div>
-          </fieldset>
-          <div
-            x-show="showTints"
-            x-transition:enter="transition-opacity ease-out duration-300"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition-opacity ease-in duration-300"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            class="flex flex-wrap justify-center gap-2 px-4 py-3 mb-3">
-            <template x-for="hue in sortedHues">
-              <button
-                class="flex justify-center items-center py-2 rounded grow min-w-[3rem] max-w-[3rem]"
-                x-bind:class="{
+                </template>
+
+                <button
+                  x-show="filtersHaveValue()"
+                  x-on:click="resetFilters"
+                  x-transition
+                  type="button"
+                  class="[&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium inline-flex gap-1 px-2 py-2.5  [&amp;_svg]:mr-2 text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8  w-auto justify-center items-center text-center transition duration-200 ">
+                  <span class="flex items-center px-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-trash3"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                    </svg>
+                    <span
+                      class="hidden invisible md:flex gap-1 md:visible items-center">
+                      Reset
+                      <span x-text="filtersCount"></span>
+                      <span x-show="filtersCount > 1" x-text="'filters'"></span>
+                      <span
+                        x-show="filtersCount === 1"
+                        x-text="'filter'"></span>
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </fieldset>
+            <div
+              x-show="showTints"
+              x-transition:enter="transition-opacity ease-out duration-300"
+              x-transition:enter-start="opacity-0"
+              x-transition:enter-end="opacity-100"
+              x-transition:leave="transition-opacity ease-in duration-300"
+              x-transition:leave-start="opacity-100"
+              x-transition:leave-end="opacity-0"
+              class="flex flex-wrap justify-center gap-2 px-4 py-3 mb-3">
+              <template x-for="hue in sortedHues">
+                <button
+                  class="flex justify-center items-center py-2 rounded grow min-w-[3rem] max-w-[3rem]"
+                  x-bind:class="{
                   'bg-opacity-50': filters.hue != hue,
                   'bg-opacity-100': filters.hue == hue
                 }"
-                x-bind:style="{
+                  x-bind:style="{
                   'color': filters.hue !== hue ? `hsla(${hue}deg, 50%, 100%, 0)` : `hsl(0deg, 0%, 100%)`,
                   'background': filters.hue !== hue ? `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))`,
                   'outline': filters.hue !== hue ? `3px solid hsla(${hue}deg, 50%, 50%, .8)` : `3px solid  hsla(${hue}deg, 50%, 50%, .3)`,
                 }"
-                x-on:click="filters.hue = (filters.hue == hue) ? '' : hue;">
-                <svg
-                  x-show="filters.hue === hue"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-check2-square"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
-                  <path
-                    d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
-                </svg>
-                <svg
-                  x-show="filters.hue !== hue"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-square"
-                  viewBox="0 0 16 16">
-                  <path
-                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                </svg>
-              </button>
-            </template>
+                  x-on:click="filters.hue = (filters.hue == hue) ? '' : hue;">
+                  <svg
+                    x-show="filters.hue === hue"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-check2-square"
+                    viewBox="0 0 16 16">
+                    <path
+                      d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                    <path
+                      d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                  </svg>
+                  <svg
+                    x-show="filters.hue !== hue"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-square"
+                    viewBox="0 0 16 16">
+                    <path
+                      d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                  </svg>
+                </button>
+              </template>
+            </div>
           </div>
-        </div>
+        {{ end }}
+
 
         <div x-show="isLoading" class="flex justify-center p-3 w-full">
           <span> LOADING </span>
