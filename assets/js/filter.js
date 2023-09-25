@@ -20,6 +20,7 @@ document.addEventListener('alpine:init', () => {
 			type: true,
 		},
 
+		showFilters: false,
 		showTints: false,
 
 		gridLayout: false,

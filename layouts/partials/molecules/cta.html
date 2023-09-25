@@ -5,6 +5,7 @@
 {{- $title := .title -}}
 {{- $size := .size -}}
 {{- $script := .script | default "" -}}
+{{- $click := .click | default "" -}}
 {{- $icon := .icon | default false -}}
 {{- $iconPlace := .iconPlace | default "" -}}
 
@@ -94,6 +95,8 @@
 {{- /* {{- $size | default "normal" -}} | {{- $color -}} */ -}}
 {{- if eq $type "button" -}}
   <button
+    {{ printf "@click=%q" $click | safeHTMLAttr }}
+
     {{ if eq $ctx.Title "Sitemap" }}
       @click="copyToClipboard($event.target)"
     {{ end }}
