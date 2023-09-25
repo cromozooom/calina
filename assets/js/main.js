@@ -6,6 +6,6 @@ import { initializeToolTips } from './lib/toolTip';
 // From the Hugo template.
 import * as params from '@params';
 
-siteTheme();
 scrollToReveal();
+siteTheme();
 initializeToolTips();

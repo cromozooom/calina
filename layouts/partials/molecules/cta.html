@@ -80,6 +80,9 @@
 {{- else if eq $color "fake" -}}
   {{- $btnColorName = "btn-fake " -}}
   {{- $colors = "text-brand-10 hover:text-brand-12 hover:bg-brand-3 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:text-brandDark-10 dark:hover:text-brandDark-12 dark:hover:bg-brandDark-3 dark:focus:ring-brandDark-3 " -}}
+{{- else if eq $color "success" -}}
+  {{- $btnColorName = "btn-fake " -}}
+  {{- $colors = "text-success-10 hover:text-success-12 hover:bg-success-3 focus:ring-4 focus:outline-none focus:ring-success-3  dark:text-successDark-10 dark:hover:text-successDark-12 dark:hover:bg-successDark-3 dark:focus:ring-successDark-3 " -}}
 {{- end -}}
 
 {{- $contructor := "block w-auto justify-center items-center gap-1 text-center font-bold transition duration-200 " -}}

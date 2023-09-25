@@ -86,6 +86,12 @@ document.addEventListener('alpine:init', () => {
 				}
 			}
 
+			// for (const key in filters) {
+			// 	if (key !== 'hue' && filters[key] !== '') {
+			// 		count++;
+			// 	}
+			// }
+
 			return count;
 		},
 
