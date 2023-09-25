@@ -1,0 +1,71 @@
+{{- $apiPages := .apiPages -}}
+{{- $dot := .dot -}}
+{{- $template := .template | default "" -}}
+
+{{- $Title := $dot.Title -}}
+{{- $Kind := $dot.Page.Kind -}}
+{{- $Type := $dot.Page.Type -}}
+{{- $Layout := $dot.Page.Layout -}}
+
+{{- $fakeIndex := 0 -}}
+[
+{{- range $index, $page :=  $apiPages }}
+  {{- range $i, $artwork := .Pages }}
+    {{- if ne $fakeIndex 0 }},{{ end -}}
+    {{- partial "scratching/images.html" -}}
+    {
+    "sourceAPI": "{{ $template }}",
+    "title": "{{- .Title | title -}}",
+    "url": "{{- .Permalink -}}",
+    "thumb_XL" : "{{- .Scratch.Get "_thumb_XL" -}}",
+    "thumb_XL_w" : "{{- .Scratch.Get "_thumb_XL_w" -}}",
+    "thumb_XL_h" :
+    "{{- .Scratch.Get "_thumb_XL_h" -}}", "thumb_L" :
+    "{{- .Scratch.Get "_thumb_L" -}}", "thumb_L_w" :
+    "{{- .Scratch.Get "_thumb_L_w" -}}", "thumb_L_h" :
+    "{{- .Scratch.Get "_thumb_L_h" -}}", "thumb_M" :
+    "{{- .Scratch.Get "_thumb_M" -}}", "thumb_M_w" :
+    "{{- .Scratch.Get "_thumb_M_w" -}}", "thumb_M_h" :
+    "{{- .Scratch.Get "_thumb_M_h" -}}", "price" :
+    "{{- .Params.store_info.price -}}",
+    {{ $stock := false }}
+    {{- if gt .Params.instock 0 -}}
+      {{- $stock = true -}}
+    {{- end -}}
+
+    "stock": {{- $stock -}},
+    {{ $size := "" }}
+    {{- $surface := mul .Params.dimensions.width .Params.dimensions.height -}}
+    {{- if gt $surface 12000 -}}
+      {{- $size = "Extra large" -}}
+    {{- else if gt $surface 6000 -}}
+      {{- $size = "Large" -}}
+    {{- else if gt $surface 1600 -}}
+      {{- $size = "Medium" -}}
+    {{- else if gt $surface 1 -}}
+      {{- $size = "Small" -}}
+    {{- end -}}
+    "w": "{{- .Params.dimensions.width -}}",
+    "h": "{{- .Params.dimensions.height -}}",
+    "size": "{{- $size -}}",
+    "area": "{{- mul .Params.dimensions.width .Params.dimensions.height -}}",
+    "ratio": "{{- .Scratch.Get "_ratio" -}}",
+    {{ $orientation := "square" }}
+    {{- if gt .Params.dimensions.width .Params.dimensions.height -}}
+      {{- $orientation = "horisontal" -}}
+    {{- else if gt  .Params.dimensions.height .Params.dimensions.width -}}
+      {{- $orientation = "vertical" -}}
+    {{- end -}}
+    "orientation": "{{- $orientation -}}",
+    "hue": {{- .Scratch.Get "_hues" | jsonify -}},
+    "color": {{- .Scratch.Get "_colors" | jsonify -}},
+    "shortId": "{{- replace (dateFormat "2006-01-02" .Params.creationDate)  "-" "" -}}",
+    "year": {{- dateFormat "2006" .Params.creationDate -}},
+    "date":"{{- dateFormat "2006-01-02" .Params.Date -}}",
+    "artworks":{{- .Params.artworks | jsonify -}},
+    "theme":{{- .Params.themes  | jsonify -}},
+    "id": "{{ .File.UniqueID }}" }
+  {{- $fakeIndex = add $fakeIndex 1 -}}
+  {{ end -}}
+{{ end -}}
+]

@@ -1,28 +1,32 @@
+{{ $dot  := .dot }}
+{{ $color :=  .color }}
+
+
 <div class="grid grid-cols-2 gap-3 py-4">
   <div class="flex justify-end">
-    {{ with .PrevInSection }}
+    {{ with $dot.PrevInSection }}
       {{ $link := .Permalink }}
 
       {{ partial "molecules/cta" (dict
-        "ctx" .
+        "ctx" $dot
         "icon" "arrow-left"
         "iconPlace" "before"
         "type" $link
-        "color" "soft"
+        "color" $color
         "label" "Previous"
         "size" "xl")
       }}
     {{ end }}
   </div>
   <div class="flex justify-start">
-    {{ with .NextInSection }}
+    {{ with $dot.NextInSection }}
       {{ $link := .Permalink }}
       {{ partial "molecules/cta" (dict
-        "ctx" .
+        "ctx" $dot
         "icon" "arrow-right"
         "iconPlace" "after"
         "type" $link
-        "color" "soft"
+        "color" $color
         "label" "Next"
         "size" "xl")
       }}

@@ -1,0 +1,183 @@
+{{ $dev := 0 | default $.Site.Params.dev }}
+<template x-for="(artwork, index) in page().slice(0, limit)">
+  <li  class="listing-item w-full md:w-auto mx-4 md:mx-[initial] flex flex-col justify-between max-w-[20rem] p-2 mb-6 duration-500 ease-in-out bg-white rounded-sm hover:shadow-myShadow-hover shadow-myShadow dark:bg-neutralDark-3 border dark:border-neutralDark-3 hover:dark:border-neutralDark-5 ">
+    <div>
+      <img
+      draggable="false"
+      class="w-full rounded-sm"
+      x-bind:src="artwork.thumb_M"
+      x-bind:srcset="`
+      ${artwork.thumb_M} 303w,
+      ${artwork.thumb_L}  429w,
+      ${artwork.thumb_XL} 605w
+      `"
+      sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
+      loading="lazy"
+      x-bind:width="artwork.thumb_M_w"
+      x-bind:height="artwork.thumb_M_h" />
+    </div>
+    <div class="flex flex-col w-full gap-2 pt-4">
+    <div class="flex gap-1 justify-start items-center ">
+      <span class="z-[100]">
+        <template x-if="artwork.stock">
+          <div class="flex items-center justify-end">
+            <button
+              data-theme="lime"  
+              x-data
+              x-tooltip="Ready to be shipped"
+              type="button"
+              class="hidden rounded-full md:block hover:bg-white/10"
+            >
+              <span class="[&_svg]:m-2 [&_svg]:w-5 [&_svg]:h-5  text-lime-600 dark:text-lime-400">
+                {{ partial "icons/check-lg.svg" . }}
+              </span>
+            </button>
+        
+            <button
+              data-theme="lime"  
+              x-data
+              @click="$tooltip('Ready to be shipped')"
+              type="button"
+              class="flex flex-col px-2 rounded md:hidden hover:bg-white/10"
+            >
+              <span class="[&_svg]:m-2 [&_svg]:w-6 [&_svg]:h-6  text-lime-600 dark:text-lime-400 ">
+                {{ partial "icons/check-lg.svg" . }}
+              </span>
+              <span class="text-xs text-neutral-11 dark:text-neutral-d-11">
+                In stock
+              </span>
+            </button>
+    
+            {{/*  <span class="text-sm text-green-500" x-text="'Stock'" title="Ready to be shipped"></span>
+            <span class="pl-2 text-green-500">
+              {{ partial "icons/check-lg.svg" . }}
+            </span>  */}}
+          </div>
+          
+        </template>
+      </span>
+      <a class="xartworkLink xmainLink" :href="artwork.url">
+        <h2 class="flex  py-0 my-0 font-serif text-lg text-neutral-11 dark:text-neutralDark-11" >
+          <span x-text="artwork.title"></span>
+        </h2>
+      </a>
+
+    </div>
+    <div class="flex gap-1 justify-between items-baseline">
+      <div>
+        <p class="text-sm text-neutral-10 dark:text-neutralDark-10">
+          <span x-text="artwork.w + 'W x '"></span>
+          <span x-text="artwork.h + 'H (cm)'"></span>
+        </p>
+      </div>
+      <div>
+        <span class="font-serif  text-neutral-8 dark:text-neutralDark-8" >£</span>
+        <span class="font-serif  text-neutral-11 dark:text-neutralDark-11 text-2xl" x-text="artwork.h"></span>
+      </div>
+    </div>
+
+
+    <div class="flex gap-2">
+
+
+      {{/*  TODO: add reproduction  && artwork.reproduction 
+        
+        <template x-if="!artwork.stock">
+          <div>
+            <button
+              data-theme="warning" 
+              x-data
+              x-tooltip="Custom order"
+              type="button"
+              class="items-center hidden text-yellow-600 rounded-full md:flex hover:bg-yellow-500/10 dark:text-yellow-400"
+            >
+              <span class="[&_svg]:m-2 [&_svg]:w-5 [&_svg]:h-5  ">
+                {{ partial "icons/hourglass.svg" . }} 
+              </span>
+            </button>
+            <button
+              data-theme="warning" 
+              x-data
+              @click="$tooltip('Custom order')"
+              type="button"
+              class="flex flex-col items-center px-2 rounded md:hidden hover:bg-yellow-500/10 "
+            >
+              <span class="[&_svg]:m-2 [&_svg]:w-6 [&_svg]:h-6 text-yellow-600 dark:text-yellow-400">
+                {{ partial "icons/hourglass.svg" . }}
+              </span>
+              <span class="text-xs text-neutral-11 dark:text-neutral-d-11">
+                On order
+              </span>
+            </button>
+          </div>
+        </template>
+        <template x-if="!artwork.stock">
+          <div class="flex items-center justify-end">
+            <span class="[&_svg]:m-2 [&_svg]:w-5 [&_svg]:h-5 pr-2 text-brand-10 dark:text-brand-d-11">
+              {{ partial "icons/arrow-through-heart.svg" . }}
+            </span>
+            <span class="text-sm text-brand-10 dark:text-brand-d-11" title="This artwork is unique">Unique</span>
+          </div>
+        </template>
+        <span
+          x-show="artwork.size === 'Small' && artwork.stock"
+          class="text-lime-600 dark:text-lime-400"
+        >
+          <button
+            data-theme="lime"
+            x-tooltip="Free Shipping into the UK border"
+            type="button"
+            class="hidden rounded-full md:block hover:bg-lime-500/10"
+          >
+            <span class="[&_svg]:m-2 [&_svg]:w-5 [&_svg]:h-5 text-lime-600 dark:text-lime-400 ">
+              {{ partial "icons/truck.svg" . }}
+            </span>
+          </button>
+      
+          <button
+            data-theme="lime"
+            x-data
+            @click="$tooltip('into the UK border')"
+            type="button"
+            class="flex flex-col items-center px-2 rounded md:hidden hover:bg-lime-500/10"
+          >
+            <span class="[&_svg]:m-2 [&_svg]:w-6 [&_svg]:h-6 text-lime-600 dark:text-lime-400 ">
+              {{ partial "icons/truck.svg" . }}
+            </span>
+            <span class="text-xs text-neutral-11 dark:text-neutral-d-11">
+              Free Shipping*
+            </span>
+          </button>
+        </span>
+      */}}
+    </div>
+
+   
+
+  {{ if $dev }}
+  <span x-text="artwork.area"></span>
+  <div>
+    <br>
+    <template x-for="el in artwork.theme">
+      <span x-text="el"></span>
+    </template>
+  </div>
+  <div>
+    hues:
+    <template x-for="el in artwork.hue">
+      <span
+      x-bind:style="`background: hsl(${el}deg 50% 50%);`"
+      x-text="el"></span>
+      |
+    </template>
+  </div>
+  <div>
+  <span x-text="artwork.year"></span>
+  </div>
+  <div>
+  <span x-text="artwork.ratio"></span>
+  </div>
+  </div>
+  {{ end  }}
+  </li>
+</template>

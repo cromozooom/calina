@@ -1,0 +1,14 @@
+{{ $appId := .Site.Params.instagram.appId }}
+{{ $clientToken := .Site.Params.Instagram.clientToken }}
+{{ $id := .Get 0 }}
+
+{{/*
+	{{ with getJSON "https://graph.facebook.com/v9.0/instagram_oembed/?url=https://instagram.com/p/" $id "&access_token=" $appId "|" $clientToken }}
+		{{ .html | safeHTML }}
+	{{ end }}
+*/}}
+<div class="instagram-container w-full pt-[137%] relative mb-3 block">
+	<iframe class="absolute inset-0" width="100%" height="100%" src="https://www.instagram.com/p/{{ $id }}/embed/" frameborder="0"></iframe>
+</div>
+
+

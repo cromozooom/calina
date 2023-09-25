@@ -20,35 +20,40 @@ document.addEventListener('alpine:init', () => {
 			type: true,
 		},
 
+		showFilters: false,
 		showTints: false,
+
 		gridLayout: false,
 		isLoading: true,
 		themes: [],
+		orientations: [],
 		years: [],
 		ratios: [],
+		sizes: [],
 		hues: [],
 
 		batches: [],
 		shapes: [],
-		sizes: [],
 		stocks: [],
 		archives: [],
 		filters: {
 			theme: '',
 			year: '',
 			ratio: '',
+			size: '',
 			hue: '',
+			orientation: '',
+			stock: '',
 
 			batch: '',
 			shape: '',
 			size: '',
-			stock: '',
 			archive: '',
 		},
 
 		artworks: [],
 		artworksCustomLinst: [],
-		limit: 15,
+		limit: 20,
 		itemsPerPage: 2000,
 		currentPage: 0,
 		artworkCounter: 0,
@@ -70,8 +75,34 @@ document.addEventListener('alpine:init', () => {
 			return this.hues.sort((a, b) => a - b);
 		},
 
+		// count number of filter aplied
+		get filtersCount() {
+			const filters = this.filters;
+			let count = 0;
+
+			for (const key in filters) {
+				if (filters[key] !== '') {
+					count++;
+				}
+			}
+
+			// for (const key in filters) {
+			// 	if (key !== 'hue' && filters[key] !== '') {
+			// 		count++;
+			// 	}
+			// }
+
+			return count;
+		},
+
 		// Get artworks
 		async getArtworks() {
+			// remove hues list on scroll
+			window.addEventListener('scroll', () => {
+				// Update showTints here based on your conditions
+				this.showTints = false; // or false
+			});
+
 			this.int = await (await fetch('index.json')).json();
 			this.isLoading = false;
 			this.artworks = this.int;
@@ -82,7 +113,10 @@ document.addEventListener('alpine:init', () => {
 
 			// Step 1: Create Buttons for Each Theme
 			this.themes = [...new Set(this.artworks.flatMap((artwork) => artwork.theme))];
+			this.orientations = [...new Set(this.artworks.flatMap((artwork) => artwork.orientation))];
+			this.stocks = [...new Set(this.artworks.map((artwork) => artwork.stock))];
 			this.years = [...new Set(this.artworks.map((artwork) => artwork.year))];
+			this.sizes = [...new Set(this.artworks.map((artwork) => artwork.size))];
 			this.ratios = [...new Set(this.artworks.map((artwork) => artwork.ratio))];
 			this.hues = [...new Set(this.artworks.flatMap((artwork) => artwork.hue))];
 			console.log(this.rations);
@@ -96,11 +130,36 @@ document.addEventListener('alpine:init', () => {
 			return filtered;
 		},
 
+		// toggleStockFilter() {
+		// console.log('line1' + this.filters.stock);
+		// if (this.filters.stock === 'true') {
+		// console.log('line2' + this.filters.stock);
+		// this.filters.stock = ''; // Toggle to empty string (both true and false)
+		// } else {
+		// console.log('line3' + this.filters.stock);
+		// this.filters.stock = 'true'; // Toggle to true
+		// }
+		// },
+
+		toggleStockFilter() {
+			if (this.filters.stock === 'true') {
+				this.filters.stock = ''; // Toggle to empty string (both true and false)
+			} else {
+				this.filters.stock = 'true'; // Toggle to true
+			}
+		},
+
+		resetFilter(filter) {
+			this.filters[filter] = '';
+		},
 		resetFilters() {
 			this.filters.theme = '';
 			this.filters.hue = '';
 			this.filters.year = '';
 			this.filters.ratio = '';
+			this.filters.orientation = '';
+			this.filters.size = '';
+			this.filters.stock = '';
 		},
 
 		filtersHaveValue() {
@@ -156,7 +215,12 @@ document.addEventListener('alpine:init', () => {
 		},
 
 		init() {
+			window.addEventListener('scroll', this.handleScroll);
 			this.getArtworks();
+		},
+
+		destroy() {
+			window.removeEventListener('scroll', this.handleScroll);
 		},
 	}));
 });

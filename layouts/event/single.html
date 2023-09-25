@@ -2,5 +2,5 @@
   <div class="{{ .Site.Params.Prose }} max-w-[80rem] mx-auto mt-[4rem]">
     {{ .Content | safeHTML }}
   </div>
-  {{ partial "prev-next" . }}
+  {{ partial "prev-next.html" (dict "dot" . "color" "soft") }}
 {{ end }}

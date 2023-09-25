@@ -1,20 +1,40 @@
 ---
-title: Floral transparency
-date: 2023-09-10T23:00:00.000Z
-years: 1973
-themes:
-  - abstract
-  - figurtative
+aliases: []
+archive: true
+custom_order: ""
+date: 2010-01-07T00:00:00Z
+creationDate: 2010-01-07T00:00:00Z
+dimensions:
+  height: 60
+  size_txt: single panel - cotton deep canvas
+  thickness: 4
+  width: 50
+draft: false
+summary: ""
+instock: 0
 artworks:
   - gallery
-  - home
-techniqueUsed: Dripping with enamel on canvas
-creationDate: 2020-08-16T10:16:57.902Z
-stock: 0
-price: 0
-weight: 0
-siteMap: true
-layout: artwork
 images:
   - asset: /uploads/2010-floral-transparency.jpg
+    description: ""
+    type: main
+inHome: false
+layout: artwork
+materials: ""
+reproduction: false
+seo:
+  focus_keyword: []
+  meta_description: ""
+  seo_title: ""
+  short_name: ""
+  sitemap: true
+shapes: vertical
+size: medium
+store_info:
+  price: false
+tehnica: ""
+themes:
+  - other
+title: Floral transparency
+weight: 1000
 ---
