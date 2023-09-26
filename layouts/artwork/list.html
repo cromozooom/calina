@@ -37,11 +37,12 @@
       <!-- ALPINE LIST -->
       <div class="w-full" x-data="collection" x-init="() => {refreshLists()}">
         {{ if eq $filterVersion 3 }}
+
           <div
             class="filters sticky top-[-1px] z-[110] w-full backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90">
             <div
-              class="
-            w-full   p-0 my-0 md:mx-auto md:max-w-[90vw] mt-[4rem]">
+              class=" relative
+            w-full p-0 my-0 md:mx-auto md:max-w-[90vw] mt-[4rem]">
               <div class="flex items-center justify-between py-3 px-2 md:px-0">
                 <div>
                   <template x-if="artworkCounter">
@@ -120,204 +121,201 @@
                   </button>
                 </div>
               </div>
-
-              <div x-show="showFilters" x-transition class="flex p-2">
+            </div>
+            <div
+              x-show="showFilters"
+              class="
+            w-full px-2 md:px-0 my-0 md:mx-auto md:max-w-[90vw]">
+              <div
+                class="flex py-2 gap-2 justify-center items-center flex-wrap">
                 <div
-                  class="gap-2 flex w-full justify-center items-center flex-wrap">
-                  <div
-                    class="flex items-center grow md:grow-0 w-[48%] md:w-auto justify-start">
-                    {{ partial "molecules/select.html" ( dict
-                      "id" "orientation"
-                      "showLabel" false
-                      "label" "orientation"
-                      "items" "orientations"
-                      "firstItem" "All orientations"
-                      "model" "filters.orientation"
-                      )
-                    }}
-                  </div>
-                  <div
-                    class="flex items-center grow md:grow-0 w-[48%] md:w-auto justify-start">
-                    {{ partial "molecules/select.html" ( dict
-                      "id" "theme"
-                      "showLabel" false
-                      "label" "Theme"
-                      "items" "themes"
-                      "firstItem" "All themes"
-                      "model" "filters.theme"
-                      )
-                    }}
-                  </div>
-                  <div
-                    class="flex items-center grow md:grow-0 w-[48%] md:w-auto justify-start">
-                    {{ partial "molecules/select.html" ( dict
-                      "id" "size"
-                      "showLabel" false
-                      "label" "size"
-                      "items" "sizes"
-                      "firstItem" "All sizes"
-                      "model" "filters.size"
-                      )
-                    }}
-                  </div>
+                  class="flex items-center grow md:grow-0 w-[49%] md:w-auto justify-start">
+                  {{ partial "molecules/select.html" ( dict
+                    "id" "orientation"
+                    "showLabel" false
+                    "label" "orientation"
+                    "items" "orientations"
+                    "firstItem" "All orientations"
+                    "model" "filters.orientation"
+                    )
+                  }}
+                </div>
+                <div
+                  class="flex items-center grow md:grow-0 w-[49%] md:w-auto justify-start">
+                  {{ partial "molecules/select.html" ( dict
+                    "id" "theme"
+                    "showLabel" false
+                    "label" "Theme"
+                    "items" "themes"
+                    "firstItem" "All themes"
+                    "model" "filters.theme"
+                    )
+                  }}
+                </div>
+                <div
+                  class="flex items-center grow md:grow-0 w-[49%] md:w-auto justify-start">
+                  {{ partial "molecules/select.html" ( dict
+                    "id" "size"
+                    "showLabel" false
+                    "label" "size"
+                    "items" "sizes"
+                    "firstItem" "All sizes"
+                    "model" "filters.size"
+                    )
+                  }}
+                </div>
 
-                  <div
-                    class="flex items-center grow md:grow-0 w-[48%] md:w-auto justify-start">
-                    {{ partial "molecules/select.html" ( dict
-                      "id" "year"
-                      "showLabel" false
-                      "label" "year"
-                      "items" "years"
-                      "firstItem" "All years"
-                      "model" "filters.year"
-                      )
-                    }}
-                  </div>
+                <div
+                  class="flex items-center grow md:grow-0 w-[49%] md:w-auto justify-start">
+                  {{ partial "molecules/select.html" ( dict
+                    "id" "year"
+                    "showLabel" false
+                    "label" "year"
+                    "items" "years"
+                    "firstItem" "All years"
+                    "model" "filters.year"
+                    )
+                  }}
+                </div>
 
-                  <div class="flex justify-between w-full md:w-auto">
-                    <div class="flex items-center">
-                      <label
-                        class="relative inline-flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          x-bind:checked="filters.stock === 'true'"
-                          class="sr-only peer"
-                          x-on:click="toggleStockFilter()" />
+                <div class="flex justify-between w-full md:w-auto">
+                  <div class="flex items-center">
+                    <label
+                      class="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        x-bind:checked="filters.stock === 'true'"
+                        class="sr-only peer"
+                        x-on:click="toggleStockFilter()" />
 
-                        {{ $peerFocus := "" }}
-                        {{ $peerCheck := "" }}
-                        {{ $after := "" }}
+                      {{ $peerFocus := "" }}
+                      {{ $peerCheck := "" }}
+                      {{ $after := "" }}
 
 
-                        <div
-                          class="w-11 h-6 
-                        rounded-full peer  peer-focus:ring-2 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all
-                        
-                      peer-checked:bg-brand-8 peer-checked:dark:bg-brandDark-8/50
-                      peer-checked:after:border-brand-10 peer-checked:dark:after:border-brandDark-10
-                      
-                      dark:peer-focus:ring-brand-8
-                      peer-focus:ring-brand-3
-      
-                      dark:border-neutralDark-5  dark:bg-neutralDark-5 bg-neutral-5
-      
-                      after:bg-brand-9 after:border-brand-9
-                      dark:after:bg-brandDark-9 after:dark:border-brandDark-9
-                          
-                        
-                          "></div>
-                        <span
-                          class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
-                          In Stock
-                        </span>
-                      </label>
-                    </div>
-
-                    <div class="flex justify-center relative">
                       <div
-                        x-data="{
-                          open: false,
-                          toggle() {
-                              if (this.open) {
-                                  return this.close()
-                              }
-      
-                              this.$refs.button.focus()
-      
-                              this.open = true
-                          },
-                          close(focusAfter) {
-                              if (! this.open) return
-      
-                              this.open = false
-      
-                              focusAfter && focusAfter.focus()
-                          }
-                      }"
-                        x-on:keydown.escape.prevent.stop="close($refs.button)"
-                        x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
-                        x-id="['dropdown-button']"
-                        class="relative block">
-                        <!-- Button -->
-                        <button
-                          x-ref="button"
-                          x-on:click="toggle()"
-                          :aria-expanded="open"
-                          :aria-controls="$id('dropdown-button')"
-                          x-bind:style="{
-                            'background': filters.hue ? `hsla(${filters.hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${filters.hue}deg, 50%, 50%, var(--tw-bg-opacity))`
-                          }"
-                          type="button"
-                          class="flex items-center gap-2 bg-white px-2.5 py-2.5 rounded-md shadow">
-                          <span
-                            class="w-6 h-6 rounded-full dark:opacity-70"
-                            style="background-blend-mode: screen;
-                        background: radial-gradient(circle closest-side, white, black 90%), conic-gradient(red, #ff8000, yellow, #80ff00, lime, #00ff80, aqua, #0080ff, blue, #8000ff, fuchsia, #ff0080, red);"></span>
-                        </button>
+                        class="w-11 h-6 
+                      rounded-full peer  peer-focus:ring-2 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all
+                      
+                    peer-checked:bg-brand-8 peer-checked:dark:bg-brandDark-8/50
+                    peer-checked:after:border-brand-10 peer-checked:dark:after:border-brandDark-10
+                    
+                    dark:peer-focus:ring-brand-8
+                    peer-focus:ring-brand-3
+  
+                    dark:border-neutralDark-5  dark:bg-neutralDark-5 bg-neutral-5
+  
+                    after:bg-brand-9 after:border-brand-9
+                    dark:after:bg-brandDark-9 after:dark:border-brandDark-9
+                        
+                      
+                        "></div>
+                      <span
+                        class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
+                        In Stock
+                      </span>
+                    </label>
+                  </div>
 
-                        <!-- Panel -->
-                        <div
-                          x-ref="panel"
-                          x-show="open"
-                          x-transition
-                          x-on:click.outside="close($refs.button)"
-                          :id="$id('dropdown-button')"
-                          style="display: none;"
-                          class="absolute mt-2 right-0 w-[20rem] md:w-[35rem] rounded-md bg-neutral-2 dark:bg-neutralDark-2 shadow-lg flex justify-center flex-wrap gap-3 p-3 border-neutral-4 dark:border-neutralDark-4">
-                          <template x-for="hue in sortedHues">
-                            <div class="flex justify-center items-center">
-                              <button
-                                class="flex justify-center items-center py-2 rounded grow min-w-[3rem] max-w-[3rem]"
-                                x-bind:class="{
-                                  'bg-opacity-50': filters.hue !== hue || (filters.hue === null || filters.hue === ''),
-                                  'bg-opacity-100': filters.hue === hue
-                                }"
-                                x-bind:style="{
-                                  'color': filters.hue !== hue ? `hsla(${hue}deg, 50%, 100%, 0)` : `hsl(0deg, 0%, 100%)`,
-                                  'background': filters.hue !== hue ? `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))`,
-                                  'outline': filters.hue !== hue ? `3px solid hsla(${hue}deg, 50%, 50%, .8)` : `3px solid  hsla(${hue}deg, 50%, 50%, .3)`,
-                                }"
-                                x-on:click="filters.hue = (filters.hue == hue) ? '' : hue;">
-                                <svg
-                                  x-show="filters.hue === hue"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  fill="currentColor"
-                                  class="bi bi-check2-square"
-                                  viewBox="0 0 16 16">
-                                  <path
-                                    d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
-                                  <path
-                                    d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
-                                </svg>
-                                <svg
-                                  x-show="filters.hue !== hue || (filters.hue === null || filters.hue === '')"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  fill="currentColor"
-                                  class="bi bi-square"
-                                  viewBox="0 0 16 16">
-                                  <path
-                                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                                </svg>
-                              </button>
-                            </div>
-                          </template>
-                        </div>
+                  <div class="flex justify-center relative">
+                    <div
+                      x-data="{
+                        open: false,
+                        toggle() {
+                            if (this.open) {
+                                return this.close()
+                            }
+  
+                            this.$refs.button.focus()
+  
+                            this.open = true
+                        },
+                        close(focusAfter) {
+                            if (! this.open) return
+  
+                            this.open = false
+  
+                            focusAfter && focusAfter.focus()
+                        }
+                    }"
+                      x-on:keydown.escape.prevent.stop="close($refs.button)"
+                      x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+                      x-id="['dropdown-button']"
+                      class="relative block">
+                      <!-- Button -->
+                      <button
+                        x-ref="button"
+                        x-on:click="toggle()"
+                        :aria-expanded="open"
+                        :aria-controls="$id('dropdown-button')"
+                        x-bind:style="{
+                          'background': filters.hue ? `hsla(${filters.hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${filters.hue}deg, 50%, 50%, var(--tw-bg-opacity))`
+                        }"
+                        type="button"
+                        class="flex items-center gap-2 bg-white px-2.5 py-2.5 rounded-md shadow">
+                        <span
+                          class="w-6 h-6 rounded-full dark:opacity-70"
+                          style="background-blend-mode: screen;
+                      background: radial-gradient(circle closest-side, white, black 90%), conic-gradient(red, #ff8000, yellow, #80ff00, lime, #00ff80, aqua, #0080ff, blue, #8000ff, fuchsia, #ff0080, red);"></span>
+                      </button>
+
+                      <!-- Panel -->
+                      <div
+                        x-ref="panel"
+                        x-show="open"
+                        x-transition
+                        x-on:click.outside="close($refs.button)"
+                        :id="$id('dropdown-button')"
+                        style="display: none;"
+                        class="absolute mt-2 right-0 w-[20rem] md:w-[35rem] rounded-md bg-neutral-2 dark:bg-neutralDark-2 border-neutral-4 dark:border-neutralDark-4 shadow-lg flex justify-center flex-wrap gap-3 p-3">
+                        <template x-for="hue in sortedHues">
+                          <div class="flex justify-center items-center">
+                            <button
+                              class="flex justify-center items-center py-2 rounded grow min-w-[3rem] max-w-[3rem]"
+                              x-bind:class="{
+                      'bg-opacity-50': filters.hue !== hue || (filters.hue === null || filters.hue === ''),
+                      'bg-opacity-100': filters.hue === hue
+                    }"
+                              x-bind:style="{
+                    'color': filters.hue !== hue ? `hsla(${hue}deg, 50%, 100%, 0)` : `hsl(0deg, 0%, 100%)`,
+                    'background': filters.hue !== hue ? `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))`,
+                    'outline': filters.hue !== hue ? `3px solid hsla(${hue}deg, 50%, 50%, .8)` : `3px solid  hsla(${hue}deg, 50%, 50%, .3)`,
+                  }"
+                              x-on:click="filters.hue = (filters.hue == hue) ? '' : hue;">
+                              <svg
+                                x-show="filters.hue === hue"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-check2-square"
+                                viewBox="0 0 16 16">
+                                <path
+                                  d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                                <path
+                                  d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                              </svg>
+                              <svg
+                                x-show="filters.hue !== hue || (filters.hue === null || filters.hue === '')"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-square"
+                                viewBox="0 0 16 16">
+                                <path
+                                  d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                              </svg>
+                            </button>
+                          </div>
+                        </template>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div
-              x-show="showFilters"
-              class="
-            w-full backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90  px-2 md:px-0 my-0 md:mx-auto md:max-w-[90vw]"></div>
           </div>
-          <template> </template>
         {{ else if eq $filterVersion 2 }}
           <div
             class="filters sticky top-[-1px] z-[10]
