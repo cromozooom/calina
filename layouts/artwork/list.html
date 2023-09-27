@@ -130,6 +130,71 @@
                 class="flex py-2 gap-2 justify-center items-center flex-wrap">
                 <div
                   class="flex items-center grow md:grow-0 w-[49%] md:w-auto justify-start">
+                  {{/* {{ partial "molecules/select.html" ( dict
+                    "id" "width"
+                    "showLabel" false
+                    "label" "width"
+                    "items" "sortedWidths"
+                    "firstItem" "All widths"
+                    "model" "filters.width"
+                    )
+                  }}
+
+                  */}}
+                  {{/* <label
+                    for="width"
+                    class="xsr-only block mb-2 text-sm font-medium text-neutral-9 dark:text-white"
+                    >Width</label
+                    >
+                    <select
+                    id="width"
+                    x-model="filters.width"
+                    class="bg-neutral-1 border border-neutral-6 text-neutral-11 text-sm rounded-md focus:ring-brand-8 focus:border-brand-5 block w-full py-2.5 pl-2.5 pr-5.5 dark:bg-neutralDark-3 dark:border-neutralDark-5 dark:placeholder-neutralDark-4 dark:text-white dark:focus:ring-brandDark-5 dark:focus:border-brand-10">
+                    <option value="">All widths</option>
+                    <template x-for="item in sortedWidths">
+                    <option class="py-2" x-text="item"></option>
+                    </template>
+                    </select>
+                  */}}
+
+
+                  <label
+                    for="width"
+                    class="sr-only block mb-2 text-sm font-medium text-neutral-9 dark:text-white"
+                    >Width</label
+                  >
+                  <select
+                    id="width"
+                    x-model="filters.width"
+                    class="bg-neutral-1 border border-neutral-6 text-neutral-11 text-sm rounded-md focus:ring-brand-8 focus:border-brand-5 block w-full py-2.5 pl-2.5 pr-5.5 dark:bg-neutralDark-3 dark:border-neutralDark-5 dark:placeholder-neutralDark-4 dark:text-white dark:focus:ring-brandDark-5 dark:focus:border-brand-10">
+                    <option value="">All widths</option>
+                    <template x-for="item in sortedWidths">
+                      <!-- Use x-bind to apply the widthFilter function when selecting an option -->
+                      <option
+                        class="py-2"
+                        x-text="item"
+                        x-bind:class="{
+      'bg-opacity-50': widthFilter(item, filters.width),
+      'bg-opacity-100': !widthFilter(item, filters.width)
+    }"></option>
+                    </template>
+                  </select>
+                </div>
+
+                <div
+                  class="flex items-center grow md:grow-0 w-[49%] md:w-auto justify-start">
+                  {{ partial "molecules/select.html" ( dict
+                    "id" "height"
+                    "showLabel" false
+                    "label" "height"
+                    "items" "sortedHeights"
+                    "firstItem" "All heights"
+                    "model" "filters.height"
+                    )
+                  }}
+                </div>
+                <div
+                  class="flex items-center grow md:grow-0 w-[49%] md:w-auto justify-start">
                   {{ partial "molecules/select.html" ( dict
                     "id" "orientation"
                     "showLabel" false

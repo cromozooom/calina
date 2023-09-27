@@ -3,6 +3,128 @@
   <div class="self-stretch mt-1 md:mt-3
   md:before:rounded-md relative mb-4 md:py-3 before:opacity-[.3] md:before:opacity-[.1] before:z-[-1] before:bg-[var(--bg)] before:inset-0 before:absolute before:block before:content-['']">
   
+  {{ $main := ""}}
+  {{ $origW := mul .Params.dimensions.width 10 }}
+  {{ $origH := mul .Params.dimensions.height 10 }}
+  {{ $w := div (mul $origW 105) 100 | int }}
+  {{ $h := div (mul $origH 105) 100 | int }}
+
+  {{- $thumbOptionXL := "1052x1052 smart q100 picture webp" -}}
+  {{- $thumbOptionL := "800x800 smart q100 picture webp" -}}
+  {{- $thumbOptionM := "370x370 smart q100 picture webp" -}}
+
+  
+  {{ $size := "" }}
+  {{- $surface := mul .Params.dimensions.width .Params.dimensions.height -}}
+  {{- if gt $surface 12000 -}}
+    {{- $size = "Oversized" -}}
+  {{- else if gt $surface 6000 -}}
+    {{- $size = "Large" -}}
+  {{- else if gt $surface 1200 -}}
+    {{- $size = "Medium" -}}
+  {{- else if gt $surface 1 -}}
+    {{- $size = "Small" -}}
+  {{- end -}}
+
+
+  
+  {{ $origW }} x
+  {{ $origH }} x
+  {{ $w }} x
+  {{ $h }} x
+  {{ $size }} x
+
+  {{- $artSurface := (printf "%dx%d smart q100 picture webp" $origW $origH) -}}
+  {{- $shadowSurface := (printf "%dx%d smart q100 picture webp" $w $h) -}}
+  
+  {{ range first 1 .Params.images }}
+    {{ $main = .asset }}
+  {{ end }}
+  
+  {{ $artSrc := $main }}
+  {{ $positionX := "" }}
+  {{ $positionY := "" }}
+
+  {{ $shadowSrc := "/uploads/shadow-square.png" }}
+  {{ $ambientSrc := "" }}
+  
+
+  {{ if eq $size "Small" }}
+    {{/*  sofa-1_small  */}}
+    {{ $positionX = 750 }}
+    {{ $positionY = 380 }}
+    {{ $ambientSrc = "/uploads/sofa-1_small.jpg" }}
+  {{ else }}
+    {{ $positionX = 120 }}
+    {{ $positionY = 220 }}
+    {{ $ambientSrc = "/uploads/table-1_small.jpg" }}
+  {{ end }}
+
+  
+  {{ $artwork := "" }}
+  {{ $ambient := "" }}
+  {{ $myShadow := "" }}
+
+  {{ with $artSrc }}
+    {{ $art := strings.TrimPrefix "/uploads/" $artSrc }}
+    {{ range $.Site.Pages }}
+      {{ with .Resources.Match $art }}
+        {{ range . }}
+        {{ $artwork = .Resize $artSurface }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{ with $ambientSrc }}
+    {{ $bg := strings.TrimPrefix "/uploads/" $ambientSrc }}
+    {{ range $.Site.Pages }}
+      {{ with .Resources.Match $bg }}
+        {{ range . }}
+        {{ $ambient = . }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ with $shadowSrc }}
+    {{ $shadow := strings.TrimPrefix "/uploads/" $shadowSrc }}
+    {{ range $.Site.Pages }}
+      {{ with .Resources.Match $shadow }}
+        {{ range . }}
+        {{ $myShadow = .Resize $shadowSurface }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  
+  
+  {{ $ArtworkWithShadow := $myShadow.Filter  (images.Overlay $artwork 10 -7 ) }}
+
+
+
+  {{ $img := "" }}
+  
+  {{ if eq $size "Small" }}
+    {{/*  sofa-1_small  */}}
+    {{ $img = $ambient.Filter (images.Overlay $ArtworkWithShadow $positionX $positionY ) }}
+  {{ else }}
+    {{ $img = $ambient.Filter (images.Overlay $ArtworkWithShadow $positionX $positionY ) }}
+  {{ end }}
+
+  {{- $thumb_XL := $img.Fill $thumbOptionXL -}}
+  {{- $thumb_L := $img.Fill $thumbOptionL -}}
+  {{- $thumb_M := $img.Fill $thumbOptionM -}}
+
+  <div class="text-white py-80">
+    {{/*  <img src="{{ $img.RelPermalink }}">  */}}
+    {{/*  <img src="{{ $thumb_XL.RelPermalink }}">  */}}
+    <img src="{{ $thumb_L.RelPermalink }}">
+    {{/* <img src="{{ $thumb_M.RelPermalink }}">  */}}
+
+  </div>
+  
+
+
   {{ partial "scratching/images.html" . }}
   
   {{ $slider := .Scratch.Get "slider" }}

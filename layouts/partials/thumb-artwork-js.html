@@ -56,7 +56,7 @@
           
         </template>
       </span>
-      <a class="xartworkLink xmainLink" :href="artwork.url">
+      <a class="artworkLink mainLink" :href="artwork.url">
         <h2 class="flex  py-0 my-0 font-serif text-lg text-neutral-11 dark:text-neutralDark-11" >
           <span x-text="artwork.title"></span>
         </h2>
@@ -66,8 +66,8 @@
     <div class="flex gap-1 justify-between items-baseline">
       <div>
         <p class="text-sm text-neutral-10 dark:text-neutralDark-10">
-          <span x-text="artwork.w + 'W x '"></span>
-          <span x-text="artwork.h + 'H (cm)'"></span>
+          <span x-text="artwork.width + 'W x '"></span>
+          <span x-text="artwork.height + 'H (cm)'"></span>
         </p>
       </div>
       <div>

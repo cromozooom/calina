@@ -12,7 +12,8 @@ dimensions:
   width: 30
 draft: false
 summary: ""
-gallery: false
+artworks:
+  - gallery
 images:
   - asset: /uploads/2022-waiting-for-spring.jpg
     description: ""

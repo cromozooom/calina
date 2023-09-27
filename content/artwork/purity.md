@@ -5,10 +5,10 @@ custom_order: ""
 date: 2007-03-04T00:00:00Z
 creationDate: 2007-03-04T00:00:00Z
 dimensions:
-  height: 30
+  height: 40
   size_txt: single panel - cotton deep canvas
   thickness: 4
-  width: 40
+  width: 30
 draft: false
 summary: ""
 gallery: false

@@ -20,7 +20,7 @@ document.addEventListener('alpine:init', () => {
 			type: true,
 		},
 
-		showFilters: false,
+		showFilters: true,
 		showTints: false,
 
 		gridLayout: false,
@@ -30,6 +30,8 @@ document.addEventListener('alpine:init', () => {
 		years: [],
 		ratios: [],
 		sizes: [],
+		widths: [],
+		heights: [],
 		hues: [],
 
 		batches: [],
@@ -44,6 +46,8 @@ document.addEventListener('alpine:init', () => {
 			hue: '',
 			orientation: '',
 			stock: '',
+			width: '',
+			height: '',
 
 			batch: '',
 			shape: '',
@@ -71,9 +75,15 @@ document.addEventListener('alpine:init', () => {
 		archive: false,
 
 		// Computed property to sort hues
-		get sortedHues() {
-			return this.hues.sort((a, b) => a - b);
-		},
+		// get sortedHues() {
+		// 	return this.hues.sort((a, b) => a - b);
+		// },
+		// get sortedHeights() {
+		// 	return this.heights.sort((a, b) => a - b);
+		// },
+		// get sortedWidths() {
+		// 	return this.widths.sort((a, b) => a - b);
+		// },
 
 		// count number of filter aplied
 		get filtersCount() {
@@ -95,6 +105,24 @@ document.addEventListener('alpine:init', () => {
 			return count;
 		},
 
+		widthFilter(selectedWidth, artworkWidth) {
+			// Convert the selected width to a number for strict comparison
+			const selected = parseInt(selectedWidth);
+
+			// Convert the artwork's width to a number for strict comparison
+			const artwork = parseInt(artworkWidth);
+
+			// Perform strict comparison
+			return selected !== artwork;
+		},
+
+		sortedHues: [],
+		sortedHeights: [],
+		sortedWidths: [],
+		sortNumbersAsc(array) {
+			return array.sort((a, b) => a - b);
+		},
+
 		// Get artworks
 		async getArtworks() {
 			// remove hues list on scroll
@@ -110,16 +138,32 @@ document.addEventListener('alpine:init', () => {
 			function getUniqueHues(artwork) {
 				return [...new Set(artwork.hue)];
 			}
+			function getUniqueHeights(artwork) {
+				return [...new Set(artwork.height)];
+			}
+			function getUniqueWidths(artwork) {
+				return [...new Set(artwork.width)];
+			}
 
 			// Step 1: Create Buttons for Each Theme
 			this.themes = [...new Set(this.artworks.flatMap((artwork) => artwork.theme))];
 			this.orientations = [...new Set(this.artworks.flatMap((artwork) => artwork.orientation))];
 			this.stocks = [...new Set(this.artworks.map((artwork) => artwork.stock))];
 			this.years = [...new Set(this.artworks.map((artwork) => artwork.year))];
+			this.heights = [...new Set(this.artworks.map((artwork) => parseInt(artwork.height)))];
+			// this.widths = [...new Set(this.artworks.map((artwork) => artwork.width))];
+
+			this.widths = [...new Set(this.artworks.map((artwork) => parseInt(artwork.width)))];
+			console.log(this.widths);
+
 			this.sizes = [...new Set(this.artworks.map((artwork) => artwork.size))];
 			this.ratios = [...new Set(this.artworks.map((artwork) => artwork.ratio))];
 			this.hues = [...new Set(this.artworks.flatMap((artwork) => artwork.hue))];
 			console.log(this.rations);
+
+			this.sortedHues = this.sortNumbersAsc(this.hues);
+			this.sortedHeights = this.sortNumbersAsc(this.heights);
+			this.sortedWidths = this.sortNumbersAsc(this.widths);
 		},
 
 		page() {
@@ -160,6 +204,8 @@ document.addEventListener('alpine:init', () => {
 			this.filters.orientation = '';
 			this.filters.size = '';
 			this.filters.stock = '';
+			this.filters.width = '';
+			this.filters.height = '';
 		},
 
 		filtersHaveValue() {
@@ -168,6 +214,50 @@ document.addEventListener('alpine:init', () => {
 
 		refreshLists() {
 			console.log('fn: refreshLists');
+		},
+
+		get works_filteredArtworks() {
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const img = entry.target;
+						img.src = img.dataset.src;
+						observer.unobserve(img);
+					}
+				});
+			});
+
+			// Observe all the images with a `data-src` attribute
+			const images = document.querySelectorAll('img[data-src]');
+			images.forEach((img) => observer.observe(img));
+
+			const filtered = this.artworks.filter((item) => {
+				for (var key in this.filters) {
+					if (this.filters[key] === '') {
+						continue;
+					}
+
+					if (key === 'hue') {
+						// Check if the selected hue value exists within the artwork's "hue" array
+						if (!item.hue.includes(parseInt(this.filters.hue))) {
+							return false;
+						}
+					} else {
+						if (!String(item[key]).includes(this.filters[key])) {
+							return false;
+						}
+					}
+				}
+
+				return true;
+			});
+
+			this.artworkCounter = filtered.length;
+			console.log(filtered.length);
+
+			const viewAttrs = this.computedViewAttributes;
+
+			return filtered;
 		},
 
 		get filteredArtworks() {
@@ -194,6 +284,16 @@ document.addEventListener('alpine:init', () => {
 					if (key === 'hue') {
 						// Check if the selected hue value exists within the artwork's "hue" array
 						if (!item.hue.includes(parseInt(this.filters.hue))) {
+							return false;
+						}
+					} else if (key === 'width') {
+						// Perform numeric comparison for the "size" attribute
+						if (parseInt(item[key]) !== parseInt(this.filters[key])) {
+							return false;
+						}
+					} else if (key === 'height') {
+						// Perform numeric comparison for the "size" attribute
+						if (parseInt(item[key]) !== parseInt(this.filters[key])) {
 							return false;
 						}
 					} else {
