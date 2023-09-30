@@ -19,15 +19,17 @@
     "url": "{{- .Permalink -}}",
     "thumb_XL" : "{{- .Scratch.Get "_thumb_XL" -}}",
     "thumb_XL_w" : "{{- .Scratch.Get "_thumb_XL_w" -}}",
-    "thumb_XL_h" :
-    "{{- .Scratch.Get "_thumb_XL_h" -}}", "thumb_L" :
-    "{{- .Scratch.Get "_thumb_L" -}}", "thumb_L_w" :
-    "{{- .Scratch.Get "_thumb_L_w" -}}", "thumb_L_h" :
-    "{{- .Scratch.Get "_thumb_L_h" -}}", "thumb_M" :
-    "{{- .Scratch.Get "_thumb_M" -}}", "thumb_M_w" :
-    "{{- .Scratch.Get "_thumb_M_w" -}}", "thumb_M_h" :
-    "{{- .Scratch.Get "_thumb_M_h" -}}", "price" :
-    "{{- .Params.store_info.price -}}",
+    "thumb_XL_h" : "{{- .Scratch.Get "_thumb_XL_h" -}}",
+    "thumb_L" : "{{- .Scratch.Get "_thumb_L" -}}",
+    "thumb_L_w" : "{{- .Scratch.Get "_thumb_L_w" -}}",
+    "thumb_L_h" : "{{- .Scratch.Get "_thumb_L_h" -}}",
+    "thumb_M" : "{{- .Scratch.Get "_thumb_M" -}}",
+    "thumb_M_w" : "{{- .Scratch.Get "_thumb_M_w" -}}",
+    "thumb_M_h" : "{{- .Scratch.Get "_thumb_M_h" -}}",
+    "price" : "{{- .Params.store_info.price -}}",
+    "slide" : {{- .Scratch.Get "slider" | jsonify -}},
+
+    
     {{ $stock := false }}
     {{- if gt .Params.instock 0 -}}
       {{- $stock = true -}}

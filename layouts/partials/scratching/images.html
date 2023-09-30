@@ -162,3 +162,134 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
+
+{{/* SYM */}}
+
+{{- $images.Set "symSrc" "" -}}
+{{- $images.Set "sym_XL" "" -}}
+{{- $images.Set "sym_XL_w" "" -}}
+{{- $images.Set "sym_XL_h" "" -}}
+{{- $images.Set "sym_L" "" -}}
+{{- $images.Set "sym_L_w" "" -}}
+{{- $images.Set "sym_L_h" "" -}}
+{{- $images.Set "sym_M" "" -}}
+{{- $images.Set "sym_M_w" "" -}}
+{{- $images.Set "sym_M_h" "" -}}
+{{- $symW := "" | default 300 -}}
+{{- $symH := "" | default 300 -}}
+{{- $symOrigW := "" -}}
+{{- $symOrigH := "" -}}
+{{- $symArtSrc := "" -}}
+{{- $symShadowSrc := "/uploads/shadow-square.png" -}}
+{{- $symAmbientSrc := "" -}}
+{{- $symSize := "" -}}
+{{- $symPositionX := "" -}}
+{{- $symPositionY := "" -}}
+{{- $symArtwork := "" -}}
+{{- $symAmbient := "" -}}
+{{- $symMyShadow := "" -}}
+{{- $symXL := "1052x1052 smart q100 picture webp" -}}
+{{- $symL := "800x800 smart q100 picture webp" -}}
+{{- $symM := "370x370 smart q100 picture webp" -}}
+{{- $myShadow := "" -}}
+
+{{- with .Params.dimensions.width -}}
+  {{- $symOrigW = mul . 10 -}}
+  {{- $symW = div (mul $symOrigW 105) 100 | int -}}
+{{ end }}
+{{- with .Params.dimensions.height -}}
+  {{- $symOrigH = mul . 10 -}}
+  {{- $symH = div (mul $symOrigH 105) 100 | int -}}
+{{ end }}
+
+{{- $symSurface := "" -}}
+{{- with $symOrigW -}}
+  {{- with $symOrigH -}}
+    {{- $symSurface = mul $symOrigW $symOrigH -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if gt $symSurface 1200000 -}}
+  {{- $symPositionX = div (sub 4250 $symOrigW) 2 -}}
+  {{- $symPositionY = div (sub 2550 $symOrigH) 2 -}}
+  {{- $symAmbientSrc = "/uploads/large-01.jpg" -}}
+{{- else if gt $symSurface 600000 -}}
+  {{- $symPositionX = div (sub 3450 $symOrigW) 2 -}}
+  {{- $symPositionY = div (sub 2550 $symOrigH) 2 -}}
+  {{- $symAmbientSrc = "/uploads/banch_large.jpg" -}}
+{{- else if gt $symSurface 120000 -}}
+  {{/* {{- $symPositionX = div (sub 1350 $symOrigW) 2 -}}
+  {{- $symPositionY = div (sub 1000 $symOrigH) 2 -}}
+  {{- $symAmbientSrc = "/uploads/table-1_small.jpg" -}} */}}
+  {{- $symPositionX = div (sub 1500 $symOrigH) 2 -}}
+  {{- $symPositionY = div (sub 1400 $symOrigH) 2 -}}
+  {{- $symAmbientSrc = "/uploads/small-1.jpg" -}}
+{{- else if gt $symSurface 1 -}}
+  {{- $symPositionX = div (sub 600 $symOrigW) 2 -}}
+  {{- $symPositionY = div (sub 700 $symOrigH) 2 -}}
+  {{- $symAmbientSrc = "/uploads/small-2.jpg" -}}
+{{- end -}}
+
+{{- with .Params.images -}}
+  {{- $symImagesList := . -}}
+  {{- range $index, $img := first 1 $symImagesList -}}
+    {{- $symArtSrc = .asset -}}
+    {{- $images.Set "test" .asset -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $symArtSurface := (printf "%dx%d smart q100 picture webp" $symOrigW $symOrigH ) -}}
+{{- $symShadowSurface := (printf "%dx%d smart q100 picture webp" $symW $symH ) -}}
+{{- with $symArtSrc -}}
+
+  {{- $symArt := strings.TrimPrefix "/uploads/" . -}}
+
+  {{- range $.Site.Pages -}}
+    {{- with .Resources.Match $symArt -}}
+      {{- range . -}}
+        {{- $symArtwork = .Resize $symArtSurface -}}
+        {{- with $symShadowSrc -}}
+          {{- $symShadow := strings.TrimPrefix "/uploads/" . -}}
+          {{- range $.Site.Pages -}}
+            {{- with .Resources.Match $symShadow -}}
+              {{- range . -}}
+                {{- $symMyShadow = .Resize $symShadowSurface -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        {{- with $symAmbientSrc -}}
+          {{- $symBg := strings.TrimPrefix "/uploads/" . -}}
+          {{- range $.Site.Pages -}}
+            {{- with .Resources.Match $symBg -}}
+              {{- range . -}}
+                {{- $symAmbient = . -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+        {{ $symArt }}
+        {{- $ArtworkWithShadow := $symMyShadow.Filter  (images.Overlay $symArtwork 10 -7 ) -}}
+
+        {{- $img := "" -}}
+        {{- $img = $symAmbient.Filter (images.Overlay $ArtworkWithShadow $symPositionX $symPositionY ) -}}
+
+        {{- $sym_M := $img.Resize "370x center q100 picture webp" -}}
+        {{- $sym_L := $img.Resize "800x center q100 picture webp" -}}
+        {{- $sym_XL := $img.Resize "1052x center q100 picture webp" -}}
+        {{- $.Scratch.Add "slider"  (dict
+          "type" "aiSym"
+          "title" "No Title"
+          "index" 100
+          "slider_M" $sym_M.RelPermalink
+          "slider_M_w" $sym_M.Width
+          "slider_M_h" $sym_M.Height
+          "slider_L" $sym_L.RelPermalink
+          "slider_L_w" $sym_L.Width
+          "slider_L_h" $sym_L.Height
+          )
+        -}}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}

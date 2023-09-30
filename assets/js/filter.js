@@ -74,17 +74,6 @@ document.addEventListener('alpine:init', () => {
 
 		archive: false,
 
-		// Computed property to sort hues
-		// get sortedHues() {
-		// 	return this.hues.sort((a, b) => a - b);
-		// },
-		// get sortedHeights() {
-		// 	return this.heights.sort((a, b) => a - b);
-		// },
-		// get sortedWidths() {
-		// 	return this.widths.sort((a, b) => a - b);
-		// },
-
 		// count number of filter aplied
 		get filtersCount() {
 			const filters = this.filters;
@@ -151,16 +140,10 @@ document.addEventListener('alpine:init', () => {
 			this.stocks = [...new Set(this.artworks.map((artwork) => artwork.stock))];
 			this.years = [...new Set(this.artworks.map((artwork) => artwork.year))];
 			this.heights = [...new Set(this.artworks.map((artwork) => parseInt(artwork.height)))];
-			// this.widths = [...new Set(this.artworks.map((artwork) => artwork.width))];
-
 			this.widths = [...new Set(this.artworks.map((artwork) => parseInt(artwork.width)))];
-			console.log(this.widths);
-
 			this.sizes = [...new Set(this.artworks.map((artwork) => artwork.size))];
 			this.ratios = [...new Set(this.artworks.map((artwork) => artwork.ratio))];
 			this.hues = [...new Set(this.artworks.flatMap((artwork) => artwork.hue))];
-			console.log(this.rations);
-
 			this.sortedHues = this.sortNumbersAsc(this.hues);
 			this.sortedHeights = this.sortNumbersAsc(this.heights);
 			this.sortedWidths = this.sortNumbersAsc(this.widths);

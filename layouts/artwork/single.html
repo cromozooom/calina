@@ -3,6 +3,10 @@
   <div class="self-stretch mt-1 md:mt-3
   md:before:rounded-md relative mb-4 md:py-3 before:opacity-[.3] md:before:opacity-[.1] before:z-[-1] before:bg-[var(--bg)] before:inset-0 before:absolute before:block before:content-['']">
   
+
+  {{ $devSym := 0}}
+  {{ if $devSym }}
+
   {{ $main := ""}}
   {{ $origW := mul .Params.dimensions.width 10 }}
   {{ $origH := mul .Params.dimensions.height 10 }}
@@ -122,10 +126,13 @@
     {{/* <img src="{{ $thumb_M.RelPermalink }}">  */}}
 
   </div>
+  {{ end }}
   
 
 
   {{ partial "scratching/images.html" . }}
+  
+ 
   
   {{ $slider := .Scratch.Get "slider" }}
   
