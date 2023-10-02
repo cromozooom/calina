@@ -1,4 +1,633 @@
 {{ define "main" }}
+  {{ $filterVersion := 3 }}
+  {{ $dev := 0 | default $.Site.Params.dev }}
+
+
+  <main class="block" role="main">
+    <section class="py-2">
+      <!-- ALPINE LIST -->
+      <div class="w-full" x-data="collection" x-init="() => {refreshLists()}">
+        {{ if eq $filterVersion 3 }}
+          <div
+            class="filters sticky top-[-1px] z-[110] w-full backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90">
+            <div
+              class=" relative
+          w-full p-0 my-0 md:mx-auto md:max-w-[90vw] mt-[4rem]">
+              <div class="flex items-center justify-between py-3 px-2 md:px-0">
+                <div>
+                  <template x-if="artworkCounter">
+                    <span
+                      class="flex gap-1 text-neutral-9 dark:text-neutralDark-9">
+                      <span class="hidden sm:flex"> Showing, </span>
+                      <span
+                        class="text-center flex"
+                        x-text="artworkCounter"></span>
+                      <span
+                        x-show="artworkCounter > 1"
+                        x-text="'artworks'"
+                        class="text-center flex"></span>
+                      <span
+                        x-show="artworkCounter === 1"
+                        x-text="' artwork'"
+                        class="text-center flex"></span>
+                    </span>
+                  </template>
+                </div>
+                {{/* <div class="grow border px-3">colors</div> */}}
+
+
+                <div>
+                  <button
+                    x-show="filtersHaveValue()"
+                    x-on:click="resetFilters"
+                    x-transition
+                    type="button"
+                    class="btn-ghost [&_svg]:w-3.5 [&_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center  px-2 py-2 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3 w-auto justify-center gap-1  transition duration-200">
+                    <span class="flex items-center gap-2 px-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-trash3"
+                        viewBox="0 0 16 16">
+                        <path
+                          d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                      </svg>
+
+                      <span class="flex items-center">
+                        <span
+                          class="hidden invisible md:flex gap-1 md:visible items-center">
+                          Reset
+                        </span>
+                        <span
+                          x-text="filtersCount"
+                          class="px-2 bg-neutral-10 text-neutral-2 dark:bg-neutralDark-10 dark:text-neutralDark-2 mx-2 rounded-lg"></span>
+                        <span
+                          x-show="filtersCount > 1"
+                          x-text="'filters'"></span>
+                        <span
+                          x-show="filtersCount === 1"
+                          x-text="'filter'"></span>
+                      </span>
+                    </span>
+                  </button>
+
+                  <button
+                    @click="showFilters = !showFilters, showTints = false"
+                    class="btn-ghost [&_svg]:w-3.5 [&_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center  px-2 py-2 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3 w-auto justify-center gap-1  transition duration-200  ">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-funnel"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+                    </svg>
+                    <span x-show="!showFilters" x-text="'Show Filters'"> </span>
+                    <span x-show="showFilters" x-text="'Hide Filters'"> </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              x-show="showFilters"
+              class="
+            w-full px-2 md:px-0 my-0 md:mx-auto md:max-w-[90vw]">
+              <div
+                class="flex py-2 gap-2 justify-center items-center flex-wrap">
+                <div
+                  class="flex items-center grow md:grow-0 w-[49%] md:w-auto justify-start">
+                  <label
+                    for="width"
+                    class="sr-only block mb-2 text-sm font-medium text-neutral-9 dark:text-white"
+                    >Width</label
+                  >
+                  <select
+                    id="width"
+                    x-model="filters.width"
+                    class="bg-neutral-1 border border-neutral-6 text-neutral-11 text-sm rounded-md focus:ring-brand-8 focus:border-brand-5 block w-full py-2.5 pl-2.5 pr-5.5 dark:bg-neutralDark-3 dark:border-neutralDark-5 dark:placeholder-neutralDark-4 dark:text-white dark:focus:ring-brandDark-5 dark:focus:border-brand-10">
+                    <option value="">All widths</option>
+                    <template x-for="width in sortedWidths">
+                      <option
+                        x-show="itemCounts('width')[width]"
+                        x-text="`${width} (${itemCounts('width')[width]})`"></option>
+                    </template>
+                  </select>
+                </div>
+                <div
+                  class="flex items-center grow md:grow-0 w-[49%] md:w-auto justify-start">
+                  <label
+                    for="height"
+                    class="sr-only block mb-2 text-sm font-medium text-neutral-9 dark:text-white"
+                    >height</label
+                  >
+                  <select
+                    id="height"
+                    x-model="filters.height"
+                    class="bg-neutral-1 border border-neutral-6 text-neutral-11 text-sm rounded-md focus:ring-brand-8 focus:border-brand-5 block w-full py-2.5 pl-2.5 pr-5.5 dark:bg-neutralDark-3 dark:border-neutralDark-5 dark:placeholder-neutralDark-4 dark:text-white dark:focus:ring-brandDark-5 dark:focus:border-brand-10">
+                    <option value="">All heights</option>
+                    <template x-for="height in sortedHeights">
+                      <option
+                        x-show="itemCounts('height')[height]"
+                        x-text="`${height} (${itemCounts('height')[height]})`"></option>
+                    </template>
+                  </select>
+                </div>
+
+                <div>
+                  <select
+                    id="orientation"
+                    x-model="filters.orientation"
+                    class="bg-neutral-1 border border-neutral-6 text-neutral-11 text-sm rounded-md focus:ring-brand-8 focus:border-brand-5 block w-full py-2.5 pl-2.5 pr-5.5 dark:bg-neutralDark-3 dark:border-neutralDark-5 dark:placeholder-neutralDark-4 dark:text-white dark:focus:ring-brandDark-5 dark:focus:border-brand-10">
+                    <option value="">All orientations</option>
+                    <template
+                      x-for="[key, value] in Object.entries(itemCounts('orientation'))">
+                      <option
+                        x-bind:value="key"
+                        x-show="value"
+                        x-text="`${key} (${value})`"></option>
+                    </template>
+                  </select>
+                </div>
+                <div>
+                  <select
+                    id="theme"
+                    x-model="filters.theme"
+                    class="bg-neutral-1 border border-neutral-6 text-neutral-11 text-sm rounded-md focus:ring-brand-8 focus:border-brand-5 block w-full py-2.5 pl-2.5 pr-5.5 dark:bg-neutralDark-3 dark:border-neutralDark-5 dark:placeholder-neutralDark-4 dark:text-white dark:focus:ring-brandDark-5 dark:focus:border-brand-10">
+                    <option value="">All themes</option>
+                    <template
+                      x-for="[key, value] in Object.entries(itemCounts('theme'))">
+                      <option
+                        x-bind:value="key"
+                        x-show="value"
+                        x-text="`${key} (${value})`"></option>
+                    </template>
+                  </select>
+                </div>
+                <div>
+                  <select
+                    id="size"
+                    x-model="filters.size"
+                    class="bg-neutral-1 border border-neutral-6 text-neutral-11 text-sm rounded-md focus:ring-brand-8 focus:border-brand-5 block w-full py-2.5 pl-2.5 pr-5.5 dark:bg-neutralDark-3 dark:border-neutralDark-5 dark:placeholder-neutralDark-4 dark:text-white dark:focus:ring-brandDark-5 dark:focus:border-brand-10">
+                    <option value="">All sizes</option>
+                    <template
+                      x-for="[key, value] in Object.entries(itemCounts('size'))">
+                      <option
+                        x-bind:value="key"
+                        x-show="value"
+                        x-text="`${key} (${value})`"></option>
+                    </template>
+                  </select>
+                </div>
+                <div>
+                  <select
+                    id="year"
+                    x-model="filters.year"
+                    class="bg-neutral-1 border border-neutral-6 text-neutral-11 text-sm rounded-md focus:ring-brand-8 focus:border-brand-5 block w-full py-2.5 pl-2.5 pr-5.5 dark:bg-neutralDark-3 dark:border-neutralDark-5 dark:placeholder-neutralDark-4 dark:text-white dark:focus:ring-brandDark-5 dark:focus:border-brand-10">
+                    <option value="">All years</option>
+                    <template
+                      x-for="[key, value] in Object.entries(itemCounts('year'))">
+                      <option
+                        x-bind:value="key"
+                        x-show="value"
+                        x-text="`${key} (${value})`"></option>
+                    </template>
+                  </select>
+                </div>
+
+                <div class="flex justify-between w-full md:w-auto">
+                  <div class="flex items-center">
+                    <label
+                      class="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        x-bind:checked="filters.stock === 'true'"
+                        class="sr-only peer"
+                        x-on:click="toggleStockFilter()" />
+
+                      {{ $peerFocus := "" }}
+                      {{ $peerCheck := "" }}
+                      {{ $after := "" }}
+
+
+                      <div
+                        class="w-11 h-6 
+                      rounded-full peer  peer-focus:ring-2 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all
+                      
+                    peer-checked:bg-brand-8 peer-checked:dark:bg-brandDark-8/50
+                    peer-checked:after:border-brand-10 peer-checked:dark:after:border-brandDark-10
+                    
+                    dark:peer-focus:ring-brand-8
+                    peer-focus:ring-brand-3
+  
+                    dark:border-neutralDark-5  dark:bg-neutralDark-5 bg-neutral-5
+  
+                    after:bg-brand-9 after:border-brand-9
+                    dark:after:bg-brandDark-9 after:dark:border-brandDark-9
+                        
+                      
+                        "></div>
+                      <span
+                        class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
+                        In Stock
+                      </span>
+                    </label>
+                  </div>
+                  <div class="flex justify-center relative">
+                    <div
+                      x-data="{
+                        open: false,
+                        toggle() {
+                            if (this.open) {
+                                return this.close()
+                            }
+  
+                            this.$refs.button.focus()
+  
+                            this.open = true
+                        },
+                        close(focusAfter) {
+                            if (! this.open) return
+  
+                            this.open = false
+  
+                            focusAfter && focusAfter.focus()
+                        }
+                    }"
+                      x-on:keydown.escape.prevent.stop="close($refs.button)"
+                      x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+                      x-id="['dropdown-button']"
+                      class="relative block">
+                      <!-- Button -->
+                      <button
+                        x-ref="button"
+                        x-on:click="toggle()"
+                        :aria-expanded="open"
+                        :aria-controls="$id('dropdown-button')"
+                        x-bind:style="{
+                          'background': filters.hue ? `hsla(${filters.hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${filters.hue}deg, 50%, 50%, var(--tw-bg-opacity))`
+                        }"
+                        type="button"
+                        class="flex items-center gap-2 bg-white px-2.5 py-2.5 rounded-md shadow">
+                        <span
+                          class="w-6 h-6 rounded-full dark:opacity-70"
+                          style="background-blend-mode: screen;
+                      background: radial-gradient(circle closest-side, white, black 90%), conic-gradient(red, #ff8000, yellow, #80ff00, lime, #00ff80, aqua, #0080ff, blue, #8000ff, fuchsia, #ff0080, red);"></span>
+                      </button>
+
+                      <!-- Panel -->
+                      <div
+                        x-ref="panel"
+                        x-show="open"
+                        x-transition
+                        x-on:click.outside="close($refs.button)"
+                        :id="$id('dropdown-button')"
+                        style="display: none;"
+                        class="absolute mt-2 right-0 w-[20rem] md:w-[35rem] rounded-md bg-neutral-2 dark:bg-neutralDark-2 border-neutral-4 dark:border-neutralDark-4 shadow-lg flex justify-center flex-wrap gap-3 p-3">
+                        {{/* <template x-for="hue in sortedHues"> */}}
+                        <template
+                          x-for="[hue, value] in Object.entries(itemCounts('hue'))">
+                          <div class="flex justify-center items-center">
+                            <button
+                              class="flex justify-center items-center py-2 rounded grow min-w-[3rem] max-w-[3rem]"
+                              x-bind:class="{
+                              'bg-opacity-50': filters.hue !== hue || (filters.hue === null || filters.hue === ''),
+                              'bg-opacity-100': filters.hue === hue
+                            }"
+                              x-bind:style="{
+                                'color': filters.hue !== hue ? `hsla(${hue}deg, 50%, 100%, 50%)` : `hsl(0deg, 0%, 100%)`,
+                                'background': filters.hue !== hue ? `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))`,
+                                'outline': filters.hue !== hue ? `3px solid hsla(${hue}deg, 50%, 50%, .8)` : `3px solid  hsla(${hue}deg, 50%, 50%, .3)`,
+                              }"
+                              x-on:click="filters.hue = (filters.hue == hue) ? '' : hue;">
+                              <span
+                                xxx-show="filters.hue === hue"
+                                x-show="filters.hue !== hue || (filters.hue === null || filters.hue === '')"
+                                x-text="`${value}`"></span>
+                              <svg
+                                x-show="filters.hue === hue"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-check2-square"
+                                viewBox="0 0 16 16">
+                                <path
+                                  d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                                <path
+                                  d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                              </svg>
+                              {{/* <svg
+                                x-show="filters.hue !== hue || (filters.hue === null || filters.hue === '')"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-square"
+                                viewBox="0 0 16 16">
+                                <path
+                                d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                </svg>
+                              */}}
+                            </button>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{ else if eq $filterVersion 2 }}
+          <div
+            class="filters sticky top-[-1px] z-[10]
+        w-full backdrop-blur-md bg-neutral-1/70 dark:bg-neutralDark-1/90  p-0 my-0 md:mx-auto md:max-w-[90vw] mt-[4rem]">
+            <div class="d-flex items-center flex-column">
+              <div
+                class="flex flex-col flex-wrap lg:flex-row gap-2 items-center md:min-h-[4rem]">
+                <div class="flex">
+                  {{ $toggleFilters := "showFilters = !showFilters, showTints = false" }}
+
+                  {{/* {{ partial "molecules/cta" (dict "click" $toggleFilters "ctx" . "type" "button" "color" "ghost" "label" "Filters" "size" "base") }}
+                  */}}
+
+                  <button
+                    @click="showFilters = !showFilters, showTints = false"
+                    class="btn-ghost [&_svg]:w-3.5 [&_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center  px-2 py-2 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3 w-auto justify-center gap-1  transition duration-200  ">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-funnel"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z" />
+                    </svg>
+                    <span x-show="!showFilters" x-text="'Show Filters'"> </span>
+                    <span x-show="showFilters" x-text="'Hide Filters'"> </span>
+                  </button>
+                </div>
+                <div class="grow">
+                  <template x-if="showFilters">
+                    <div
+                      class="flex justify-between items-center w-full gap-2 flex-col md:flex-row">
+                      <div class="flex gap-2 flex-col lg:flex-row">
+                        <div>
+                          {{ partial "molecules/select.html" ( dict
+                            "id" "orientation"
+                            "showLabel" false
+                            "label" "orientation"
+                            "items" "orientations"
+                            "firstItem" "All orientations"
+                            "model" "filters.orientation"
+                            )
+                          }}
+                        </div>
+                        <div>
+                          {{ partial "molecules/select.html" ( dict
+                            "id" "theme"
+                            "showLabel" false
+                            "label" "Theme"
+                            "items" "themes"
+                            "firstItem" "All themes"
+                            "model" "filters.theme"
+                            )
+                          }}
+                        </div>
+                        <div>
+                          {{ partial "molecules/select.html" ( dict
+                            "id" "size"
+                            "showLabel" false
+                            "label" "size"
+                            "items" "sizes"
+                            "firstItem" "All sizes"
+                            "model" "filters.size"
+                            )
+                          }}
+                        </div>
+
+                        <div>
+                          {{ partial "molecules/select.html" ( dict
+                            "id" "year"
+                            "showLabel" false
+                            "label" "year"
+                            "items" "years"
+                            "firstItem" "All years"
+                            "model" "filters.year"
+                            )
+                          }}
+                        </div>
+
+                        <div class="flex items-center">
+                          <label
+                            class="relative inline-flex items-center cursor-pointer">
+                            <input
+                              type="checkbox"
+                              x-bind:checked="filters.stock === 'true'"
+                              class="sr-only peer"
+                              x-on:click="toggleStockFilter()" />
+
+                            {{ $peerFocus := "" }}
+                            {{ $peerCheck := "" }}
+                            {{ $after := "" }}
+
+
+                            <div
+                              class="w-11 h-6 
+                            rounded-full peer  peer-focus:ring-2 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:border after:rounded-full after:h-5 after:w-5 after:transition-all
+                            
+                          peer-checked:bg-brand-8 peer-checked:dark:bg-brandDark-8/50
+                          peer-checked:after:border-brand-10 peer-checked:dark:after:border-brandDark-10
+                          
+                          dark:peer-focus:ring-brand-8
+                          peer-focus:ring-brand-3
+        
+                          dark:border-neutralDark-5  dark:bg-neutralDark-5 bg-neutral-5
+        
+                          after:bg-brand-9 after:border-brand-9
+                          dark:after:bg-brandDark-9 after:dark:border-brandDark-9
+                              
+                            
+                              "></div>
+                            <span
+                              class="ml-3 min-w-[4rem] text-sm font-medium text-gray-900 dark:text-gray-300">
+                              In Stock
+                            </span>
+                          </label>
+                        </div>
+
+                        <div>
+                          <button
+                            x-on:click="showTints = !showTints"
+                            x-bind:style="{
+                            'background': filters.hue ? `hsla(${filters.hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${filters.hue}deg, 50%, 50%, var(--tw-bg-opacity))`
+                          }"
+                            type="button"
+                            class="btn-l [&amp;_svg]:w-4 [&amp;_svg]:h-4 rounded text-base font-medium text-center inline-flex items-center  px-2 py-2 text-brand-10 hover:text-brand-2 border border-brand-7 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3  dark:border-brandDark-6 dark:text-brandDark-10 dark:hover:text-white dark:hover:bg-brandDark-5 dark:focus:ring-brandDark-3  w-auto justify-center gap-1 transition duration-200 ">
+                            {{/* {{ partial "icons/color-whell.svg" }} */}}
+                            <span
+                              class="w-6 h-6 rounded-full dark:opacity-70"
+                              style="background-blend-mode: screen;
+                            background: radial-gradient(circle closest-side, white, black 90%), conic-gradient(red, #ff8000, yellow, #80ff00, lime, #00ff80, aqua, #0080ff, blue, #8000ff, fuchsia, #ff0080, red);"></span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="flex items-center gap-2 py-3">
+                        <template x-if="artworkCounter">
+                          <span class="flex gap-1">
+                            Showing
+                            <span
+                              class="text-center flex"
+                              x-text="artworkCounter"></span>
+                            <span
+                              x-show="artworkCounter > 1"
+                              x-text="'artworks'"
+                              class="text-center flex"></span>
+                            <span
+                              x-show="artworkCounter === 1"
+                              x-text="' artwork'"
+                              class="text-center flex"></span>
+                          </span>
+                        </template>
+
+                        <button
+                          x-show="filtersHaveValue()"
+                          x-on:click="resetFilters"
+                          x-transition
+                          type="button"
+                          class="[&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium inline-flex gap-1 px-2 py-2.5  [&amp;_svg]:mr-2 text-brand-11 dark:text-brandDark-12 bg-brand-3 hover:bg-brand-4 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-3 dark:hover:bg-brandDark-7 dark:focus:ring-brand-8  w-auto justify-center items-center text-center transition duration-200 ">
+                          <span class="flex items-center px-2">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              class="bi bi-trash3"
+                              viewBox="0 0 16 16">
+                              <path
+                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                            </svg>
+                            <span
+                              class="hidden invisible md:flex gap-1 md:visible items-center">
+                              Reset
+                              <span x-text="filtersCount"></span>
+                              <span
+                                x-show="filtersCount > 1"
+                                x-text="'filters'"></span>
+                              <span
+                                x-show="filtersCount === 1"
+                                x-text="'filter'"></span>
+                            </span>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            x-show="showTints"
+            x-transition:enter="transition-opacity ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-in duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="flex flex-wrap justify-center gap-2 px-4 py-3 mb-3">
+            <template x-for="hue in sortedHues">
+              <button
+                class="flex justify-center items-center py-2 rounded grow min-w-[3rem] max-w-[3rem]"
+                x-bind:class="{
+                'bg-opacity-50': filters.hue !== hue || (filters.hue === null || filters.hue === ''),
+                'bg-opacity-100': filters.hue === hue
+              }"
+                x-bind:style="{
+              'color': filters.hue !== hue ? `hsla(${hue}deg, 50%, 100%, 0)` : `hsl(0deg, 0%, 100%)`,
+              'background': filters.hue !== hue ? `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))` : `hsla(${hue}deg, 50%, 50%, var(--tw-bg-opacity))`,
+              'outline': filters.hue !== hue ? `3px solid hsla(${hue}deg, 50%, 50%, .8)` : `3px solid  hsla(${hue}deg, 50%, 50%, .3)`,
+            }"
+                x-on:click="filters.hue = (filters.hue == hue) ? '' : hue;">
+                <svg
+                  x-show="filters.hue === hue"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-check2-square"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                  <path
+                    d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                </svg>
+                <svg
+                  x-show="filters.hue !== hue || (filters.hue === null || filters.hue === '')"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-square"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                </svg>
+              </button>
+            </template>
+          </div>
+        {{ end }}
+
+
+        <div x-show="isLoading" class="flex justify-center p-3 w-full">
+          <span> LOADING </span>
+        </div>
+        <div x-show="!isLoading" [x-cloak] class="">
+          <ul class="flex flex-wrap justify-center gap-2 mx-auto md:gap-8">
+            {{/* {{ partial "thumb-artwork-js.html" . }} */}}
+            {{ partial "thumb-sitemap-js.html" . }}
+          </ul>
+        </div>
+
+        <div class="flex justify-center w-full">
+          <div>
+            <button
+              x-on:click="limit = Infinity"
+              x-show="page().length > limit"
+              type="button"
+              class="btn-solid [&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center  px-2 py-2.5  [&amp;_svg]:ml-2 text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 w-auto justify-center  gap-1  transition duration-200 ">
+              <span class="flex items-center px-2"> Show all </span>
+            </button>
+            <button
+              x-on:click="limit = limit + 20"
+              x-show="page().length > limit"
+              type="button"
+              class="btn-solid [&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center  px-2 py-2.5  [&amp;_svg]:ml-2 text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 w-auto justify-center  gap-1  transition duration-200 ">
+              <span class="flex items-center px-2"> Load More ...</span>
+            </button>
+            <button
+              x-on:click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+              x-show="page().length < limit"
+              type="button"
+              class="btn-solid [&amp;_svg]:w-3.5 [&amp;_svg]:h-3.5 rounded text-sm font-medium text-center inline-flex items-center  px-2 py-2.5  [&amp;_svg]:ml-2 text-brand-1 dark:text-brandDark-12 bg-brand-9 hover:bg-brand-10 focus:ring-4 focus:outline-none focus:ring-brand-3 dark:bg-brandDark-7 dark:hover:bg-brandDark-8 dark:focus:ring-brand-8 w-auto justify-center  gap-1  transition duration-200 ">
+              <span class="flex items-center px-2">
+                Back to top
+                {{ partial "icons/heart-fill.svg" }}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- END ALPINE LIST -->
+    </section>
+  </main>
+
   <script>
     function copyToClipboard(clickedElement) {
       // Find the closest button or anchor element

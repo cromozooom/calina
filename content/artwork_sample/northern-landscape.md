@@ -1,28 +1,27 @@
 ---
-aliases:
-  - /gallery/waiting-for-spring/
+aliases: []
 archive: true
+batch: "10"
 custom_order: ""
-date: 2022-01-01T00:00:00Z
-creationDate: 2022-01-01T00:00:00Z
+date: 2011-01-01T00:00:00Z
+creationDate: 2011-01-01T00:00:00Z
 dimensions:
-  height: 30
+  height: 120
   size_txt: single panel - cotton deep canvas
   thickness: 4
-  width: 30
+  width: 80
 draft: false
 summary: ""
 artworks:
   - gallery
 images:
-  - asset: /uploads/2022-waiting-for-spring.jpg
+  - asset: /uploads/2011-northern-landscape.jpg
     description: ""
     type: main
 inHome: false
 instock: 0
 layout: artwork
 materials: ""
-preview: /2022-waiting-for-spring.jpg
 reproduction: false
 seo:
   focus_keyword: []
@@ -30,13 +29,13 @@ seo:
   seo_title: ""
   short_name: ""
   sitemap: true
-shapes: square
-size: small
+shapes: vertical
+size: large
 store_info:
-  price: 190
-tehnica: Acrylic, walnut crystals and metallic colours on canvas
+  price: false
+tehnica: ""
 themes:
-  - other
-title: Waiting for spring
-weight: 0
+  - nature
+title: Northern landscape
+weight: 1500
 ---

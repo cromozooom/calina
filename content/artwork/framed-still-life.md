@@ -6,10 +6,10 @@ custom_order: ""
 date: 2007-03-01T00:00:00Z
 creationDate: 2007-03-01T00:00:00Z
 dimensions:
-  height: 30
+  height: 40
   size_txt: Single panel
   thickness: 4
-  width: 40
+  width: 30
 draft: false
 summary: ""
 gallery: false

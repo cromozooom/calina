@@ -5,10 +5,10 @@ custom_order: ""
 date: 1998-03-01T00:00:00Z
 creationDate: 1998-03-01T00:00:00Z
 dimensions:
-  height: 80
+  height: 100
   size_txt: single panel - cotton deep canvas
   thickness: 4
-  width: 100
+  width: 80
 draft: false
 summary: ""
 artworks:

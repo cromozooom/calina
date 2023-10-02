@@ -14,7 +14,7 @@
     {{- if ne $fakeIndex 0 }},{{ end -}}
     {{- partial "scratching/images.html" -}}
     {
-    "sourceAPI": "{{ $template }}",
+    "sourceAPI": "-{{ $template }}",
     "title": "{{- .Title | title -}}",
     "url": "{{- .Permalink -}}",
     "thumb_XL" : "{{- .Scratch.Get "_thumb_XL" -}}",
@@ -27,6 +27,9 @@
     "thumb_M_w" : "{{- .Scratch.Get "_thumb_M_w" -}}",
     "thumb_M_h" : "{{- .Scratch.Get "_thumb_M_h" -}}",
     "price" : "{{- .Params.store_info.price -}}",
+    "slide" : {{- .Scratch.Get "slider" | jsonify -}},
+
+    
     {{ $stock := false }}
     {{- if gt .Params.instock 0 -}}
       {{- $stock = true -}}
@@ -44,8 +47,8 @@
     {{- else if gt $surface 1 -}}
       {{- $size = "Small" -}}
     {{- end -}}
-    "width": {{- .Params.dimensions.width -}},
-    "height": {{- .Params.dimensions.height -}},
+    "width": "{{- .Params.dimensions.width -}} cm",
+    "height": "{{- .Params.dimensions.height -}} cm",
     "size": "{{- $size -}}",
     "area": "{{- mul .Params.dimensions.width .Params.dimensions.height -}}",
     "ratio": "{{- .Scratch.Get "_ratio" -}}",
@@ -63,8 +66,10 @@
     "date":"{{- dateFormat "2006-01-02" .Params.Date -}}",
     "artworks":{{- .Params.artworks | jsonify -}},
     "theme":{{- .Params.themes  | jsonify -}},
-    "id": "{{ .File.UniqueID }}"
+    "id": "{{- .File.UniqueID -}}"
+
   }
+
 
   {{- $fakeIndex = add $fakeIndex 1 -}}
   {{ end -}}

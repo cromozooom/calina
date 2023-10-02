@@ -1,8 +1,24 @@
 {{ $dev := 0 | default $.Site.Params.dev }}
-<template x-for="(artwork, index) in page().slice(0, limit)">
-  <li  class="listing-item w-full md:w-auto mx-4 md:mx-[initial] flex flex-col justify-between max-w-[20rem] p-2 mb-6 duration-500 ease-in-out bg-white rounded-sm hover:shadow-myShadow-hover shadow-myShadow dark:bg-neutralDark-3 border dark:border-neutralDark-3 hover:dark:border-neutralDark-5 ">
+<template x-for="(artwork, index) in page().slice(0, limit)"  :key="index">
+  
+
+  <li class="listing-item w-full md:w-auto mx-4 md:mx-[initial] flex flex-col justify-between max-w-[20rem] p-2 mb-6 duration-500 ease-in-out bg-white rounded-sm hover:shadow-myShadow-hover shadow-myShadow dark:bg-neutralDark-3 border dark:border-neutralDark-3 hover:dark:border-neutralDark-5 ">
     <div>
-      <img
+      <template x-for="item in artwork.slide" >
+        <template x-if="item.type === 'aiSym'" :key="iamge">
+          <div>
+            <img
+            draggable="false"
+            class="w-full rounded-sm"
+            x-bind:src="item.slider_M"
+            x-bind:width="item.slider_M_w"
+            x-bind:height="item.slider_M_h" />
+            {{/*  <span x-text="item.slider_M"></span>  */}}
+          </div>
+        </template>
+      </template>
+
+      {{/*  <img
       draggable="false"
       class="w-full rounded-sm"
       x-bind:src="artwork.thumb_M"
@@ -14,7 +30,7 @@
       sizes="(min-width: 768px) 288px, calc(50vw - 36px)"
       loading="lazy"
       x-bind:width="artwork.thumb_M_w"
-      x-bind:height="artwork.thumb_M_h" />
+      x-bind:height="artwork.thumb_M_h" />  */}}
     </div>
     <div class="flex flex-col w-full gap-2 pt-4">
     <div class="flex gap-1 justify-start items-center ">

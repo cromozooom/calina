@@ -1,0 +1,2 @@
+{{- $apiPages :=  (where $.Site.RegularPages "Type" "artwork").GroupByParamDate "creationDate" "2006-01-01" -}}
+{{- partial "api-details.html" (dict "dot" . "apiPages" $apiPages "template" "calina | layouts | artworks | sitemap.json" ) -}}
